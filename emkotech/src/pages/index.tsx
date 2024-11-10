@@ -8,7 +8,7 @@ import { Footer } from '@/components/Footer';
 export default function Home() {
     return (
         <>
-            <Header activeindex={1} />
+            <Header activeindex={0} />
             <section className=" relative max-h-[553px]">
                 <video
                     className="  w-full h-full z-0 object-cover max-h-[553px]"

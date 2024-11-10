@@ -15,9 +15,14 @@ interface Product {
 interface ProductModalProps {
     categories: Category[];
     products: Product[];
+    isopen: boolean;
 }
 
-const CategoryBAr: React.FC<ProductModalProps> = ({ categories, products }) => {
+const CategoryBAr: React.FC<ProductModalProps> = ({
+    categories,
+    products,
+    isopen,
+}) => {
     const [selectedCategory, setSelectedCategory] = useState<string>(
         categories[0]?.id || ''
     );
@@ -28,9 +33,11 @@ const CategoryBAr: React.FC<ProductModalProps> = ({ categories, products }) => {
 
     return (
         <section
-            style={{ display: 'none' }}
+            // style={isopen ? { display: 'flex' } : { display: 'none' }}
             data-layername="modalProducts"
-            className="flex overflow-hidden flex-col items-center px-16 pt-8 pb-12 bg-white shadow-sm max-md:px-5 absolute top-[100%] w-full left-0"
+            className={`flex ${
+                isopen ? ' flex' : 'hidden'
+            } overflow-hidden z-[999] hover:flex flex-col items-center px-16 pt-8 pb-12 bg-white shadow-sm max-md:px-5 absolute top-[100%] w-full left-0`}
         >
             <div className="flex flex-wrap gap-10 items-start w-full max-w-[1224px] max-md:max-w-full">
                 <div className="flex-auto mt-2 max-md:max-w-full">

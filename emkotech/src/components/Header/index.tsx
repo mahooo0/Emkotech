@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import CategoryBAr from '../CategoryBar';
+import Link from 'next/link';
 
 interface NavItemProps {
     label: string;
@@ -52,16 +53,59 @@ const navItems = [
     { label: 'Əlaqə' },
 ];
 
-const NavContent = ({ activeindex }: { activeindex: number }) => {
+const NavContent = ({
+    activeindex,
+    setIsBarOpen,
+}: {
+    activeindex: number;
+    setIsBarOpen: (par: boolean) => void;
+}) => {
     return (
-        <nav className="flex flex-wrap items-center min-w-[240px] max-md:max-w-full">
-            {navItems.map((item, index) => (
-                <NavItem
-                    key={index}
-                    {...item}
-                    isActive={activeindex === index}
-                />
-            ))}
+        <nav className="flex flex-wrap items-center min-w-[240px] max-md:max-w-full h-[55px]">
+            <div className="h-full">
+                <Link href={'/'}>
+                    <NavItem label="Əsas səhifə" isActive={activeindex === 0} />
+                </Link>
+            </div>
+            <div
+                className="h-full"
+                onMouseLeave={() => setIsBarOpen(false)}
+                onMouseEnter={() => setIsBarOpen(true)}
+            >
+                <Link href={'/products'}>
+                    <NavItem
+                        label="Məhsullar"
+                        hasDropdown
+                        isActive={activeindex === 1}
+                    />
+                </Link>
+            </div>
+            <div className="h-full">
+                <Link href={'/aboutus'}>
+                    <NavItem label="Haqqımızda" isActive={activeindex === 2} />
+                </Link>
+            </div>
+            <div className="h-full">
+                <Link href={'/projects'}>
+                    <NavItem
+                        label="Layihələr"
+                        hasDropdown
+                        isActive={activeindex === 3}
+                    />
+                </Link>
+            </div>
+            <div className="h-full">
+                <Link href={'/news'}>
+                    {' '}
+                    <NavItem label="Xəbərlər" isActive={activeindex === 4} />
+                </Link>
+            </div>
+            <div className="h-full">
+                <Link href={'/contact'}>
+                    {' '}
+                    <NavItem label="Əlaqə" isActive={activeindex === 5} />
+                </Link>
+            </div>
         </nav>
     );
 };
@@ -184,12 +228,24 @@ const products = [
 ];
 // data;
 const Header = ({ activeindex }: { activeindex: number }) => {
+    const [IsBarOpen, setIsBarOpen] = useState<boolean>(false);
+    console.log('IsBarOpen:', IsBarOpen);
+
     return (
-        <header className="flex flex-wrap gap-10 justify-between items-center px-28 py-2.5 bg-white relative shadow-[0px_0px_11px_rgba(167,167,167,0.12)] max-md:px-5">
+        <header className="flex flex-wrap gap-10 justify-between items-center px-28 pt-2.5 bg-white relative shadow-[0px_0px_11px_rgba(167,167,167,0.12)] max-md:px-5">
             <NavLogo />
-            <NavContent activeindex={activeindex} />
+            <NavContent
+                setIsBarOpen={(par: boolean) => {
+                    setIsBarOpen(par);
+                }}
+                activeindex={activeindex}
+            />
             <FlagDropdown />
-            <CategoryBAr categories={categories} products={products} />
+            <CategoryBAr
+                isopen={IsBarOpen}
+                categories={categories}
+                products={products}
+            />
         </header>
     );
 };
