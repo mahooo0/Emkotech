@@ -122,7 +122,7 @@ export default function products() {
                     </section>
                 </section>
                 <section className="flex flex-row flex-wrap lg:px-[100px] md:px-[60px] px-[30px] justify-center gap-4">
-                    {Array.from({ length: 12 }).map((item: any, index) => (
+                    {Array.from({ length: 12 }).map((item, index) => (
                         <ProductCard
                             key={index} // Adding a unique key prop
                             data={{

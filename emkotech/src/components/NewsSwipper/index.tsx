@@ -1,17 +1,17 @@
 import React, { useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
-import ProductCard from '../ProductCard';
 import NewsCard from '../NewsCard';
+import { Swiper as SwiperType } from 'swiper';
 
 export const NewsSwiper = () => {
-    const swiperRef = useRef<any>(null);
+    const swiperRef = useRef<SwiperType | null>(null);
 
     return (
         <div>
             <Swiper
                 className="!mt-[60px] lg:!mx-[90px] md:!mx-[60px] !mx-[30px] !px-[10px]"
-                onSwiper={(swiper: any) => (swiperRef.current = swiper)}
+                onSwiper={(swiper) => (swiperRef.current = swiper)}
                 spaceBetween={50}
                 breakpoints={{
                     268: {
@@ -25,8 +25,8 @@ export const NewsSwiper = () => {
                     },
                 }}
             >
-                {Array.from({ length: 10 }).map(() => (
-                    <SwiperSlide className="!py-[10px]">
+                {Array.from({ length: 10 }).map((_, i) => (
+                    <SwiperSlide className="!py-[10px]" key={i}>
                         <NewsCard />
                     </SwiperSlide>
                 ))}

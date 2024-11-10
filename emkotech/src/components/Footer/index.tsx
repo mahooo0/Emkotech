@@ -13,7 +13,7 @@ export function Footer() {
                     <div className="flex flex-wrap gap-10 justify-between self-stretch mt-9 leading-none max-md:max-w-full w-full">
                         <div className="grow shrink self-start text-base font-medium leading-7 max-w-[483px] text-white opacity-50 w-[471px] max-md:max-w-full">
                             The idea of making a positive impact with every
-                            project is what drives us. That's why we specialise
+                            project is what drives us. Thats why we specialise
                             in working with brands promoting environmental and
                             socially responsible products, practices/
                         </div>

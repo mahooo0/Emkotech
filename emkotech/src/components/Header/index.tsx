@@ -44,15 +44,6 @@ const NavLogo: React.FC = () => {
     );
 };
 
-const navItems = [
-    { label: 'Əsas səhifə' },
-    { label: 'Məhsullar', hasDropdown: true },
-    { label: 'Haqqımızda' },
-    { label: 'Layihələr', hasDropdown: true },
-    { label: 'Xəbərlər' },
-    { label: 'Əlaqə' },
-];
-
 const NavContent = ({
     activeindex,
     setIsBarOpen,

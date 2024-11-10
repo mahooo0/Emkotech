@@ -2,9 +2,10 @@ import React, { useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import ProductCard from '../ProductCard';
+import { Swiper as SwiperType } from 'swiper';
 
 export type ProductCardType = {
-    id: String;
+    id: string;
     title: string;
     image: string;
     price: string;
@@ -62,13 +63,13 @@ export const MyProductData: ProductCardType[] = [
 ];
 
 export const ProductSwiper = () => {
-    const swiperRef = useRef<any>(null);
+    const swiperRef = useRef<SwiperType | null>(null);
 
     return (
         <div>
             <Swiper
                 className="!mt-[60px] lg:!mx-[90px] md:!mx-[60px] !mx-[30px] !px-[10px]"
-                onSwiper={(swiper: any) => (swiperRef.current = swiper)}
+                onSwiper={(swiper) => (swiperRef.current = swiper)}
                 spaceBetween={50}
                 breakpoints={{
                     268: {

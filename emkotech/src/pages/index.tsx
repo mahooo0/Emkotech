@@ -1,5 +1,3 @@
-import Image from 'next/image';
-import localFont from 'next/font/local';
 import Header from '@/components/Header';
 import { ProductSwiper } from '@/components/ProductSwipper';
 import ProductSlider from '@/components/PartnersSwipper';
@@ -263,8 +261,11 @@ export default function Home() {
                     Müştərilərimiz
                 </div>
                 <div className="flex flex-wrap gap-6 mt-8 w-full max-md:max-w-full">
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map(() => (
-                        <div className=" min-w-[290px] flex flex-1 gap-3.5 pr-14 rounded-2xl bg-white bg-opacity-70 shadow-[0px_0px_4px_rgba(0,0,0,0.05)]">
+                    {[1, 2, 3, 4, 5, 6, 7, 8].map((_, i) => (
+                        <div
+                            className=" min-w-[290px] flex flex-1 gap-3.5 pr-14 rounded-2xl bg-white bg-opacity-70 shadow-[0px_0px_4px_rgba(0,0,0,0.05)]"
+                            key={i}
+                        >
                             <div className="flex flex-col justify-center items-start px-5 py-4 bg-white rounded-2xl border-r border-neutral-100 border-opacity-90">
                                 <img
                                     loading="lazy"

@@ -5,7 +5,7 @@ import PaginationComponent from '@/components/Pagination';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-export default function index() {
+export default function NevsId() {
     const router = useRouter();
     return (
         <div>
@@ -22,8 +22,9 @@ export default function index() {
                     </h1>
                 </section>
                 <section className="flex flex-row flex-wrap lg:px-[100px] md:px-[60px] px-[30px] justify-center gap-4 mt-[34px]">
-                    {Array.from({ length: 12 }).map((item: any, index) => (
+                    {Array.from({ length: 12 }).map((_, i) => (
                         <div
+                            key={i}
                             className="flex overflow-hidden flex-col justify-center bg-white rounded-2xl max-w-[288px]"
                             onClick={() => router.push('/news/id')}
                         >

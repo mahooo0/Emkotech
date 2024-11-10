@@ -6,7 +6,7 @@ type Props = {
     data: ProductCardType;
 };
 
-const ProductCard: React.FC<Props> = ({ data }) => {
+const ProductCard: React.FC<Props> = () => {
     const router = useRouter();
     return (
         <div className="flex flex-col grow pb-7 w-full bg-white rounded-2xl shadow-[0px_0px_11px_rgba(167,167,167,0.12)] max-md:mt-6 relative max-w-[296px]">
