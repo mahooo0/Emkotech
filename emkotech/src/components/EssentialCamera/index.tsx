@@ -101,7 +101,7 @@ const EssentialCamera: React.FC = () => {
                         <p className="mt-2 text-base text-neutral-400">
                             Item No. VMC3050-100NAS
                         </p>
-                        <span className="gap-2.5 self-stretch py-1 pr-2 pl-2 mt-5 text-xs text-white bg-amber-300 min-h-[22px] rounded-[41px] w-fit">
+                        <span className="gap-2.5 self-stretch py-1 pr-2 pl-2 mt-5 text-xs text-white bg-[#D2D641] min-h-[22px] rounded-[41px] w-fit">
                             Sale 20%
                         </span>
                         <div className="flex gap-1.5 mt-1.5 whitespace-nowrap items-end justify-end">
@@ -124,7 +124,7 @@ const EssentialCamera: React.FC = () => {
                             features after trial.
                         </p>
                     </div>
-                    <div className="mt-11 max-w-full w-[521px] max-md:mt-10">
+                    <div className="mt-11 max-w-full w-[521px] max-md:mt-10 ml-5">
                         <div className="flex gap-5 max-md:flex-col">
                             {features.map((feature, columnIndex) => (
                                 <div

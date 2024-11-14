@@ -15,7 +15,7 @@ export default function products() {
                 <section className="flex flex-col text-black">
                     <h1
                         data-layername="məhsullar"
-                        className="self-center text-5xl max-md:text-4xl"
+                        className="self-center text-5xl max-md:text-4xl mt-[24px]"
                     >
                         Məhsullar
                     </h1>

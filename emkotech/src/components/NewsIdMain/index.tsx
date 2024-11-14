@@ -2,7 +2,7 @@ import React from 'react';
 
 function MainID() {
     return (
-        <div className="flex flex-col pb-5 rounded-none lg:max-w-[60%] w-full">
+        <div className="flex flex-col pb-5 rounded-none lg:max-w-[63%] w-full">
             <div className="flex  flex-row gap-6 w-full max-md:max-w-full">
                 <img
                     loading="lazy"
@@ -12,7 +12,7 @@ function MainID() {
                 <img
                     loading="lazy"
                     src="https://s3-alpha-sig.figma.com/img/9e97/0195/1037e90a76c9822bddac28a446066f6a?Expires=1731888000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=H33GUk1bc8bKPTLBOGg12GISiuREXIhkMSEHlLuHSwfEmSVgP~mDdkTLLiOIekKboNh8fk6xtELzD4qONSaJTgTHd3nDdPw-MFQlR0PhjCLHGUbjIMaExI0ZoqrlAe5-PLss-HW6ifRkpVcILw~uB2hiVAIAsQ5VMZoSuYBWXFC-Ei0zDrQHrNUUJ29EyPy1kV5FoV9Gy8gI3uL25IAQRukiB~LZZyFvmHrpcIqKF8OK2dt77CaE4chBvztTdEncH3akROkF~Wp5YL3VBxu~5dtEfQIiyrhpo1YMuf3jETmumjO7Yknbo0oodcNeteCbUuCOf0~comtQwvAw2sAQVw__"
-                    className="object-cover grow shrink-0 rounded-none aspect-[1.22] basis-0 w-[80%] max-md:max-w-full"
+                    className="object-cover rounded-lg grow shrink-0  aspect-[1.22] basis-0 w-[80%] max-md:max-w-full"
                 />
             </div>
             <div className="flex flex-col pr-1 pl-14 mt-6 w-full max-md:pl-5 max-md:max-w-full">

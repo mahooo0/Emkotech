@@ -33,13 +33,15 @@ const NavItem: React.FC<NavItemProps> = ({
 
 const NavLogo: React.FC = () => {
     return (
-        <div className="flex flex-wrap gap-10 items-end self-stretch my-auto text-base text-black min-w-[240px] max-md:max-w-full">
-            <img
-                loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/abb16285b3506646182d892ed29e09d03528a73b813f583ab565493b4f934b39?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
-                alt="Company logo"
-                className="object-contain shrink-0 aspect-[2.52] w-[141px]"
-            />
+        <div className="flex flex-wrap gap-10 items-end self-stretch my-auto text-base text-black  max-md:max-w-full">
+            <Link href={'/'}>
+                <img
+                    loading="lazy"
+                    src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/abb16285b3506646182d892ed29e09d03528a73b813f583ab565493b4f934b39?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
+                    alt="Company logo"
+                    className="object-contain shrink-0 aspect-[2.52] w-[141px]"
+                />
+            </Link>
         </div>
     );
 };
@@ -223,7 +225,7 @@ const Header = ({ activeindex }: { activeindex: number }) => {
     console.log('IsBarOpen:', IsBarOpen);
 
     return (
-        <header className="flex flex-wrap gap-10 justify-between items-center px-28 pt-2.5 bg-white relative shadow-[0px_0px_11px_rgba(167,167,167,0.12)] max-md:px-5">
+        <header className="flex flex-wrap gap-5 justify-between items-center px-[100px] pt-2.5 bg-white relative shadow-[0px_0px_11px_rgba(167,167,167,0.12)] max-md:px-5">
             <NavLogo />
             <NavContent
                 setIsBarOpen={(par: boolean) => {

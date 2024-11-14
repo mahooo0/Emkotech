@@ -2,27 +2,33 @@ import Header from '@/components/Header';
 import { ProductSwiper } from '@/components/ProductSwipper';
 import ProductSlider from '@/components/PartnersSwipper';
 import { Footer } from '@/components/Footer';
+import { useRouter } from 'next/router';
 
 export default function Home() {
+    const router = useRouter();
     return (
         <>
             <Header activeindex={0} />
             <section className=" relative max-h-[553px]">
                 <video
                     className="  w-full h-full z-0 object-cover max-h-[553px]"
+                    autoPlay
                     src="https://s3-figma-videos-production-sig.figma.com/video/1213020028553192391/TEAM/24fe/37d5/-68ca-4f7c-b9c4-18adc1ca0a2f?Expires=1731888000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Mgjar1dyiryTLvUUhnKmqBo0eFfoWqx7nggVa4iO8x5qe03aM2T3bqJVK~-cQoaOA2WQBvllTjsh---jAMr6l7dlOg2WQzs8XyEviC-bEgKQwP-cKw80ADG5cCNBi0dl9ED1Pv8jwjYIp6xGdxE5BQh~rxZ6HatCqdrjIsQvq538KMG9VLC1EruP-QfS90ARwwzRmViuPnxeqpWMSKqfKqnFkS~VcYwrhjxewBQjZ-SpwaQiynLDBqZgRNAS9wrxwZEfsK8X8xqfI1AJpDwUBkeN5Hlos-BTn3ZaY-OIFjQ3Uc7R0Bopj7wxOpOSUB9W4gXlOkelYmG9cSXBprvLYA__"
                 ></video>
-                <div className="flex absolute  top-0 left-0 overflow-hidden z-10 flex-col justify-center items-start px-20 py-44 bg-black bg-opacity-20 max-md:px-5 max-md:py-24 w-full h-full">
+                <div className="flex absolute  top-0 left-0 overflow-hidden z-10 flex-col justify-center items-start px-[100px] py-44 bg-black bg-opacity-20 max-md:px-5 max-md:py-24 w-full h-full">
                     <div className="flex flex-col max-w-full w-[652px]">
-                        <h1 className="self-start text-5xl font-medium text-white leading-[60px] max-md:max-w-full max-md:text-4xl max-md:leading-[56px]">
+                        <h1 className="self-start lg:text-5xl md:text-3xl text-2xl font-medium text-white  max-md:max-w-full ">
                             Meet the next generation of Emkotech cameras{' '}
                         </h1>
-                        <p className="mt-3.5 text-lg text-gray-200 max-md:max-w-full">
+                        <p className="mt-3.5 lg:text-lg md:text-lg text-[12px] text-gray-200 max-md:max-w-full">
                             Discover how organizations around the world leverage
                             evolving features and unlock actionable insights
                             that increase security where it matters most.{' '}
                         </p>
-                        <button className="w-[200px] h-[47px] relative flex justify-between items-center mt-[20px]">
+                        <button
+                            className="w-[200px] h-[47px] relative flex justify-between items-center mt-[20px]"
+                            onClick={() => router.push('/products')}
+                        >
                             <img
                                 src="/images/homebtn.png"
                                 alt=""
@@ -84,14 +90,17 @@ export default function Home() {
                                 </p>
                             </div>
                         </div>
-                        <div className="flex flex-wrap gap-10 mt-12 w-full max-md:mt-10 max-md:max-w-full">
+                        <div className="flex flex-wrap lg:gap-[140px] gap-10 mt-12 w-full max-md:mt-10 max-md:max-w-full">
                             <p className="grow shrink text-lg text-stone-300 w-[776px] max-md:max-w-full">
                                 Discover how organizations around the world
                                 leverage evolving features and unlock actionable
                                 insights that increase security where it matters
                                 most.
                             </p>
-                            <button className="gap-2.5 self-start p-2.5 mt-1.5 text-base font-medium text-[#D2D641] border border-[#D2D641] border-solid rounded-[35px]">
+                            <button
+                                className="gap-2.5 self-start p-2.5 mt-1.5 px-[20px] py-[10px]  text-base font-medium text-[#D2D641] border border-[#D2D641] border-solid rounded-[35px]"
+                                onClick={() => router.push('/products')}
+                            >
                                 Layihələrə bax
                             </button>
                         </div>
@@ -173,12 +182,15 @@ export default function Home() {
                 </div>
             </section>
             <section className=" mt-[100px]">
-                <div className="w-full flex  lg:justify-center md:justify-center justify-start flex-wrap  ">
+                <div className="w-full flex  lg:justify-center md:justify-center justify-start flex-wrap lg:px-[100px] md:px-[60px] px-[30px]  ">
                     <h2 className="text-5xl text-black max-md:text-4xl text-nowrap">
                         Populyar Məhsullar
                     </h2>
                     <div className=" lg:absolute md:absolute  static lg:right-[100px] md:right-[60px] right-[30px] flex  h-[48px] items-end">
-                        <button className="flex gap-2.5 justify-center items-center self-end text-base font-medium rounded-[35px] text-blue-600 text-opacity-90">
+                        <button
+                            className="flex gap-2.5 justify-center items-center self-end text-base font-medium rounded-[35px] text-blue-600 text-opacity-90"
+                            onClick={() => router.push('/products')}
+                        >
                             <p className="self-stretch my-auto text-nowrap ">
                                 Hamısına bax
                             </p>
@@ -193,12 +205,15 @@ export default function Home() {
                 <ProductSwiper />
             </section>
             <section className=" mt-[100px]">
-                <div className="w-full flex  lg:justify-center md:justify-center justify-start flex-wrap  ">
+                <div className="w-full flex  lg:justify-center md:justify-center justify-start flex-wrap  lg:px-[100px] md:px-[60px] px-[30px] ">
                     <h2 className="text-5xl text-black max-md:text-4xl text-nowrap">
                         Populyar Məhsullar
                     </h2>
                     <div className=" lg:absolute md:absolute  static lg:right-[100px] md:right-[60px] right-[30px] flex  h-[48px] items-end">
-                        <button className="flex gap-2.5 justify-center items-center self-end text-base font-medium rounded-[35px] text-blue-600 text-opacity-90">
+                        <button
+                            className="flex gap-2.5 justify-center items-center self-end text-base font-medium rounded-[35px] text-blue-600 text-opacity-90"
+                            onClick={() => router.push('/products')}
+                        >
                             <p className="self-stretch my-auto text-nowrap ">
                                 Hamısına bax
                             </p>
@@ -218,7 +233,10 @@ export default function Home() {
                         Populyar Məhsullar
                     </h2>
                     <div className=" lg:absolute md:absolute  static lg:right-[100px] md:right-[60px] right-[30px] flex  h-[48px] items-end">
-                        <button className="flex gap-2.5 justify-center items-center self-end text-base font-medium rounded-[35px] text-blue-600 text-opacity-90">
+                        <button
+                            className="flex gap-2.5 justify-center items-center self-end text-base font-medium rounded-[35px] text-blue-600 text-opacity-90"
+                            onClick={() => router.push('/products')}
+                        >
                             <p className="self-stretch my-auto text-nowrap ">
                                 Hamısına bax
                             </p>
@@ -260,10 +278,10 @@ export default function Home() {
                 <div className="self-center text-5xl text-black max-md:text-4xl">
                     Müştərilərimiz
                 </div>
-                <div className="flex flex-wrap gap-6 mt-8 w-full max-md:max-w-full">
+                <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6 mt-8 w-full max-md:max-w-full">
                     {[1, 2, 3, 4, 5, 6, 7, 8].map((_, i) => (
                         <div
-                            className=" min-w-[290px] flex flex-1 gap-3.5 pr-14 rounded-2xl bg-white bg-opacity-70 shadow-[0px_0px_4px_rgba(0,0,0,0.05)]"
+                            className="  flex flex-1 gap-3.5  rounded-2xl bg-white bg-opacity-70 shadow-[0px_0px_4px_rgba(0,0,0,0.05)]"
                             key={i}
                         >
                             <div className="flex flex-col justify-center items-start px-5 py-4 bg-white rounded-2xl border-r border-neutral-100 border-opacity-90">
@@ -302,7 +320,7 @@ export default function Home() {
                             key areas, deter intrusions, and capture clear,
                             wide-angle video.
                         </p>
-                        <button className="gap-2.5 max-w-[152px] self-stretch p-2.5 mt-5 text-base text-black whitespace-nowrap bg-white rounded-[35px]">
+                        <button className="gap-2.5  self-stretch py-2.5 px-[62px] mt-5 text-base text-black w-fit whitespace-nowrap bg-white rounded-[35px]">
                             Bax
                         </button>
                     </div>

@@ -3,9 +3,11 @@ import EssentialCamera from '@/components/EssentialCamera';
 import { Footer } from '@/components/Footer';
 import Header from '@/components/Header';
 import { ProductSwiper } from '@/components/ProductSwipper';
+import { useRouter } from 'next/router';
 import React from 'react';
 
 export default function id() {
+    const router = useRouter();
     return (
         <div>
             <Header activeindex={1} />

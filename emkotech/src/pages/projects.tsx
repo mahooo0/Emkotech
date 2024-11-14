@@ -11,12 +11,6 @@ export default function projects() {
             <main>
                 <BreadcrumbNavigation />
                 <section className="flex flex-col text-black lg:px-[100px] md:px-[60px] px-[30px] ">
-                    <h1
-                        data-layername="məhsullar"
-                        className="self-center text-5xl max-md:text-4xl"
-                    >
-                        Məhsullar
-                    </h1>
                     <div className="flex flex-col rounded-2xl mt-[24px]">
                         <h2 className="self-center text-5xl text-black max-md:text-4xl">
                             Layihənin adı
@@ -45,7 +39,7 @@ export default function projects() {
                                             from a page builder plugin. Let’s
                                             have a look below at all of the
                                             juicy features WP Page Builder
-                                            includes. Wondering what makes WP
+                                            includes.Wondering what makes WP
                                             Page Builder so special? I would
                                             say, what doesn’t? It’s developed by
                                             the team over at Themeum, who has
@@ -64,7 +58,11 @@ export default function projects() {
                             </div>
                         </div>
                     </div>
+                    <h2 className="self-center text-5xl text-black max-md:text-4xl mt-[120px]">
+                        Layihənin adı
+                    </h2>
                 </section>
+
                 <ProjectSwiper />
             </main>
             <Footer />

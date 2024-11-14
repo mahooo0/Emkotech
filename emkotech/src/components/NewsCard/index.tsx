@@ -17,7 +17,7 @@ export default function NewsCard() {
                             <div className="text-xl font-medium leading-snug">
                                 Talk it out with audio
                             </div>
-                            <div className="mt-2 text-sm tracking-wide leading-5">
+                            <div className="mt-2 text-sm tracking-wide leading-5 text-[#333333]">
                                 Use audio to have live conversations with other
                                 collaborators directly in your Figma and FigJam
                                 files.
@@ -31,7 +31,7 @@ export default function NewsCard() {
                             className="object-contain w-full aspect-[250]"
                         />
                         <div className="flex gap-10 justify-between items-center mt-4 w-full">
-                            <div className="gap-2 self-stretch my-auto">
+                            <div className="gap-2 self-stretch my-auto text-[#333333]">
                                 March 01, 2021
                             </div>
                             <div className="flex gap-2 justify-center items-center self-stretch my-auto whitespace-nowrap">
@@ -40,7 +40,9 @@ export default function NewsCard() {
                                     src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/773a2b2554008121fab7182cf9957a2babbd8eb738963406bc2d4d2955deddfe?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
                                     className="object-contain shrink-0 self-stretch my-auto w-3.5 aspect-square"
                                 />
-                                <div className="self-stretch my-auto">440</div>
+                                <div className="self-stretch my-auto text-[#333333]">
+                                    440
+                                </div>
                             </div>
                         </div>
                     </div>

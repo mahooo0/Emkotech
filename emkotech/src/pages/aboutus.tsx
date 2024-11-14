@@ -11,14 +11,14 @@ export default function aboutus() {
                 <BreadcrumbNavigation />
                 <section className="flex flex-col rounded-2xl lg:px-[100px] md:px-[60px] px-[30px] mt-6">
                     <div className="z-10 mt-0 max-md:-mr-2 max-md:max-w-full">
-                        <div className="flex gap-5 max-md:flex-col">
-                            <div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
-                                <h1 className="text-5xl text-black max-md:mt-10 max-md:max-w-full max-md:text-4xl">
+                        <div className="flex gap-5 max-md:flex-col items-center">
+                            <div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full ">
+                                <h1 className="text-5xl text-black max-md:mt-10 max-md:max-w-full max-md:text-4xl leading-[72px]">
                                     Meet the next generation of Emkotech cameras
                                 </h1>
                             </div>
                             <div className="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full">
-                                <p className="mt-4 text-lg text-black max-md:mt-10 max-md:max-w-full">
+                                <p className="mt-4 text-lg text-black max-md:mt-10 max-md:max-w-full leading-6">
                                     Discover how organizations around the world
                                     leverage evolving features and unlock
                                     actionable insights that increase security
@@ -55,7 +55,7 @@ export default function aboutus() {
                 </section>
                 <section className="flex flex-col rounded-2xl lg:px-[100px] md:px-[60px] px-[30px] mt-[120px]">
                     <h2 className="self-center text-5xl font-medium text-black max-md:max-w-full max-md:text-4xl">
-                        <span className="text-amber-300 ">Highlights</span>
+                        <span className="text-[#D2D641] ">Highlights</span>
                         <span className=""> our company’s</span>
                     </h2>
                     <div className="mt-12 w-full max-md:mt-10 max-md:max-w-full">
