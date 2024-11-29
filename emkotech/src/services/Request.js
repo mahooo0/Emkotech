@@ -24,10 +24,10 @@ export const getStatistics = async (language) => {
         throw error;
     }
 };
-export const getProducts = async (language, text, page) => {
+export const getProducts = async (language) => {
     try {
         const response = await axios.get(
-            `https://emkotech.epart.az/api/products/search?search=${text}`,
+            `https://emkotech.epart.az/api/products`,
             { headers: { 'Accept-Language': language } }
         );
         return response.data;
@@ -110,6 +110,10 @@ export const getAboutBanner = async (language) => {
 };
 export const getProduct = async (language, id) => {
     try {
+        console.log('id', id);
+        if (!id) {
+            return;
+        }
         const response = await axios.get(
             `https://emkotech.epart.az/api/product/${id}`,
             { headers: { 'Accept-Language': language } }
@@ -251,6 +255,111 @@ export const getFooter = async (language) => {
             throw new Error('Please check your internet connection');
         }
         console.error('Error fetching footer:', error);
+        throw error;
+    }
+};
+export const getPopularNews = async (language) => {
+    try {
+        const response = await axios.get(
+            `https://emkotech.epart.az/api/news?type=popular`,
+            {
+                headers: {
+                    'Accept-Language': language,
+                },
+                timeout: 5000,
+            }
+        );
+        return response.data;
+    } catch (error) {
+        if (error.code === 'ECONNABORTED') {
+            console.error('Request timeout:', error);
+            throw new Error('Request timed out. Please try again.');
+        }
+        if (!navigator.onLine) {
+            console.error('No internet connection');
+            throw new Error('Please check your internet connection');
+        }
+        console.error('Error fetching popular news:', error);
+        throw error;
+    }
+};
+export const postUserRequest = async (data) => {
+    try {
+        const response = await axios.post(
+            `https://emkotech.epart.az/api/user-request`,
+            data,
+            {
+                timeout: 5000,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        if (error.code === 'ECONNABORTED') {
+            console.error('Request timeout:', error);
+            throw new Error('Request timed out. Please try again.');
+        }
+        if (!navigator.onLine) {
+            console.error('No internet connection');
+            throw new Error('Please check your internet connection');
+        }
+        console.error('Error submitting user request:', error);
+        throw error;
+    }
+};
+export const getTranslations = async (language) => {
+    try {
+        const response = await axios.get(
+            'https://emkotech.epart.az/api/translations',
+            {
+                headers: {
+                    'Accept-Language': language,
+                },
+                timeout: 5000,
+            }
+        );
+        return response.data;
+    } catch (error) {
+        if (error.code === 'ECONNABORTED') {
+            console.error('Request timeout:', error);
+            throw new Error('Request timed out. Please try again.');
+        }
+        if (!navigator.onLine) {
+            console.error('No internet connection');
+            throw new Error('Please check your internet connection');
+        }
+        console.error('Error fetching translations:', error);
+        throw error;
+    }
+};
+export const getProductsByParams = async (language, page = 1, search = '') => {
+    try {
+        const response = await axios.get(
+            `https://emkotech.epart.az/api/products`,
+            {
+                params: {
+                    page,
+                    search,
+                },
+                headers: {
+                    'Accept-Language': language,
+                },
+                timeout: 5000,
+            }
+        );
+        return response.data;
+    } catch (error) {
+        if (error.code === 'ECONNABORTED') {
+            console.error('Request timeout:', error);
+            throw new Error('Request timed out. Please try again.');
+        }
+        if (!navigator.onLine) {
+            console.error('No internet connection');
+            throw new Error('Please check your internet connection');
+        }
+        console.error('Error fetching products:', error);
         throw error;
     }
 };

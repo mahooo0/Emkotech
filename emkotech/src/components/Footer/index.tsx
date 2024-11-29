@@ -1,14 +1,27 @@
 import * as React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useLanguage } from '@/components/Hoc/LanguageContext';
-import { getFooter } from '@/services/Request';
+import { getFooter, getTranslations } from '@/services/Request';
+import { useRouter } from 'next/router';
+
+interface SocialMediaItem {
+    url: string;
+    icon: string;
+    id: string;
+}
 
 export function Footer() {
     const { language } = useLanguage();
-    const { data, isLoading } = useQuery({
+    const { data } = useQuery({
         queryKey: ['footer', language],
         queryFn: () => getFooter(language),
     });
+    const { data: translationsData } = useQuery({
+        queryKey: ['translations', language],
+        queryFn: () => getTranslations(language),
+    });
+    const router = useRouter();
+    console.log(data);
     return (
         <footer className="flex flex-col text-sm text-white mt-[120px]">
             <div className="flex flex-col items-start pt-12 pb-4 w-full bg-slate-900 max-md:max-w-full">
@@ -20,32 +33,56 @@ export function Footer() {
                     />
                     <div className="flex flex-wrap gap-10 justify-between self-stretch mt-9 leading-none max-md:max-w-full w-full lg:pr-[360px] pr-0">
                         <div className="grow shrink self-start text-base font-medium leading-7 max-w-[483px] text-white opacity-50 w-[471px] max-md:max-w-full">
-                            The idea of making a positive impact with every
-                            project is what drives us. Thats why we specialise
-                            in working with brands promoting environmental and
-                            socially responsible products, practices/
+                            {translationsData?.data?.footerDescription}
                         </div>
                         <div className="flex flex-col items-start text-white opacity-50">
-                            <div>About us</div>
-                            <div className="mt-4">Contact us</div>
-                            <div className="mt-4">Privacy Policies</div>
-                            <div className="self-stretch mt-4">
-                                Terms and Condition
+                            {/* {data.data} */}
+                        </div>
+                        <div className="flex flex-col items-start text-white opacity-50">
+                            <div
+                                className="mt-4 cursor-pointer"
+                                onClick={() => router.push('/')}
+                            >
+                                {translationsData?.data?.Əsas_səhifə}
                             </div>
-                            <div className="mt-4">News</div>
-                        </div>
-                        <div className="flex flex-col items-start text-white opacity-50">
-                            <div className="self-stretch">About us</div>
-                            <div className="mt-4">Home</div>
-                            <div className="self-stretch mt-4">Products</div>
-                            <div className="mt-4">News</div>
-                            <div className="mt-4">Contact</div>
+                            <div
+                                className="self-stretch mt-4 cursor-pointer "
+                                onClick={() => router.push('/aboutus')}
+                            >
+                                {translationsData?.data?.Haqqımızda}
+                            </div>
+                            <div
+                                className="self-stretch mt-4 cursor-pointer"
+                                onClick={() => router.push('/products')}
+                            >
+                                {translationsData?.data?.Məhsullar}
+                            </div>
+                            <div
+                                className="self-stretch mt-4 cursor-pointer"
+                                onClick={() => router.push('/projects')}
+                            >
+                                {translationsData?.data?.Layihələr}
+                            </div>
+                            <div
+                                className="mt-4 cursor-pointer"
+                                onClick={() => router.push('/news')}
+                            >
+                                {translationsData?.data?.Xəbərlər}
+                            </div>
+                            <div
+                                className="mt-4 cursor-pointer"
+                                onClick={() => router.push('/contact')}
+                            >
+                                {translationsData?.data?.Əlaqə}
+                            </div>
                         </div>
                     </div>
-                    <div className="mt-6">Follow us on social media:</div>
+                    <div className="mt-6">
+                        {translationsData?.data?.Bizi_sosial_media_da_izləyin}
+                    </div>
                     <div className="flex gap-4 flex-row">
-                        {data?.data?.map((item: any) => (
-                            <a href={item.url}>
+                        {data?.data?.map((item: SocialMediaItem) => (
+                            <a key={item.id} href={item.url}>
                                 <img
                                     loading="lazy"
                                     src={item.icon}

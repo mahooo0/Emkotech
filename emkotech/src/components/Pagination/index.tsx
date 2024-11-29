@@ -59,8 +59,9 @@ const PaginationComponent: React.FC<PaginationComponentProps> = ({
                 />
             </button>
             <div className="flex gap-2 items-end self-stretch my-auto">
-                {pageNumbers.map((number, i, list) => {
-                    if (number < 4) {
+                {pageNumbers.map((number) => {
+                    // Always show first page
+                    if (number === 1) {
                         return (
                             <PageNumber
                                 key={number}
@@ -70,10 +71,13 @@ const PaginationComponent: React.FC<PaginationComponentProps> = ({
                             />
                         );
                     }
-                    if (number === 4) {
-                        return <>...</>;
-                    }
-                    if (number === list.length) {
+
+                    // Show current page and one before/after
+                    if (
+                        number === currentPage ||
+                        number === currentPage - 1 ||
+                        number === currentPage + 1
+                    ) {
                         return (
                             <PageNumber
                                 key={number}
@@ -83,6 +87,28 @@ const PaginationComponent: React.FC<PaginationComponentProps> = ({
                             />
                         );
                     }
+
+                    // Show last page
+                    if (number === totalPages) {
+                        return (
+                            <PageNumber
+                                key={number}
+                                number={number}
+                                isActive={number === currentPage}
+                                onClick={() => onPageChange(number)}
+                            />
+                        );
+                    }
+
+                    // Show dots if there's a gap
+                    if (
+                        number === currentPage - 2 ||
+                        number === currentPage + 2
+                    ) {
+                        return <span key={number}>...</span>;
+                    }
+
+                    return null;
                 })}
             </div>
             <button

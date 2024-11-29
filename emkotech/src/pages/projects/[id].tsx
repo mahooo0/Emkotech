@@ -1,27 +1,33 @@
 import BreadcrumbNavigation from '@/components/BreadCamp';
 import { Footer } from '@/components/Footer';
 import Header from '@/components/Header';
-import NewsCard from '@/components/NewsCard';
-import { ProjectSwiper } from '@/components/ProjectSwipper';
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { getProjectById, getProjects } from '@/services/Request';
+import { getProjectById, getTranslations } from '@/services/Request';
 import { useLanguage } from '@/components/Hoc/LanguageContext';
 import { useRouter } from 'next/router';
 import ProjectCard from '@/components/ProjectCard';
 
-export default function projectid() {
+export default function ProjectsId() {
     const { language } = useLanguage();
     const router = useRouter();
     const { id } = router.query;
     console.log(id);
-    if (!id) {
-        return;
-    }
+
     const { data, isLoading, error } = useQuery({
-        queryKey: ['project', language],
-        queryFn: () => getProjectById(language, id),
+        queryKey: ['project', language, id],
+        queryFn: () => {
+            if (!id) return null;
+            return getProjectById(language, id);
+        },
+        enabled: !!id,
     });
+
+    const { data: translationsData } = useQuery({
+        queryKey: ['translations', language],
+        queryFn: () => getTranslations(language),
+    });
+
     console.log(data);
     if (isLoading) {
         return (
@@ -37,7 +43,20 @@ export default function projectid() {
         <div>
             <Header activeindex={3} />
             <main>
-                <BreadcrumbNavigation />
+                {data?.data?.title && (
+                    <BreadcrumbNavigation
+                        items={[
+                            {
+                                text: `${translationsData?.data?.Məhsullar}`,
+                                path: '/projects',
+                            },
+                            {
+                                text: data?.data?.title,
+                                path: `/projects/${id}`,
+                            },
+                        ]}
+                    />
+                )}
                 <section className="flex flex-col text-black lg:px-[100px] md:px-[60px] px-[30px] ">
                     <div className="flex flex-col rounded-2xl mt-[24px]">
                         <h2 className="self-center text-5xl text-black max-md:text-4xl">
@@ -50,7 +69,7 @@ export default function projectid() {
                                     <div className="flex flex-col w-[41%] max-md:ml-0 max-md:w-full">
                                         <img
                                             loading="lazy"
-                                            className="object-contain w-full rounded-2xl aspect-square max-md:mt-6 max-md:max-w-full"
+                                            className="object-cover w-full rounded-2xl aspect-square max-md:mt-6 max-md:max-w-full"
                                             src={data?.data?.image}
                                         />
                                     </div>

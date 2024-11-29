@@ -24,9 +24,9 @@ export const ProjectSwiper = () => {
                     },
                 }}
             >
-                {Array.from({ length: 10 })?.map((_, i) => (
+                {Array.from({ length: 10 })?.map((data, i) => (
                     <SwiperSlide className="!py-[10px]" key={i}>
-                        <ProjectCard />
+                        <ProjectCard data={data} />
                     </SwiperSlide>
                 ))}
             </Swiper>

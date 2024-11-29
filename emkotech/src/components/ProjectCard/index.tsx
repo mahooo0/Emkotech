@@ -1,10 +1,11 @@
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import React from 'react';
 
 export default function ProjectCard({ data }: { data: any }) {
     const router = useRouter();
     return (
         <div
+            key={data?.id}
             onClick={() => router.push(`/projects/${data?.id}`)}
             className="flex cursor-pointer overflow-hidden flex-col pb-14 text-lg bg-white rounded-2xl w-full max-w-[349px] shadow-[0px_0px_11px_rgba(143,143,143,0.12)]"
         >

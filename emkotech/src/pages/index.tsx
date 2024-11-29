@@ -11,16 +11,50 @@ import {
     getProducts,
     getStatistics,
     getTopBanner,
+    getTranslations,
 } from '@/services/Request';
 import PartnersSlider from '@/components/PartnersSwipper';
-import React, { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
-import { languageState } from '@/State/mainAtom';
+import React, { useEffect } from 'react';
 import { useLanguage } from '@/components/Hoc/LanguageContext';
 import ProjectCard from '@/components/ProjectCard';
+
+interface Statistic {
+    statistic: string;
+    value: string;
+}
+
+interface Project {
+    id: number;
+    title: string;
+    description: string;
+    image: string;
+}
+
+interface Product {
+    id: number;
+    title: string;
+    description: string;
+    price: number;
+    discount?: boolean;
+}
+
+interface Customer {
+    id: number;
+    name: string;
+    description: string;
+    icon: string;
+}
+
+interface ProductCategory {
+    id: number;
+    title: string;
+    description: string;
+    image: string;
+}
+
 export default function Home() {
     const router = useRouter();
-    const { language, setLanguage } = useLanguage();
+    const { language } = useLanguage();
     // Add effect to listen to localStorage changes
     useEffect(() => {
         console.log('languageaxsept:', localStorage.getItem('accept-language'));
@@ -48,8 +82,9 @@ export default function Home() {
         isError: productsError,
     } = useQuery({
         queryKey: ['products', language],
-        queryFn: () => getProducts(language, ''),
+        queryFn: () => getProducts(language),
     });
+    console.log('productsData', productsData);
     const {
         data: customersData,
         isLoading: customersLoading,
@@ -81,6 +116,10 @@ export default function Home() {
     } = useQuery({
         queryKey: ['productCategories', language],
         queryFn: () => getProductCategories(language),
+    });
+    const { data: translationsData } = useQuery({
+        queryKey: ['translations', language],
+        queryFn: () => getTranslations(language),
     });
 
     if (
@@ -148,7 +187,7 @@ export default function Home() {
                                 className="w-full h-full absolute"
                             />
                             <span className="z-20 w-[75%]  h-full flex justify-center items-center text-white">
-                                Daha çox
+                                {translationsData?.data?.Daha_çox}
                             </span>
                             <svg
                                 className="w-[20%]  z-20"
@@ -174,86 +213,47 @@ export default function Home() {
             <section className="mt-[100px] lg:px-[100px] md:px-[60px] px-[30px]">
                 <div className="flex flex-col rounded-2xl">
                     <h2 className="self-center text-5xl text-black max-md:text-4xl">
-                        Lorem Ipsum
+                        {translationsData?.data?.statisciksTitle}
                     </h2>
                     <div className="flex overflow-hidden flex-col px-16 py-14 mt-12 w-full rounded-2xl bg-zinc-100 max-md:px-5 max-md:mt-10 max-md:max-w-full">
                         <div className="flex flex-wrap gap-10 justify-center items-center text-2xl text-center text-[#D2D641] border-b border-[#D2D641] max-md:max-w-full">
-                            {statisticsData.data.map((item: any) => (
-                                <div className="flex flex-col grow shrink justify-center self-stretch my-auto whitespace-nowrap border-b border-[#D2D641] w-[157px]">
-                                    <h3 className="gap-2.5 self-stretch p-2.5 w-full font-medium">
-                                        {item.title}
-                                    </h3>
-                                    <p className="gap-2.5 self-stretch p-2.5 mt-2.5 w-full font-semibold">
-                                        {item.value}
-                                    </p>
-                                </div>
-                            ))}
+                            {statisticsData.data.map(
+                                (item: Statistic, index: number) => (
+                                    <div
+                                        key={index}
+                                        className="flex flex-col grow shrink justify-center self-stretch my-auto whitespace-nowrap  w-[157px]"
+                                    >
+                                        <h3 className="gap-2.5 self-stretch p-2.5 w-full font-medium">
+                                            {item.statistic}
+                                        </h3>
+                                        <p className="gap-2.5 self-stretch p-2.5 mt-2.5 w-full font-semibold">
+                                            {item.value}
+                                        </p>
+                                    </div>
+                                )
+                            )}
                         </div>
                         <div className="flex flex-wrap lg:gap-[140px] gap-10 mt-12 w-full max-md:mt-10 max-md:max-w-full">
                             <p className="grow shrink text-lg text-stone-300 w-[776px] max-md:max-w-full">
-                                Discover how organizations around the world
-                                leverage evolving features and unlock actionable
-                                insights that increase security where it matters
-                                most.
+                                {translationsData?.data?.statisciksdesc}
                             </p>
                             <button
                                 className="gap-2.5 self-start p-2.5 mt-1.5 px-[20px] py-[10px]  text-base font-medium text-[#D2D641] border border-[#D2D641] border-solid rounded-[35px]"
-                                onClick={() => router.push('/products')}
+                                onClick={() => router.push('/projects')}
                             >
-                                Layihələrə bax
+                                {translationsData?.data?.layihelerebax}
                             </button>
                         </div>
                         <div className="w-full flex justify-center">
                             <div className="grid lg:grid-cols-3 grid-cols-1 w-full self-center justify-items-center justify-self-center gap-6 mt-6 max-w-[1200px] mx-auto">
-                                {statisticsData.projects.map((item: any) => (
-                                    <ProjectCard data={item} />
-                                ))}
-                                {/* one card */}
-
-                                {/* <div className="flex flex-col ml-5 w-[33%] max-md:ml-0 max-md:w-full">
-                                    <div className="flex overflow-hidden flex-col grow pb-14 w-full text-lg bg-white rounded-2xl max-md:mt-6">
-                                        <img
-                                            loading="lazy"
-                                            srcSet="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/64036c687ab66ed225bd17d0a778d8b91fc967760e9753e90b5951fc929253e9?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&width=100 100w, https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/64036c687ab66ed225bd17d0a778d8b91fc967760e9753e90b5951fc929253e9?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&width=200 200w, https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/64036c687ab66ed225bd17d0a778d8b91fc967760e9753e90b5951fc929253e9?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&width=400 400w, https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/64036c687ab66ed225bd17d0a778d8b91fc967760e9753e90b5951fc929253e9?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&width=800 800w, https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/64036c687ab66ed225bd17d0a778d8b91fc967760e9753e90b5951fc929253e9?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/64036c687ab66ed225bd17d0a778d8b91fc967760e9753e90b5951fc929253e9?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/64036c687ab66ed225bd17d0a778d8b91fc967760e9753e90b5951fc929253e9?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/64036c687ab66ed225bd17d0a778d8b91fc967760e9753e90b5951fc929253e9?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
-                                            className="object-contain w-full rounded-2xl aspect-[1.52]"
+                                {statisticsData.projects.map(
+                                    (item: Project) => (
+                                        <ProjectCard
+                                            key={item.id}
+                                            data={item}
                                         />
-                                        <div className="flex flex-col px-5 mt-5 max-md:pr-5">
-                                            <div className="self-start font-medium text-black">
-                                                Lorem Ipsum Dolor Sit Ament
-                                            </div>
-                                            <div className="mt-2.5 text-stone-300">
-                                                Discover how organizations
-                                                around the world leverage
-                                                evolving features and unlock
-                                                actionable insights that
-                                                increase security where it
-                                                matters most.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="flex flex-col ml-5 w-[33%] max-md:ml-0 max-md:w-full">
-                                    <div className="flex overflow-hidden flex-col grow pb-14 w-full text-lg bg-white rounded-2xl max-md:mt-6">
-                                        <img
-                                            loading="lazy"
-                                            srcSet="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/fed08dacd4e0de651938c4c406696947cdb13544cf6f7926306483af376ceb5a?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&width=100 100w, https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/fed08dacd4e0de651938c4c406696947cdb13544cf6f7926306483af376ceb5a?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&width=200 200w, https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/fed08dacd4e0de651938c4c406696947cdb13544cf6f7926306483af376ceb5a?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&width=400 400w, https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/fed08dacd4e0de651938c4c406696947cdb13544cf6f7926306483af376ceb5a?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&width=800 800w, https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/fed08dacd4e0de651938c4c406696947cdb13544cf6f7926306483af376ceb5a?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/fed08dacd4e0de651938c4c406696947cdb13544cf6f7926306483af376ceb5a?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/fed08dacd4e0de651938c4c406696947cdb13544cf6f7926306483af376ceb5a?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/fed08dacd4e0de651938c4c406696947cdb13544cf6f7926306483af376ceb5a?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
-                                            className="object-contain w-full rounded-2xl aspect-[1.52]"
-                                        />
-                                        <div className="flex flex-col px-5 mt-5 max-md:pr-5">
-                                            <div className="self-start font-medium text-black">
-                                                Lorem Ipsum Dolor Sit Ament
-                                            </div>
-                                            <div className="mt-2.5 text-stone-300">
-                                                Discover how organizations
-                                                around the world leverage
-                                                evolving features and unlock
-                                                actionable insights that
-                                                increase security where it
-                                                matters most.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> */}
+                                    )
+                                )}
                             </div>
                         </div>
                     </div>
@@ -262,7 +262,7 @@ export default function Home() {
             <section className=" mt-[100px]">
                 <div className="w-full flex  lg:justify-center md:justify-center justify-start flex-wrap lg:px-[100px] md:px-[60px] px-[30px]  ">
                     <h2 className="text-5xl text-black max-md:text-4xl text-nowrap">
-                        Populyar Məhsullar
+                        {translationsData?.data?.Populyar_Məhsullar}
                     </h2>
                     <div className=" lg:absolute md:absolute  static lg:right-[100px] md:right-[60px] right-[30px] flex  h-[48px] items-end">
                         <button
@@ -270,7 +270,7 @@ export default function Home() {
                             onClick={() => router.push('/products')}
                         >
                             <p className="self-stretch my-auto text-nowrap ">
-                                Hamısına bax
+                                {translationsData?.data?.Hamısına_bax}
                             </p>
                             <img
                                 loading="lazy"
@@ -285,7 +285,7 @@ export default function Home() {
             <section className=" mt-[100px]">
                 <div className="w-full flex  lg:justify-center md:justify-center justify-start flex-wrap  lg:px-[100px] md:px-[60px] px-[30px] ">
                     <h2 className="text-5xl text-black max-md:text-4xl text-nowrap">
-                        Endirimli məhsullar{' '}
+                        {translationsData?.data?.Endirimli_məhsullar}
                     </h2>
                     <div className=" lg:absolute md:absolute  static lg:right-[100px] md:right-[60px] right-[30px] flex  h-[48px] items-end">
                         <button
@@ -293,7 +293,7 @@ export default function Home() {
                             onClick={() => router.push('/products')}
                         >
                             <p className="self-stretch my-auto text-nowrap ">
-                                Hamısına bax
+                                {translationsData?.data?.Hamısına_bax}
                             </p>
                             <img
                                 loading="lazy"
@@ -305,14 +305,14 @@ export default function Home() {
                 </div>
                 <ProductSwiper
                     data={productsData.data.filter(
-                        (item: any) => item.discount
+                        (item: Product) => item.discount
                     )}
                 />
             </section>
             <section className="w-full lg:px-[100px] md:px-[60px] px-[30px]">
                 <div className="w-full flex  lg:justify-center md:justify-center justify-start flex-wrap  ">
                     <h2 className="text-5xl text-black max-md:text-4xl text-nowrap">
-                        Kateqoriyalar
+                        {translationsData?.data?.Kateqoriyalar}
                     </h2>
                     <div className=" lg:absolute md:absolute  static lg:right-[100px] md:right-[60px] right-[30px] flex  h-[48px] items-end">
                         <button
@@ -320,7 +320,7 @@ export default function Home() {
                             onClick={() => router.push('/products')}
                         >
                             <p className="self-stretch my-auto text-nowrap ">
-                                Hamısına bax
+                                {translationsData?.data?.Hamısına_bax}
                             </p>
                             <img
                                 loading="lazy"
@@ -332,7 +332,7 @@ export default function Home() {
                 </div>
                 <div className="flex flex-row gap-6 w-full flex-wrap justify-center mt-[60px] ">
                     {productCategoriesData.data.map(
-                        (item: any, index: number) => (
+                        (item: ProductCategory, index: number) => (
                             <div
                                 key={index}
                                 onClick={() =>
@@ -358,10 +358,10 @@ export default function Home() {
             </section>
             <section className="flex flex-col rounded-none lg:px-[100px] md:px-[60px] px-[30px] mt-[120px]">
                 <div className="self-center text-5xl text-black max-md:text-4xl">
-                    Müştərilərimiz
+                    {translationsData?.data?.Müştərilərimiz}
                 </div>
                 <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6 mt-8 w-full max-md:max-w-full">
-                    {customersData.data.map((item: any, index: number) => (
+                    {customersData.data.map((item: Customer, index: number) => (
                         <div
                             className="  flex flex-1 gap-3.5  rounded-2xl bg-white bg-opacity-70 shadow-[0px_0px_4px_rgba(0,0,0,0.05)]"
                             key={index}
@@ -405,7 +405,10 @@ export default function Home() {
                                 __html: bottomBannerData.data.description,
                             }}
                         ></div>
-                        <button className="gap-2.5  self-stretch py-2.5 px-[62px] mt-5 text-base text-black w-fit whitespace-nowrap bg-white rounded-[35px]">
+                        <button
+                            className="gap-2.5  self-stretch py-2.5 px-[62px] mt-5 text-base text-black w-fit whitespace-nowrap bg-white rounded-[35px]"
+                            onClick={() => router.push('/products')}
+                        >
                             {bottomBannerData.data.button_text}
                         </button>
                     </div>
@@ -413,7 +416,7 @@ export default function Home() {
             </section>
             <section className="ProductSwippenSection flex flex-col rounded-none  mt-[120px] w-[100%] overflow-hidden">
                 <div className="self-center text-5xl text-black max-md:text-4xl">
-                    Partnyorlar
+                    {translationsData?.data?.Partnyorlar}
                 </div>
                 <PartnersSlider data={partnersData.data} />
             </section>

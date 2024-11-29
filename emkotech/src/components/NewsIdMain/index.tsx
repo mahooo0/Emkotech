@@ -1,6 +1,11 @@
 import React from 'react';
 
-function MainID({ data }: { data: any }) {
+interface NewsData {
+    image: string;
+    description: string;
+}
+
+function MainID({ data }: { data: NewsData }) {
     return (
         <div className="flex flex-col pb-5 rounded-none lg:max-w-[63%] w-full">
             <div className="flex  flex-row gap-6 w-full max-md:max-w-full">
@@ -9,17 +14,58 @@ function MainID({ data }: { data: any }) {
                     <img
                         loading="lazy"
                         src="/images/faceboock.png"
-                        className="object-contain shrink-0 self-start  w-[34px]"
+                        className="object-contain shrink-0 self-start w-[34px] cursor-pointer"
+                        onClick={() => {
+                            const url = window.location.href;
+                            navigator.clipboard.writeText(url);
+                            window.open(
+                                `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                                    url
+                                )}`
+                            );
+                        }}
                     />
                     <img
                         loading="lazy"
                         src="/svg/instagram.svg"
-                        className="object-contain shrink-0 self-start  w-[34px]"
+                        className="object-contain shrink-0 self-start w-[34px] cursor-pointer"
+                        onClick={() => {
+                            const url = window.location.href;
+                            navigator.clipboard.writeText(url);
+                            window.open(
+                                `https://www.instagram.com/direct/inbox?text=${encodeURIComponent(
+                                    url
+                                )}`
+                            );
+                        }}
                     />
                     <img
                         loading="lazy"
                         src="/svg/twitter.svg"
-                        className="object-contain shrink-0 self-start  w-[34px]"
+                        className="object-contain shrink-0 self-start w-[34px] cursor-pointer"
+                        onClick={() => {
+                            const url = window.location.href;
+                            navigator.clipboard.writeText(url);
+                            window.open(
+                                `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+                                    url
+                                )}`
+                            );
+                        }}
+                    />
+                    <img
+                        loading="lazy"
+                        src="/svg/whatsup.svg"
+                        className="object-contain shrink-0 self-start w-[34px] cursor-pointer"
+                        onClick={() => {
+                            const url = window.location.href;
+                            navigator.clipboard.writeText(url);
+                            window.open(
+                                `https://api.whatsapp.com/send?text=${encodeURIComponent(
+                                    url
+                                )}`
+                            );
+                        }}
                     />
                 </div>
 
@@ -35,12 +81,12 @@ function MainID({ data }: { data: any }) {
                     dangerouslySetInnerHTML={{ __html: data.description }}
                 ></div>
                 {/* <div className="self-start mt-16 text-2xl font-medium tracking-normal leading-10 text-neutral-900 max-md:mt-10 max-md:max-w-full">
-                    What’s Special About WP Page Builder?
+                    What's Special About WP Page Builder?
                 </div>
                 <div className="self-start mt-5 text-base leading-10 text-neutral-600 max-md:max-w-full">
                     Wondering what makes WP Page Builder so special? The plugin,
                     developed by Themeum, offers modern features for site
-                    building. Let’s look at some of the key features WP Page
+                    building. Let's look at some of the key features WP Page
                     Builder includes.
                 </div>
                 <img
@@ -84,9 +130,9 @@ function MainID({ data }: { data: any }) {
                     </div>
                 </div>
                 <p className="text-[#9283E0] text-[24px] font-light text-center mt-[61px]">
-                    “ WP Page Builder offers a lot of ready-to-use design blocks
+                    " WP Page Builder offers a lot of ready-to-use design blocks
                     to make your site development process a lot faster and
-                    easier “
+                    easier "
                 </p> */}
             </div>
         </div>

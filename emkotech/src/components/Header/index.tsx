@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import CategoryBAr from '../CategoryBar';
 import Link from 'next/link';
-import { useRecoilState } from 'recoil';
-import { languageState } from '@/State/mainAtom';
 import { useLanguage } from '../Hoc/LanguageContext';
 import { useQuery } from '@tanstack/react-query';
-import { getProductCategories, getProducts } from '@/services/Request';
+import {
+    getProductCategories,
+    getProducts,
+    getProjects,
+    getTranslations,
+} from '@/services/Request';
 
 interface NavItemProps {
     label: string;
@@ -65,11 +68,30 @@ const NavContent = ({
     activeindex: number;
     setIsBarOpen: (par: boolean) => void;
 }) => {
+    const [isProjectsBarOpen, setIsProjectsBarOpen] = useState(false);
+    const { language } = useLanguage();
+    const { data: projectsData } = useQuery({
+        queryKey: ['projects', language],
+        queryFn: () => getProjects(language),
+    });
+    const { data: translationsData } = useQuery({
+        queryKey: ['translations', language],
+        queryFn: () => getTranslations(language),
+    });
+
+    interface Project {
+        id: string;
+        title: string;
+    }
+
     return (
         <nav className="flex flex-wrap items-center min-w-[240px] max-md:max-w-full h-[55px]">
             <div className="h-full">
                 <Link href={'/'}>
-                    <NavItem label="Əsas səhifə" isActive={activeindex === 0} />
+                    <NavItem
+                        label={translationsData?.data?.Əsas_səhifə}
+                        isActive={activeindex === 0}
+                    />
                 </Link>
             </div>
             <div
@@ -79,7 +101,7 @@ const NavContent = ({
             >
                 <Link href={'/products'}>
                     <NavItem
-                        label="Məhsullar"
+                        label={translationsData?.data?.Məhsullar}
                         hasDropdown
                         isActive={activeindex === 1}
                     />
@@ -87,28 +109,54 @@ const NavContent = ({
             </div>
             <div className="h-full">
                 <Link href={'/aboutus'}>
-                    <NavItem label="Haqqımızda" isActive={activeindex === 2} />
+                    <NavItem
+                        label={translationsData?.data?.Haqqımızda}
+                        isActive={activeindex === 2}
+                    />
                 </Link>
             </div>
-            <div className="h-full">
-                <Link href={'/projects'}>
+            <div className="h-full relative">
+                <Link
+                    href={'/projects'}
+                    onMouseLeave={() => setIsProjectsBarOpen(false)}
+                    onMouseEnter={() => setIsProjectsBarOpen(true)}
+                >
                     <NavItem
-                        label="Layihələr"
+                        label={translationsData?.data?.Layihələr}
                         hasDropdown
                         isActive={activeindex === 3}
                     />
                 </Link>
+                <div
+                    onMouseEnter={() => setIsProjectsBarOpen(true)}
+                    onMouseLeave={() => setIsProjectsBarOpen(false)}
+                    className={`${
+                        isProjectsBarOpen ? 'block' : 'hidden'
+                    } w-full bg-white  h-[200px] absolute top-[80%] rounded-b-lg z-50 overflow-y-auto overflow-x-hidden flex flex-col gap-2  [&::-webkit-scrollbar]:w-[3px] [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-transparent`}
+                >
+                    {projectsData?.data.map((item: Project) => (
+                        <Link href={`/projects/${item.id}`} key={item.id}>
+                            <p className="hover:bg-gray-100 rounded-md px-2 py-1">
+                                {item.title.slice(0, 30)}
+                            </p>
+                        </Link>
+                    ))}
+                </div>
             </div>
             <div className="h-full">
                 <Link href={'/news'}>
-                    {' '}
-                    <NavItem label="Xəbərlər" isActive={activeindex === 4} />
+                    <NavItem
+                        label={translationsData?.data?.Xəbərlər}
+                        isActive={activeindex === 4}
+                    />
                 </Link>
             </div>
             <div className="h-full">
                 <Link href={'/contact'}>
-                    {' '}
-                    <NavItem label="Əlaqə" isActive={activeindex === 5} />
+                    <NavItem
+                        label={translationsData?.data?.Əlaqə}
+                        isActive={activeindex === 5}
+                    />
                 </Link>
             </div>
         </nav>
@@ -117,7 +165,6 @@ const NavContent = ({
 
 const FlagDropdown: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [currentLang, setCurrentLang] = useState('ru');
     const { language, setLanguage } = useLanguage();
 
     const toggleDropdown = () => {
@@ -128,8 +175,6 @@ const FlagDropdown: React.FC = () => {
         console.log('lang', lang);
         setLanguage(lang);
         setIsOpen(false);
-        // localStorage.setItem('Accept-Language', lang);
-        // You may want to add logic here to trigger a language change in your app
     };
 
     const getFlagSrc = (lang: string) => `/svg/flag${lang}.svg`;
@@ -180,125 +225,102 @@ const FlagDropdown: React.FC = () => {
         </div>
     );
 };
-// data
-const categories = [
-    { id: '1', name: 'Electronics' },
-    { id: '2', name: 'Clothing' },
-    { id: '3', name: 'Home Appliances' },
-    { id: '4', name: 'Books' },
-];
 
-const products = [
-    {
-        id: 'p1',
-        name: 'Smartphone',
-        imageUrl:
-            'https://s3-alpha-sig.figma.com/img/786b/a7d7/6fe24dfea7c5ab21dcc7e0479d14e36c?Expires=1731888000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Wr0UNkzhRLyFK4mjGigoV2O3819zGAbZYWKI01x6aq0orqsiZ-F~tJUUXfHjPz-UgDojmRRy-LyM0Ttp1JNui96BI0DtKfid1PlDmrqHD1JIJLSXQmBchzPC6S2pQSNUocwaBcDUSvSsl9fV9LWoShV2xoC~4-U734iPmxtx~fScNtg37ZSUYRPZ23xgzHFpb~0ftkquqqKmmoUElDsZQuSs9aZFfPBat8s93NgFLkXLYk3bmxyLIhey~8KFkT03Xg8cEKzZfjPsxY0ZDe~m6tEbRFvg-Y~GnQsF~n3pmdlFrQDPU0vchiYEGir8BrkaT0Sv77DNlD3Svszg19HJZg__',
-        categoryId: '1',
-    },
-    {
-        id: 'p2',
-        name: 'Laptop',
-        imageUrl:
-            'https://s3-alpha-sig.figma.com/img/786b/a7d7/6fe24dfea7c5ab21dcc7e0479d14e36c?Expires=1731888000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Wr0UNkzhRLyFK4mjGigoV2O3819zGAbZYWKI01x6aq0orqsiZ-F~tJUUXfHjPz-UgDojmRRy-LyM0Ttp1JNui96BI0DtKfid1PlDmrqHD1JIJLSXQmBchzPC6S2pQSNUocwaBcDUSvSsl9fV9LWoShV2xoC~4-U734iPmxtx~fScNtg37ZSUYRPZ23xgzHFpb~0ftkquqqKmmoUElDsZQuSs9aZFfPBat8s93NgFLkXLYk3bmxyLIhey~8KFkT03Xg8cEKzZfjPsxY0ZDe~m6tEbRFvg-Y~GnQsF~n3pmdlFrQDPU0vchiYEGir8BrkaT0Sv77DNlD3Svszg19HJZg__',
-        categoryId: '1',
-    },
-    {
-        id: 'p3',
-        name: 'Jacket',
-        imageUrl:
-            'https://s3-alpha-sig.figma.com/img/786b/a7d7/6fe24dfea7c5ab21dcc7e0479d14e36c?Expires=1731888000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Wr0UNkzhRLyFK4mjGigoV2O3819zGAbZYWKI01x6aq0orqsiZ-F~tJUUXfHjPz-UgDojmRRy-LyM0Ttp1JNui96BI0DtKfid1PlDmrqHD1JIJLSXQmBchzPC6S2pQSNUocwaBcDUSvSsl9fV9LWoShV2xoC~4-U734iPmxtx~fScNtg37ZSUYRPZ23xgzHFpb~0ftkquqqKmmoUElDsZQuSs9aZFfPBat8s93NgFLkXLYk3bmxyLIhey~8KFkT03Xg8cEKzZfjPsxY0ZDe~m6tEbRFvg-Y~GnQsF~n3pmdlFrQDPU0vchiYEGir8BrkaT0Sv77DNlD3Svszg19HJZg__',
-        categoryId: '1',
-    },
-    {
-        id: 'p4',
-        name: 'Blender',
-        imageUrl:
-            'https://s3-alpha-sig.figma.com/img/786b/a7d7/6fe24dfea7c5ab21dcc7e0479d14e36c?Expires=1731888000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Wr0UNkzhRLyFK4mjGigoV2O3819zGAbZYWKI01x6aq0orqsiZ-F~tJUUXfHjPz-UgDojmRRy-LyM0Ttp1JNui96BI0DtKfid1PlDmrqHD1JIJLSXQmBchzPC6S2pQSNUocwaBcDUSvSsl9fV9LWoShV2xoC~4-U734iPmxtx~fScNtg37ZSUYRPZ23xgzHFpb~0ftkquqqKmmoUElDsZQuSs9aZFfPBat8s93NgFLkXLYk3bmxyLIhey~8KFkT03Xg8cEKzZfjPsxY0ZDe~m6tEbRFvg-Y~GnQsF~n3pmdlFrQDPU0vchiYEGir8BrkaT0Sv77DNlD3Svszg19HJZg__',
-        categoryId: '1',
-    },
-    {
-        id: 'p3',
-        name: 'Jacket',
-        imageUrl:
-            'https://s3-alpha-sig.figma.com/img/786b/a7d7/6fe24dfea7c5ab21dcc7e0479d14e36c?Expires=1731888000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Wr0UNkzhRLyFK4mjGigoV2O3819zGAbZYWKI01x6aq0orqsiZ-F~tJUUXfHjPz-UgDojmRRy-LyM0Ttp1JNui96BI0DtKfid1PlDmrqHD1JIJLSXQmBchzPC6S2pQSNUocwaBcDUSvSsl9fV9LWoShV2xoC~4-U734iPmxtx~fScNtg37ZSUYRPZ23xgzHFpb~0ftkquqqKmmoUElDsZQuSs9aZFfPBat8s93NgFLkXLYk3bmxyLIhey~8KFkT03Xg8cEKzZfjPsxY0ZDe~m6tEbRFvg-Y~GnQsF~n3pmdlFrQDPU0vchiYEGir8BrkaT0Sv77DNlD3Svszg19HJZg__',
-        categoryId: '1',
-    },
-    {
-        id: 'p4',
-        name: 'Blender',
-        imageUrl:
-            'https://s3-alpha-sig.figma.com/img/786b/a7d7/6fe24dfea7c5ab21dcc7e0479d14e36c?Expires=1731888000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Wr0UNkzhRLyFK4mjGigoV2O3819zGAbZYWKI01x6aq0orqsiZ-F~tJUUXfHjPz-UgDojmRRy-LyM0Ttp1JNui96BI0DtKfid1PlDmrqHD1JIJLSXQmBchzPC6S2pQSNUocwaBcDUSvSsl9fV9LWoShV2xoC~4-U734iPmxtx~fScNtg37ZSUYRPZ23xgzHFpb~0ftkquqqKmmoUElDsZQuSs9aZFfPBat8s93NgFLkXLYk3bmxyLIhey~8KFkT03Xg8cEKzZfjPsxY0ZDe~m6tEbRFvg-Y~GnQsF~n3pmdlFrQDPU0vchiYEGir8BrkaT0Sv77DNlD3Svszg19HJZg__',
-        categoryId: '1',
-    },
-    {
-        id: 'p3',
-        name: 'Jacket',
-        imageUrl:
-            'https://s3-alpha-sig.figma.com/img/786b/a7d7/6fe24dfea7c5ab21dcc7e0479d14e36c?Expires=1731888000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Wr0UNkzhRLyFK4mjGigoV2O3819zGAbZYWKI01x6aq0orqsiZ-F~tJUUXfHjPz-UgDojmRRy-LyM0Ttp1JNui96BI0DtKfid1PlDmrqHD1JIJLSXQmBchzPC6S2pQSNUocwaBcDUSvSsl9fV9LWoShV2xoC~4-U734iPmxtx~fScNtg37ZSUYRPZ23xgzHFpb~0ftkquqqKmmoUElDsZQuSs9aZFfPBat8s93NgFLkXLYk3bmxyLIhey~8KFkT03Xg8cEKzZfjPsxY0ZDe~m6tEbRFvg-Y~GnQsF~n3pmdlFrQDPU0vchiYEGir8BrkaT0Sv77DNlD3Svszg19HJZg__',
-        categoryId: '1',
-    },
-    {
-        id: 'p4',
-        name: 'Blender',
-        imageUrl:
-            'https://s3-alpha-sig.figma.com/img/786b/a7d7/6fe24dfea7c5ab21dcc7e0479d14e36c?Expires=1731888000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Wr0UNkzhRLyFK4mjGigoV2O3819zGAbZYWKI01x6aq0orqsiZ-F~tJUUXfHjPz-UgDojmRRy-LyM0Ttp1JNui96BI0DtKfid1PlDmrqHD1JIJLSXQmBchzPC6S2pQSNUocwaBcDUSvSsl9fV9LWoShV2xoC~4-U734iPmxtx~fScNtg37ZSUYRPZ23xgzHFpb~0ftkquqqKmmoUElDsZQuSs9aZFfPBat8s93NgFLkXLYk3bmxyLIhey~8KFkT03Xg8cEKzZfjPsxY0ZDe~m6tEbRFvg-Y~GnQsF~n3pmdlFrQDPU0vchiYEGir8BrkaT0Sv77DNlD3Svszg19HJZg__',
-        categoryId: '1',
-    },
-    {
-        id: 'p3',
-        name: 'Jacket',
-        imageUrl:
-            'https://s3-alpha-sig.figma.com/img/786b/a7d7/6fe24dfea7c5ab21dcc7e0479d14e36c?Expires=1731888000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Wr0UNkzhRLyFK4mjGigoV2O3819zGAbZYWKI01x6aq0orqsiZ-F~tJUUXfHjPz-UgDojmRRy-LyM0Ttp1JNui96BI0DtKfid1PlDmrqHD1JIJLSXQmBchzPC6S2pQSNUocwaBcDUSvSsl9fV9LWoShV2xoC~4-U734iPmxtx~fScNtg37ZSUYRPZ23xgzHFpb~0ftkquqqKmmoUElDsZQuSs9aZFfPBat8s93NgFLkXLYk3bmxyLIhey~8KFkT03Xg8cEKzZfjPsxY0ZDe~m6tEbRFvg-Y~GnQsF~n3pmdlFrQDPU0vchiYEGir8BrkaT0Sv77DNlD3Svszg19HJZg__',
-        categoryId: '1',
-    },
-    {
-        id: 'p4',
-        name: 'Blender',
-        imageUrl:
-            'https://s3-alpha-sig.figma.com/img/786b/a7d7/6fe24dfea7c5ab21dcc7e0479d14e36c?Expires=1731888000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Wr0UNkzhRLyFK4mjGigoV2O3819zGAbZYWKI01x6aq0orqsiZ-F~tJUUXfHjPz-UgDojmRRy-LyM0Ttp1JNui96BI0DtKfid1PlDmrqHD1JIJLSXQmBchzPC6S2pQSNUocwaBcDUSvSsl9fV9LWoShV2xoC~4-U734iPmxtx~fScNtg37ZSUYRPZ23xgzHFpb~0ftkquqqKmmoUElDsZQuSs9aZFfPBat8s93NgFLkXLYk3bmxyLIhey~8KFkT03Xg8cEKzZfjPsxY0ZDe~m6tEbRFvg-Y~GnQsF~n3pmdlFrQDPU0vchiYEGir8BrkaT0Sv77DNlD3Svszg19HJZg__',
-        categoryId: '1',
-    },
-];
-// data;
 const Header = ({ activeindex }: { activeindex: number }) => {
     const [IsBarOpen, setIsBarOpen] = useState<boolean>(false);
-    console.log('IsBarOpen:', IsBarOpen);
+    const [sohowAside, setsohowAside] = useState<boolean>(false);
     const { language } = useLanguage();
-    const {
-        data: productCategoriesData,
-        isLoading: productCategoriesLoading,
-        isError: productCategoriesError,
-    } = useQuery({
-        queryKey: ['productCategories', language],
-        queryFn: () => getProductCategories(language),
-    });
-    const {
-        data: productsData,
-        isLoading: productsLoading,
-        isError: productsError,
-    } = useQuery({
+    const { data: productCategoriesData, isLoading: productCategoriesLoading } =
+        useQuery({
+            queryKey: ['productCategories', language],
+            queryFn: () => getProductCategories(language),
+        });
+    const { data: productsData, isLoading: productsLoading } = useQuery({
         queryKey: ['products', language],
-        queryFn: () => getProducts(language, ''),
+        queryFn: () => getProducts(language),
+    });
+    const { data: translationsData } = useQuery({
+        queryKey: ['translations', language],
+        queryFn: () => getTranslations(language),
     });
     return (
-        <header className="flex flex-wrap gap-5 justify-between items-center px-[100px] pt-2.5 bg-white relative shadow-[0px_0px_11px_rgba(167,167,167,0.12)] max-md:px-5">
-            <NavLogo />
-            <NavContent
-                setIsBarOpen={(par: boolean) => {
-                    setIsBarOpen(par);
-                }}
-                activeindex={activeindex}
-            />
-            <FlagDropdown />
-            <CategoryBAr
-                isLoading={productCategoriesLoading}
-                isopen={IsBarOpen}
-                categories={productCategoriesData}
-                products={productsData?.data}
-                productsLoading={productsLoading}
-            />
-        </header>
+        <>
+            <header className=" lg:flex hidden flex-wrap gap-5 justify-between items-center px-[100px] pt-2.5 bg-white relative shadow-[0px_0px_11px_rgba(167,167,167,0.12)] max-md:px-5">
+                <NavLogo />
+                <NavContent
+                    setIsBarOpen={(par: boolean) => {
+                        setIsBarOpen(par);
+                    }}
+                    activeindex={activeindex}
+                />
+                <FlagDropdown />
+                <CategoryBAr
+                    isLoading={productCategoriesLoading}
+                    isopen={IsBarOpen}
+                    categories={productCategoriesData}
+                    products={productsData?.data}
+                    productsLoading={productsLoading}
+                />
+            </header>
+            <header className="lg:hidden bg-white  flex flex-row px-5 py-2 justify-around items-center">
+                <div className="relative ml-3 w-fit lg:hidden block">
+                    <div onClick={() => setsohowAside((prew) => !prew)}>
+                        <div className="w-[33px] h-[33px]   aspect-square rounded-full bg-black bg-opacity-40 bg-blur-[4px] flex justify-center items-center">
+                            <svg
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M4 17.27V16.27H20V17.27H4ZM4 12.5V11.5H20V12.5H4ZM4 7.72998V6.72998H20V7.72998H4Z"
+                                    fill={'white'}
+                                />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div
+                        className={`absolute  ${
+                            sohowAside ? '' : 'hidden'
+                        }  right-[-160px] z-[9999999999] mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
+                        role="menu"
+                        aria-orientation="vertical"
+                        aria-labelledby="user-menu-button"
+                        tabIndex={-1}
+                    >
+                        <div className="block px-4 py-2 text-sm text-gray-700">
+                            <Link href="/" className="w-full">
+                                {translationsData?.data?.Əsas_səhifə}
+                            </Link>
+                        </div>
+                        <div className="block px-4 py-2 text-sm text-gray-700">
+                            <Link href="/aboutus">
+                                {translationsData?.data?.Haqqımızda}
+                            </Link>
+                        </div>
+                        <div className="block px-4 py-2 text-sm text-gray-700">
+                            <Link href="/projects">
+                                {translationsData?.data?.Layihələr}
+                            </Link>
+                        </div>
+                        <div className="block px-4 py-2 text-sm text-gray-700  ">
+                            <Link href="/products">
+                                {translationsData?.data?.Məhsullar}
+                            </Link>
+                        </div>
+                        <div className="block px-4 py-2 text-sm text-gray-700">
+                            <Link href="/contact">
+                                {translationsData?.data?.Əlaqə}
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+                <NavLogo />
+                <FlagDropdown />
+            </header>
+        </>
     );
 };
 

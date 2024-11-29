@@ -3,64 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import ProductCard from '../ProductCard';
 import { Swiper as SwiperType } from 'swiper';
-
-export type ProductCardType = {
-    id: string;
-    title: string;
-    image: string;
-    price: string;
-};
-
-export const MyProductData: ProductCardType[] = [
-    {
-        id: '1',
-        image: '',
-        price: '',
-        title: '',
-    },
-    {
-        id: '2',
-        image: '',
-        price: '',
-        title: '',
-    },
-    {
-        id: '3',
-        image: '',
-        price: '',
-        title: '',
-    },
-    {
-        id: '4',
-        image: '',
-        price: '',
-        title: '',
-    },
-    {
-        id: '5',
-        image: '',
-        price: '',
-        title: '',
-    },
-    {
-        id: '6',
-        image: '',
-        price: '',
-        title: '',
-    },
-    {
-        id: '7',
-        image: '',
-        price: '',
-        title: '',
-    },
-    {
-        id: '8',
-        image: '',
-        price: '',
-        title: '',
-    },
-];
+import { ProductData } from '../EssentialCamera';
 
 export const ProductSwiper = ({ data }: { data: any }) => {
     const swiperRef = useRef<SwiperType | null>(null);
@@ -83,16 +26,16 @@ export const ProductSwiper = ({ data }: { data: any }) => {
                     },
                 }}
             >
-                {data?.map((data: any, i: number) => (
+                {data?.map((item: ProductData, i: number) => (
                     <SwiperSlide key={i} className="!py-[10px]">
-                        <ProductCard data={data} />
+                        <ProductCard data={item} />
                     </SwiperSlide>
                 ))}
             </Swiper>
             <div className="flex gap-4 mt-4 justify-start lg:!px-[100px] md:!px-[60px] !px-[30px] ">
                 <button
                     style={{ boxShadow: '0px 0px 11px 0px #D2D6411F' }}
-                    className="bg-white  w-[42px] h-[42px] rounded-full flex justify-center items-center stroke-[#BDBDC1] hover:stroke-[#D2D641]"
+                    className="hover:bg-white  w-[42px] h-[42px] rounded-full flex justify-center items-center stroke-[#BDBDC1] hover:stroke-[#D2D641]"
                     onClick={() => swiperRef.current?.slidePrev()}
                 >
                     <svg
@@ -118,7 +61,7 @@ export const ProductSwiper = ({ data }: { data: any }) => {
                 </button>
                 <button
                     style={{ boxShadow: '0px 0px 11px 0px #D2D6411F' }}
-                    className=" text-white w-[42px] h-[42px] rounded-full flex justify-center items-center stroke-[#BDBDC1] hover:stroke-[#D2D641]"
+                    className="hover:bg-white text-white w-[42px] h-[42px] rounded-full flex justify-center items-center stroke-[#BDBDC1] hover:stroke-[#D2D641]"
                     onClick={() => swiperRef.current?.slideNext()}
                 >
                     <svg

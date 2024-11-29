@@ -3,10 +3,19 @@ import { Footer } from '@/components/Footer';
 import Header from '@/components/Header';
 import { useLanguage } from '@/components/Hoc/LanguageContext';
 import PaginationComponent from '@/components/Pagination';
-import { getNews } from '@/services/Request';
+import { getNews, getTranslations } from '@/services/Request';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
+
+interface NewsItem {
+    id: number;
+    image: string;
+    title: string;
+    short_description: string;
+    date: string;
+    views: number;
+}
 
 export default function NevsId() {
     const { language } = useLanguage();
@@ -15,20 +24,31 @@ export default function NevsId() {
         queryKey: ['news', language, page],
         queryFn: () => getNews(language, page),
     });
+    const { data: translationsData } = useQuery({
+        queryKey: ['translations', language],
+        queryFn: () => getTranslations(language),
+    });
     console.log(data);
     const router = useRouter();
     return (
         <div>
             {' '}
             <Header activeindex={4} />
-            <BreadcrumbNavigation />
+            <BreadcrumbNavigation
+                items={[
+                    {
+                        text: `${translationsData?.data?.Xəbərlər}`,
+                        path: '/news',
+                    },
+                ]}
+            />
             <main>
                 <section className="flex flex-col text-black">
                     <h1
                         data-layername="məhsullar"
                         className="self-center text-5xl max-md:text-4xl"
                     >
-                        Məhsullar
+                        {translationsData?.data?.Xəbərlər}
                     </h1>
                 </section>
                 <section className="flex flex-row flex-wrap lg:px-[100px] md:px-[60px] px-[30px] justify-center gap-4 mt-[34px]">
@@ -61,7 +81,7 @@ export default function NevsId() {
                             ))}
                         </>
                     ) : (
-                        data?.data?.map((item: any, i: number) => (
+                        data?.data?.map((item: NewsItem, i: number) => (
                             <div
                                 key={i}
                                 className="flex overflow-hidden flex-col justify-center bg-white rounded-2xl max-w-[288px]"
@@ -70,7 +90,7 @@ export default function NevsId() {
                                 <div className="flex overflow-hidden flex-col w-full">
                                     <img
                                         loading="lazy"
-                                        className="object-contain w-full aspect-[1.38]"
+                                        className="object-cover w-full aspect-[1.38]"
                                         src={item.image}
                                     />
                                 </div>

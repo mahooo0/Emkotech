@@ -2,11 +2,18 @@ import BreadcrumbNavigation from '@/components/BreadCamp';
 import { Footer } from '@/components/Footer';
 import Header from '@/components/Header';
 import { useLanguage } from '@/components/Hoc/LanguageContext';
-import { getAbout, getAboutBanner } from '@/services/Request';
+import { getAbout, getAboutBanner, getTranslations } from '@/services/Request';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 
-export default function aboutus() {
+interface AboutBannerItem {
+    id: number;
+    image: string;
+    title: string;
+    description: string;
+}
+
+export default function AboutUs() {
     const { language } = useLanguage();
     const {
         data: aboutData,
@@ -26,12 +33,24 @@ export default function aboutus() {
         queryFn: () => getAboutBanner(language),
     });
     console.log(aboutData);
+    const { data: translationsData } = useQuery({
+        queryKey: ['translations', language],
+        queryFn: () => getTranslations(language),
+    });
     if (aboutError || aboutBannerError) return <p>error</p>;
+
     return (
         <div>
             <Header activeindex={2} />
             <main>
-                <BreadcrumbNavigation />
+                <BreadcrumbNavigation
+                    items={[
+                        {
+                            text: `${translationsData?.data?.Haqqımızda}`,
+                            path: '/aboutus',
+                        },
+                    ]}
+                />
                 <section className="flex flex-col rounded-2xl lg:px-[100px] md:px-[60px] px-[30px] mt-6">
                     {aboutLoading ? (
                         <div className="animate-pulse">
@@ -107,8 +126,12 @@ export default function aboutus() {
                 </section>
                 <section className="flex flex-col rounded-2xl lg:px-[100px] md:px-[60px] px-[30px] mt-[120px]">
                     <h2 className="self-center text-5xl font-medium text-black max-md:max-w-full max-md:text-4xl">
-                        <span className="text-[#D2D641] ">Highlights</span>
-                        <span className=""> our company’s</span>
+                        <span className="text-[#D2D641] ">
+                            {translationsData?.data?.Yekunlaşdırma}
+                        </span>
+                        <span className="">
+                            {translationsData?.data?.Şirkətimizin}
+                        </span>
                     </h2>
                     <div className="mt-12 w-full max-md:mt-10 max-md:max-w-full">
                         <div className="flex gap-5 max-md:flex-col">
@@ -129,88 +152,33 @@ export default function aboutus() {
                                               </div>
                                           </div>
                                       ))
-                                : aboutBannerData?.data.map((item: any) => (
-                                      <div
-                                          className="flex flex-col w-3/12 max-md:ml-0 max-md:w-full"
-                                          key={item.id}
-                                      >
-                                          <div className="flex flex-col grow p-5 w-full text-black bg-indigo-50 rounded-2xl border border-blue-200 border-solid max-md:mt-6">
-                                              <img
-                                                  loading="lazy"
-                                                  src={item.image}
-                                                  className="object-contain aspect-square w-[54px]"
-                                              />
-                                              <div className="flex flex-col mt-5 w-full">
-                                                  <div className="text-lg font-semibold">
-                                                      {item.title}
+                                : aboutBannerData?.data.map(
+                                      (item: AboutBannerItem) => (
+                                          <div
+                                              className="flex flex-col w-3/12 max-md:ml-0 max-md:w-full"
+                                              key={item.id}
+                                          >
+                                              <div className="flex flex-col grow p-5 w-full text-black bg-indigo-50 rounded-2xl border border-blue-200 border-solid max-md:mt-6">
+                                                  <img
+                                                      loading="lazy"
+                                                      src={item.image}
+                                                      className="object-contain aspect-square w-[54px]"
+                                                  />
+                                                  <div className="flex flex-col mt-5 w-full">
+                                                      <div className="text-lg font-semibold">
+                                                          {item.title}
+                                                      </div>
+                                                      <div
+                                                          className="mt-1.5 text-sm"
+                                                          dangerouslySetInnerHTML={{
+                                                              __html: item.description,
+                                                          }}
+                                                      ></div>
                                                   </div>
-                                                  <div
-                                                      className="mt-1.5 text-sm"
-                                                      dangerouslySetInnerHTML={{
-                                                          __html: item.description,
-                                                      }}
-                                                  ></div>
                                               </div>
                                           </div>
-                                      </div>
-                                  ))}
-                            {/* <div className="flex flex-col ml-5 w-3/12 max-md:ml-0 max-md:w-full">
-                                <div className="flex flex-col grow p-5 w-full text-black bg-indigo-50 rounded-2xl border border-blue-200 border-solid max-md:mt-6">
-                                    <img
-                                        loading="lazy"
-                                        src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/57323eb9349c3b653b0c9d69778341374b4a6b2713ae186523db48867d946f9d?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
-                                        className="object-contain aspect-square w-[54px]"
-                                    />
-                                    <div className="flex flex-col mt-5 w-full">
-                                        <div className="text-lg font-semibold">
-                                            Innovative
-                                        </div>
-                                        <div className="mt-1.5 text-sm">
-                                            Constantly pushing tg the bounaries
-                                            of what’s possible to stay ahead the
-                                            technological curve
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="flex flex-col ml-5 w-3/12 max-md:ml-0 max-md:w-full">
-                                <div className="flex flex-col grow p-5 w-full text-black bg-indigo-50 rounded-2xl border border-blue-200 border-solid max-md:mt-6">
-                                    <img
-                                        loading="lazy"
-                                        src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/125ca4489231c52a5b11953d383cf4dd3d23435cb66bc93c0ce4c639c5ea5751?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
-                                        className="object-contain aspect-square w-[54px]"
-                                    />
-                                    <div className="flex flex-col mt-5 w-full">
-                                        <div className="text-lg font-semibold">
-                                            Innovative
-                                        </div>
-                                        <div className="mt-1.5 text-sm">
-                                            Constantly pushing tg the bounaries
-                                            of what’s possible to stay ahead the
-                                            technological curve
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="flex flex-col ml-5 w-3/12 max-md:ml-0 max-md:w-full">
-                                <div className="flex flex-col grow p-5 w-full text-black bg-indigo-50 rounded-2xl border border-blue-200 border-solid max-md:mt-6">
-                                    <img
-                                        loading="lazy"
-                                        src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/125ca4489231c52a5b11953d383cf4dd3d23435cb66bc93c0ce4c639c5ea5751?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
-                                        className="object-contain aspect-square w-[54px]"
-                                    />
-                                    <div className="flex flex-col mt-5 w-full">
-                                        <div className="text-lg font-semibold">
-                                            Innovative
-                                        </div>
-                                        <div className="mt-1.5 text-sm">
-                                            Constantly pushing tg the bounaries
-                                            of what’s possible to stay ahead the
-                                            technological curve
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> */}
+                                      )
+                                  )}
                         </div>
                     </div>
                 </section>

@@ -1,22 +1,20 @@
 import * as React from 'react';
-import { ProductCardType } from '../ProductSwipper';
 import { useRouter } from 'next/router';
+import { useLanguage } from '../Hoc/LanguageContext';
 
-type Props = {
-    data: any;
-};
-
-const ProductCard = ({ data }: Props) => {
+const ProductCard = ({ data }: { data: any }) => {
     const router = useRouter();
+    const { language } = useLanguage();
     return (
         <div
-            className="flex flex-col grow pb-7 w-full bg-white rounded-2xl shadow-[0px_0px_11px_rgba(167,167,167,0.12)] max-md:mt-6 relative max-w-[296px]"
+            className="flex flex-col grow pb-7 w-full hover:border-[#186FE0] hover:border duration-300 bg-white rounded-2xl shadow-[0px_0px_11px_rgba(167,167,167,0.12)] max-md:mt-6 relative max-w-[296px]"
             key={data.id}
         >
             <img
+                onClick={() => router.push(`/products/${data.id}`)}
                 loading="lazy"
                 src={data.image}
-                className="object-contain w-full rounded-2xl aspect-[1.05]"
+                className="object-cover cursor-pointer w-full rounded-2xl aspect-[1.05]"
             />
             <div className="flex flex-col px-3.5 mt-8 w-full">
                 <p className="text-lg font-medium text-black">
@@ -27,19 +25,27 @@ const ProductCard = ({ data }: Props) => {
                     <p className="self-stretch my-auto text-2xl font-semibold text-black">
                         {data.discounted_price}$
                     </p>
-                    <p className="self-stretch my-auto text-lg font-medium text-stone-300">
+                    <p className="self-stretch line-through my-auto text-lg font-medium text-stone-300">
                         {' '}
                         {data.price}$
                     </p>
                 </div>
                 <button className="gap-2.5 self-center w-full flex p-2.5 mt-8 text-base text-white rounded-[18px] border border-solid bg-blue-600 bg-opacity-90 hover:bg-[#105ABA] duration-300 border-blue-600 border-opacity-90 max-md:mr-1 justify-center">
-                    İndi Al
+                    {language === 'az'
+                        ? 'İndi Al'
+                        : language === 'en'
+                        ? 'Buy Now'
+                        : 'Купить сейчас'}
                 </button>
                 <button
                     className="gap-2.5 flex justify-center self-stretch p-2.5 mt-3.5 text-base text-blue-600 rounded-[18px] hover:bg-[#186FE0F0] hover:text-white duration-300 border border-indigo-500 border-solid max-md:mr-1"
                     onClick={() => router.push(`/products/${data.id}`)}
                 >
-                    Ətraflı bax
+                    {language === 'az'
+                        ? 'Ətraflı bax'
+                        : language === 'en'
+                        ? 'View Details'
+                        : 'Подробнее'}
                 </button>
             </div>
             {data.discount ? (

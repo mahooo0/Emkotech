@@ -5,12 +5,17 @@ import { useLanguage } from '@/components/Hoc/LanguageContext';
 import { Aside } from '@/components/NewsIdAside';
 import MainID from '@/components/NewsIdMain';
 import { NewsSwiper } from '@/components/NewsSwipper';
-import { getNewsById } from '@/services/Request';
+import {
+    getNews,
+    getNewsById,
+    getPopularNews,
+    getTranslations,
+} from '@/services/Request';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-export default function id() {
+export default function NewsId() {
     const router = useRouter();
     const { id } = router.query;
     const { language } = useLanguage();
@@ -21,25 +26,54 @@ export default function id() {
         isLoading: newsLoading,
         isError: newsError,
     } = useQuery({
-        queryKey: ['news', id, language],
+        queryKey: ['newsid', id, language],
         queryFn: () => getNewsById(language, id),
     });
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ['news', language, 0],
+        queryFn: () => getNews(language, 0),
+    });
+    const {
+        data: popularData,
+        isLoading: popularLoading,
+        isError: popularError,
+    } = useQuery({
+        queryKey: ['popularnews', language],
+        queryFn: () => getPopularNews(language),
+    });
+    const { data: translationsData } = useQuery({
+        queryKey: ['translations', language],
+        queryFn: () => getTranslations(language),
+    });
     console.log(newsData);
-    if (newsLoading) {
+    if (newsLoading || popularLoading || isLoading) {
         return (
             <div className="flex items-center justify-center min-h-screen">
                 <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
             </div>
         );
     }
-    if (newsError) {
+    if (newsError || popularError || isError) {
         return <div>Error</div>;
     }
     return (
         <div>
             {' '}
             <Header activeindex={4} />
-            <BreadcrumbNavigation />
+            {newsData.data.title && (
+                <BreadcrumbNavigation
+                    items={[
+                        {
+                            text: `${translationsData?.data?.Xəbərlər}`,
+                            path: '/news',
+                        },
+                        {
+                            text: newsData.data.title,
+                            path: `/news/${id}`,
+                        },
+                    ]}
+                />
+            )}
             <main>
                 <div className="flex flex-col text-black justify-center w-full mt-[24px]">
                     <h1
@@ -92,20 +126,20 @@ export default function id() {
                 </section>
                 <section className="flex mt-3 flex-row justify-between flex-wrap-reverse lg:px-[100px] md:px-[60px] px-[30px] gap-[76px] ">
                     <MainID data={newsData.data} />
-                    <Aside />
+                    <Aside data={popularData?.data} />
                 </section>
                 <section className=" mt-[100px]">
                     <div className="w-full flex  lg:justify-center md:justify-center justify-start flex-wrap  ">
                         <h2 className="text-5xl text-black max-md:text-4xl text-nowrap">
-                            Populyar Məhsullar
+                            {translationsData?.data?.Populyar_Məhsullar}
                         </h2>
                         <div className=" lg:absolute md:absolute  static lg:right-[100px] md:right-[60px] right-[30px] flex  h-[48px] items-end">
                             <button
-                                className="flex gap-2.5 justify-center items-center self-end text-base font-medium rounded-[35px] text-blue-600 text-opacity-90"
+                                className="flex gap-2.5 justify-center text-nowrap items-center self-end text-base font-medium rounded-[35px] text-blue-600 text-opacity-90"
                                 onClick={() => router.push('/news')}
                             >
                                 <p className="self-stretch my-auto text-nowrap ">
-                                    Hamısına bax
+                                    {translationsData?.data?.Hamısına_bax}
                                 </p>
                                 <img
                                     loading="lazy"
@@ -115,7 +149,7 @@ export default function id() {
                             </button>
                         </div>
                     </div>
-                    <NewsSwiper />
+                    <NewsSwiper data={data?.data} />
                 </section>
             </main>
             <Footer />

@@ -1,26 +1,18 @@
 import Link from 'next/link';
 import React from 'react';
 
-const breadcrumbData = [
-    {
-        text: 'Parent',
-        path: '/',
-    },
-    {
-        text: 'Child',
-        path: '/',
-    },
-    {
-        text: 'Sub Option',
-        path: '/',
-    },
-    {
-        text: 'The Chosen One',
-        path: '/',
-    },
-];
+interface BreadcrumbItem {
+    text: string;
+    path: string;
+}
 
-const BreadcrumbNavigation: React.FC = () => {
+interface BreadcrumbNavigationProps {
+    items: BreadcrumbItem[];
+}
+
+const BreadcrumbNavigation: React.FC<BreadcrumbNavigationProps> = ({
+    items,
+}) => {
     return (
         <nav
             aria-label="Breadcrumb"
@@ -31,21 +23,21 @@ const BreadcrumbNavigation: React.FC = () => {
                     loading="lazy"
                     src={'/svg/homeIcon.svg'}
                     alt=""
-                    className="object-contain shrink-0 self-stretch my-auto aspect-square w-[18px]"
+                    className="object-cover shrink-0 self-stretch my-auto aspect-square w-[18px]"
                 />
             </Link>
             <img
                 loading="lazy"
                 src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/a7ef65ed27217eb666cd31dd6d2711e7e0527fdf941456d2cd68d2d9b4b67997?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
                 alt=""
-                className="object-contain shrink-0 self-stretch my-auto aspect-square w-[18px]"
+                className="object-cover shrink-0 self-stretch my-auto aspect-square w-[18px]"
             />
-            {breadcrumbData.map((item, index) => (
+            {items.map((item, index) => (
                 <React.Fragment key={index}>
                     <Link href={item.path}>
                         <span
                             className={`self-stretch my-auto ${
-                                index === breadcrumbData.length - 1
+                                index === items.length - 1
                                     ? 'font-medium text-zinc-400'
                                     : ''
                             }`}
@@ -54,12 +46,12 @@ const BreadcrumbNavigation: React.FC = () => {
                         </span>
                     </Link>
 
-                    {index < breadcrumbData.length - 1 && (
+                    {index < items.length - 1 && (
                         <img
                             loading="lazy"
                             src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/a7ef65ed27217eb666cd31dd6d2711e7e0527fdf941456d2cd68d2d9b4b67997?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
                             alt=""
-                            className="object-contain shrink-0 self-stretch my-auto aspect-square w-[18px]"
+                            className="object-cover shrink-0 self-stretch my-auto aspect-square w-[18px]"
                         />
                     )}
                 </React.Fragment>

@@ -1,10 +1,10 @@
 import React, { useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
-import NewsCard from '../NewsCard';
+import NewsCard, { NewsData } from '../NewsCard';
 import { Swiper as SwiperType } from 'swiper';
 
-export const NewsSwiper = () => {
+export const NewsSwiper = ({ data }: { data: NewsData[] }) => {
     const swiperRef = useRef<SwiperType | null>(null);
 
     return (
@@ -25,9 +25,9 @@ export const NewsSwiper = () => {
                     },
                 }}
             >
-                {Array.from({ length: 10 }).map((_, i) => (
+                {data?.map((item: NewsData, i: number) => (
                     <SwiperSlide className="!py-[10px]" key={i}>
-                        <NewsCard />
+                        <NewsCard data={item} i={i} />
                     </SwiperSlide>
                 ))}
             </Swiper>
