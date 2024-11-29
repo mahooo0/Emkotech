@@ -7,7 +7,7 @@ import { getProjects, getTranslations } from '@/services/Request';
 import { useLanguage } from '@/components/Hoc/LanguageContext';
 import ProjectCard from '@/components/ProjectCard';
 
-interface Project {
+export interface Project {
     id: number;
     title: string;
     description: string;

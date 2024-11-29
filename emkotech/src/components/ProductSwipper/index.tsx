@@ -3,9 +3,9 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import ProductCard from '../ProductCard';
 import { Swiper as SwiperType } from 'swiper';
-import { ProductData } from '../EssentialCamera';
+import { Product } from '@/pages/products/[id]';
 
-export const ProductSwiper = ({ data }: { data: any }) => {
+export const ProductSwiper = ({ data }: { data: Product[] }) => {
     const swiperRef = useRef<SwiperType | null>(null);
 
     return (
@@ -26,7 +26,7 @@ export const ProductSwiper = ({ data }: { data: any }) => {
                     },
                 }}
             >
-                {data?.map((item: ProductData, i: number) => (
+                {data?.map((item: Product, i: number) => (
                     <SwiperSlide key={i} className="!py-[10px]">
                         <ProductCard data={item} />
                     </SwiperSlide>

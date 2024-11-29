@@ -2,23 +2,14 @@ import React, { useState } from 'react';
 import { useLanguage } from '../Hoc/LanguageContext';
 import { useQuery } from '@tanstack/react-query';
 import { getTranslations } from '@/services/Request';
+import { Product, SlideImage } from '@/pages/products/[id]';
 
-interface SlideImage {
-    id: string;
-    image: string;
-}
+// interface SlideImage {
+//     id: string;
+//     image: string;
+// }
 
-export interface ProductData {
-    title: string;
-    category: string;
-    price: number;
-    discounted_price: number;
-    discount: boolean;
-    description: string;
-    slide_images: SlideImage[];
-}
-
-const EssentialCamera: React.FC<{ data: any }> = ({ data }) => {
+const EssentialCamera: React.FC<{ data: Product | undefined }> = ({ data }) => {
     const [selectedImage, setSelectedImage] = useState<number>(0);
     const { language } = useLanguage();
     useQuery({
@@ -53,7 +44,7 @@ const EssentialCamera: React.FC<{ data: any }> = ({ data }) => {
                                 <img
                                     key={index}
                                     src={item.image}
-                                    alt={item.id}
+                                    alt={`${item.id}`}
                                     className={`object-cover rounded-2xl aspect-square w-[84px] cursor-pointer ${
                                         index > 0 ? 'mt-5' : ''
                                     } ${
@@ -71,10 +62,10 @@ const EssentialCamera: React.FC<{ data: any }> = ({ data }) => {
                     <div className="flex flex-col items-start mt-10 w-full max-md:max-w-full">
                         <h1 className="text-4xl text-black">{data?.title}</h1>
                         <h2 className="mt-2.5 text-xl text-black">
-                            {data?.category}
+                            {data?.category_name}
                         </h2>
                         <p className="mt-2 text-base text-neutral-400">
-                            altcategory{' '}
+                            {data?.subcategory_name}
                         </p>
                         {data?.discount ? (
                             <span className="gap-2.5 self-stretch py-1 pr-2 pl-2 mt-5 text-xs text-white bg-[#D2D641] min-h-[22px] rounded-[41px] w-fit">

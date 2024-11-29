@@ -1,7 +1,8 @@
+import { Project } from '@/pages/projects';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-export default function ProjectCard({ data }: { data: any }) {
+export default function ProjectCard({ data }: { data: Project | undefined }) {
     const router = useRouter();
     return (
         <div

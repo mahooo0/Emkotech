@@ -13,26 +13,27 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { Product } from './[id]';
 
-interface Product {
-    id: number;
-    title: string;
-    category_id: number;
-    discounted_price: number;
-}
+// interface Product {
+//     id: number;
+//     title: string;
+//     category_id: number;
+//     discounted_price: number;
+// }
 
-interface ProductCategory {
-    id: number;
-    title: string;
-}
-export interface ProductData {
-    id: string;
-    image: string;
-    title: string;
-    discounted_price: number;
-    price: number;
-    discount: boolean;
-}
+// interface ProductCategory {
+//     id: number;
+//     title: string;
+// }
+// export interface ProductData {
+//     id: string;
+//     image: string;
+//     title: string;
+//     discounted_price: number;
+//     price: number;
+//     discount: boolean;
+// }
 export default function Products() {
     const { language } = useLanguage();
     const [searchTerm, setSearchTerm] = useState<string>('');
@@ -46,11 +47,22 @@ export default function Products() {
         queryKey: ['products', language, debouncedSearchTerm, page],
         queryFn: () => getProductsByParams(language, page, debouncedSearchTerm),
     });
+    type DataItem = {
+        id: number;
+        title: string;
+        description: string;
+        image: string; // URL
+    };
+
+    type ApiResponse = {
+        data: DataItem[];
+    };
+
     const {
         data: productCategoriesData,
         isLoading: productCategoriesLoading,
         isError: productCategoriesError,
-    } = useQuery({
+    } = useQuery<ApiResponse>({
         queryKey: ['productCategories', language],
         queryFn: () => getProductCategories(language),
     });
@@ -150,8 +162,8 @@ export default function Products() {
                                 >
                                     {translationsData?.data?.Hamısı}
                                 </option>
-                                {productCategoriesData.data.map(
-                                    (item: ProductCategory, index: number) => (
+                                {productCategoriesData?.data?.map(
+                                    (item: DataItem, index: number) => (
                                         <option
                                             key={index}
                                             data-layername="kategoriyalar"
@@ -249,7 +261,7 @@ export default function Products() {
                                 </div>
                             ))
                     ) : mappingData?.length > 0 ? (
-                        mappingData.map((item: any) => (
+                        mappingData.map((item: Product) => (
                             <ProductCard key={item.id} data={item} />
                         ))
                     ) : (

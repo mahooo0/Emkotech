@@ -26,7 +26,7 @@ export const ProjectSwiper = () => {
             >
                 {Array.from({ length: 10 })?.map((data, i) => (
                     <SwiperSlide className="!py-[10px]" key={i}>
-                        <ProjectCard data={data} />
+                        <ProjectCard key={i} data={undefined} />
                     </SwiperSlide>
                 ))}
             </Swiper>

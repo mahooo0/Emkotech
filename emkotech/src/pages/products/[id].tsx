@@ -9,15 +9,34 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import React from 'react';
 
-interface Product {
-    title: string;
-    video: string;
-    id: string;
+export type SlideImage = {
+    id: number;
     image: string;
-    discounted_price: number;
+};
+
+export type Product = {
+    id: number;
+    subcategory_id: number;
+    subcategory_name: string;
+    category_id: number;
+    category_name: string;
+    title: string;
+    description: string; // Contains HTML content
+    image: string; // URL
+    video: string; // URL
     price: number;
-    discount: boolean;
-}
+    discount: number;
+    discounted_price: number;
+    item_number: string;
+    slide_images: SlideImage[];
+};
+
+type SimilarProduct = Product;
+
+type ApiResponse = {
+    product: Product;
+    similars: SimilarProduct[];
+};
 
 interface TranslationsData {
     data: {
@@ -35,10 +54,11 @@ export default function ProductDetails() {
     console.log('id:::', id);
     const { language } = useLanguage();
 
-    const { data: productData, isLoading: productLoading } = useQuery<any>({
-        queryKey: ['product', language, id],
-        queryFn: () => getProduct(language, id),
-    });
+    const { data: productData, isLoading: productLoading } =
+        useQuery<ApiResponse>({
+            queryKey: ['product', language, id],
+            queryFn: () => getProduct(language, id),
+        });
 
     const { data: translationsData } = useQuery<TranslationsData>({
         queryKey: ['translations', language],

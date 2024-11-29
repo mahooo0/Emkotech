@@ -7,6 +7,7 @@ import { getProjectById, getTranslations } from '@/services/Request';
 import { useLanguage } from '@/components/Hoc/LanguageContext';
 import { useRouter } from 'next/router';
 import ProjectCard from '@/components/ProjectCard';
+import { Project } from '.';
 
 export default function ProjectsId() {
     const { language } = useLanguage();
@@ -90,8 +91,8 @@ export default function ProjectsId() {
                     {data?.data?.title}
                 </h2>
                 <div className="grid lg:grid-cols-3 grid-cols-1 w-full self-center justify-self-center gap-6 mt-[34px] max-w-[1200px] mx-auto">
-                    {data?.projects?.map((item: any) => (
-                        <ProjectCard data={item} />
+                    {data?.projects?.map((item: Project) => (
+                        <ProjectCard key={item.id} data={item} />
                     ))}
                 </div>
 

@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { useRouter } from 'next/router';
 import { useLanguage } from '../Hoc/LanguageContext';
+import { Product } from '@/pages/products/[id]';
 
-const ProductCard = ({ data }: { data: any }) => {
+const ProductCard = ({ data }: { data: Product }) => {
     const router = useRouter();
     const { language } = useLanguage();
     return (
