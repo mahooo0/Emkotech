@@ -1,10 +1,21 @@
 import BreadcrumbNavigation from '@/components/BreadCamp';
 import { Footer } from '@/components/Footer';
 import Header from '@/components/Header';
+import NewsCard from '@/components/NewsCard';
 import { ProjectSwiper } from '@/components/ProjectSwipper';
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { getProjects } from '@/services/Request';
+import { useLanguage } from '@/components/Hoc/LanguageContext';
+import ProjectCard from '@/components/ProjectCard';
 
 export default function projects() {
+    const { language } = useLanguage();
+    const { data, isLoading } = useQuery({
+        queryKey: ['projects', language],
+        queryFn: () => getProjects(language),
+    });
+    console.log(data);
     return (
         <div>
             <Header activeindex={3} />
@@ -15,7 +26,37 @@ export default function projects() {
                         <h2 className="self-center text-5xl text-black max-md:text-4xl">
                             Layihənin adı
                         </h2>
-                        <div className="flex flex-col rounded-2xl">
+                        <div className=" grid lg:grid-cols-3 grid-cols-1  self-center justify-self-center gap-6 mt-6">
+                            {isLoading &&
+                                Array.from({ length: 4 }).map((_, index) => (
+                                    <div key={index} className="animate-pulse">
+                                        <div className="flex overflow-hidden flex-col justify-center bg-gray-200 rounded-2xl w-[333px]">
+                                            <div className="flex overflow-hidden flex-col w-full">
+                                                <div className="w-full h-[208px] bg-gray-300" />
+                                            </div>
+                                            <div className="flex flex-col justify-center p-6 w-full">
+                                                <div className="h-6 bg-gray-300 rounded w-3/4 mb-4" />
+                                                <div className="h-4 bg-gray-300 rounded w-full mb-2" />
+                                                <div className="h-4 bg-gray-300 rounded w-full mb-8" />
+                                                <div className="h-[1px] bg-gray-300 w-full mb-4" />
+                                                <div className="flex justify-between">
+                                                    <div className="h-3 bg-gray-300 rounded w-1/4" />
+                                                    <div className="h-3 bg-gray-300 rounded w-1/6" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            {data?.data?.map((item: any) => (
+                                <ProjectCard data={item} />
+                            ))}
+                        </div>
+                        <div className="w-full flex justify-center items-center mt-[50px] ">
+                            <button className="bg-[#186FE0] text-white px-[28px] py-[14px] rounded-[18px]">
+                                Daha çox
+                            </button>
+                        </div>
+                        {/* <div className="flex flex-col rounded-2xl">
                             <div className="mt-6 max-md:-mr-0.5 max-md:max-w-full">
                                 <div className="flex gap-5 max-md:flex-col">
                                     <div className="flex flex-col w-[41%] max-md:ml-0 max-md:w-full">
@@ -56,14 +97,9 @@ export default function projects() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
-                    <h2 className="self-center text-5xl text-black max-md:text-4xl mt-[120px]">
-                        Layihənin adı
-                    </h2>
                 </section>
-
-                <ProjectSwiper />
             </main>
             <Footer />
         </div>

@@ -62,7 +62,7 @@ export const MyProductData: ProductCardType[] = [
     },
 ];
 
-export const ProductSwiper = () => {
+export const ProductSwiper = ({ data }: { data: any }) => {
     const swiperRef = useRef<SwiperType | null>(null);
 
     return (
@@ -83,7 +83,7 @@ export const ProductSwiper = () => {
                     },
                 }}
             >
-                {MyProductData?.map((data: ProductCardType, i: number) => (
+                {data?.map((data: any, i: number) => (
                     <SwiperSlide key={i} className="!py-[10px]">
                         <ProductCard data={data} />
                     </SwiperSlide>

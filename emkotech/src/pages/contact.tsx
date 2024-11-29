@@ -2,8 +2,27 @@ import BreadcrumbNavigation from '@/components/BreadCamp';
 import { Footer } from '@/components/Footer';
 import Header from '@/components/Header';
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { getContacts } from '@/services/Request';
+import { useLanguage } from '@/components/Hoc/LanguageContext';
 
 export default function contact() {
+    const { language } = useLanguage();
+    const { data, isLoading, error } = useQuery({
+        queryKey: ['contacts'],
+        queryFn: () => getContacts(language),
+    });
+    console.log(data);
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+        );
+    }
+    if (error) {
+        return <div>Error</div>;
+    }
     return (
         <div>
             <Header activeindex={5} />
@@ -31,19 +50,22 @@ export default function contact() {
                                         <div className="text-4xl font-semibold max-md:max-w-full">
                                             Bizimlə əlaqə
                                         </div>
-                                        <div className="flex flex-col mt-7 w-full text-base max-md:max-w-full">
-                                            <div className="flex overflow-hidden flex-col justify-center items-start p-2 w-full rounded-2xl bg-white bg-opacity-20 max-md:pr-5 max-md:max-w-full">
-                                                <div className="flex gap-3 items-center">
-                                                    <img
-                                                        loading="lazy"
-                                                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/e303a71bb36f9114c14100c16e890fc672ad5a82b5a8ca926b92fcc7e4ced482?placeholderIfAbsent=true&apiKey=2d5d82cf417847beb8cd2fbbc5e3c099"
-                                                        className="object-contain shrink-0 self-stretch my-auto w-12 aspect-square rounded-[100px]"
-                                                    />
-                                                    <div className="self-stretch my-auto">
-                                                        +994 00 000 00 00
+                                        <div className="flex flex-col mt-7 gap-3 w-full text-base max-md:max-w-full">
+                                            {data.data.map((contact: any) => (
+                                                <div className="flex overflow-hidden flex-col justify-center items-start p-2 w-full rounded-2xl bg-white bg-opacity-20 max-md:pr-5 max-md:max-w-full">
+                                                    <div className="flex gap-3 items-center">
+                                                        <img
+                                                            loading="lazy"
+                                                            src={contact.icon}
+                                                            className="object-contain shrink-0 self-stretch my-auto w-12 aspect-square rounded-[100px]"
+                                                        />
+                                                        <div className="self-stretch my-auto">
+                                                            {contact.data}{' '}
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            ))}
+                                            {/* 
                                             <div className="flex overflow-hidden flex-col justify-center items-start p-2 mt-3 w-full whitespace-nowrap rounded-2xl bg-white bg-opacity-20 max-md:pr-5 max-md:max-w-full">
                                                 <div className="flex gap-3 items-center">
                                                     <img
@@ -80,7 +102,7 @@ export default function contact() {
                                                         09:00-22:00
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
                                 </div>
@@ -160,13 +182,19 @@ export default function contact() {
                             </div>
                         </div>
                     </div>
-                    <iframe
+                    <div
+                        className="w-full h-[570px] rounded-xl mt-[20px]"
+                        dangerouslySetInnerHTML={{
+                            __html: data.iframe,
+                        }}
+                    ></div>
+                    {/* <iframe
                         className="w-full h-[570px] rounded-xl mt-[20px]"
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d24314.580841875697!2d49.80945825576784!3d40.379542116600334!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40307da799238e89%3A0x5aa7c9c37b701361!2zMjggTWF5IEtlw6dpZCBUaWNhcsmZdCBNyZlya8mZemk!5e0!3m2!1sru!2saz!4v1730973054229!5m2!1sru!2saz"
                         width="600"
                         height="450"
                         loading="lazy"
-                    ></iframe>
+                    ></iframe> */}
                 </section>
             </main>
             <Footer />

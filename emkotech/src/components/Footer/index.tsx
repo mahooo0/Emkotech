@@ -1,6 +1,14 @@
 import * as React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useLanguage } from '@/components/Hoc/LanguageContext';
+import { getFooter } from '@/services/Request';
 
 export function Footer() {
+    const { language } = useLanguage();
+    const { data, isLoading } = useQuery({
+        queryKey: ['footer', language],
+        queryFn: () => getFooter(language),
+    });
     return (
         <footer className="flex flex-col text-sm text-white mt-[120px]">
             <div className="flex flex-col items-start pt-12 pb-4 w-full bg-slate-900 max-md:max-w-full">
@@ -35,11 +43,22 @@ export function Footer() {
                         </div>
                     </div>
                     <div className="mt-6">Follow us on social media:</div>
-                    <img
+                    <div className="flex gap-4 flex-row">
+                        {data?.data?.map((item: any) => (
+                            <a href={item.url}>
+                                <img
+                                    loading="lazy"
+                                    src={item.icon}
+                                    className="object-contain mt-6 w-[16px] h-[16px] "
+                                />
+                            </a>
+                        ))}
+                    </div>
+                    {/* <img
                         loading="lazy"
                         src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/e1a8a8d05501b4fbe08402b4f48dfd8e58fe0419287cbb2e38b8f4bb399e30bc?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
                         className="object-contain mt-6 w-24 aspect-[5.99]"
-                    />
+                    /> */}
                 </div>
                 <div className="self-stretch mt-10 w-full bg-white border border-white border-solid opacity-10 min-h-[1px] max-md:max-w-full" />
                 <div className="mt-4 ml-28 leading-none max-md:ml-2.5">

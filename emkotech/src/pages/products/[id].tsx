@@ -2,25 +2,45 @@ import BreadcrumbNavigation from '@/components/BreadCamp';
 import EssentialCamera from '@/components/EssentialCamera';
 import { Footer } from '@/components/Footer';
 import Header from '@/components/Header';
+import { useLanguage } from '@/components/Hoc/LanguageContext';
 import { ProductSwiper } from '@/components/ProductSwipper';
+import { getProduct } from '@/services/Request';
+import { useQuery } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import React from 'react';
 
 export default function id() {
     const router = useRouter();
+    const { id } = router.query;
+    const { language } = useLanguage();
+
+    const {
+        data: productData,
+        isLoading: productLoading,
+        isError: productError,
+    } = useQuery({
+        queryKey: ['product', id, language],
+        queryFn: () => getProduct(language, id),
+    });
+    console.log(productData);
     return (
         <div>
             <Header activeindex={1} />
             <BreadcrumbNavigation />
             <main>
-                <EssentialCamera />
-                <video
-                    className="mt-[120px] w-full h-full object-cover lg:px-[100px] md:px-[60px] px-[30px] max-h-[553px]"
-                    src="https://s3-figma-videos-production-sig.figma.com/video/1213020028553192391/TEAM/24fe/37d5/-68ca-4f7c-b9c4-18adc1ca0a2f?Expires=1731888000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Mgjar1dyiryTLvUUhnKmqBo0eFfoWqx7nggVa4iO8x5qe03aM2T3bqJVK~-cQoaOA2WQBvllTjsh---jAMr6l7dlOg2WQzs8XyEviC-bEgKQwP-cKw80ADG5cCNBi0dl9ED1Pv8jwjYIp6xGdxE5BQh~rxZ6HatCqdrjIsQvq538KMG9VLC1EruP-QfS90ARwwzRmViuPnxeqpWMSKqfKqnFkS~VcYwrhjxewBQjZ-SpwaQiynLDBqZgRNAS9wrxwZEfsK8X8xqfI1AJpDwUBkeN5Hlos-BTn3ZaY-OIFjQ3Uc7R0Bopj7wxOpOSUB9W4gXlOkelYmG9cSXBprvLYA__"
-                    autoPlay
-                    loop
-                    muted
-                ></video>
+                <EssentialCamera data={productData?.data} />
+                {productLoading ? (
+                    <div className="mt-[120px] w-full h-[553px] lg:px-[100px] md:px-[60px] px-[30px] bg-gray-200 animate-pulse rounded-lg"></div>
+                ) : (
+                    <video
+                        className="mt-[120px] w-full h-full object-cover lg:px-[100px] md:px-[60px] px-[30px] max-h-[553px]"
+                        src={productData.data.video}
+                        autoPlay
+                        loop
+                        muted
+                    ></video>
+                )}
                 <section className=" mt-[100px]">
                     <div className="w-full flex  lg:justify-center md:justify-center justify-start flex-wrap  ">
                         <h2 className="text-5xl text-black max-md:text-4xl text-nowrap">
@@ -39,7 +59,7 @@ export default function id() {
                             </button>
                         </div>
                     </div>
-                    <ProductSwiper />
+                    {/* <ProductSwiper /> */}
                 </section>
             </main>
             <Footer />

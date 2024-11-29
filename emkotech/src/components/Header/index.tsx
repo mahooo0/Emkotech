@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import CategoryBAr from '../CategoryBar';
 import Link from 'next/link';
+import { useRecoilState } from 'recoil';
+import { languageState } from '@/State/mainAtom';
+import { useLanguage } from '../Hoc/LanguageContext';
+import { useQuery } from '@tanstack/react-query';
+import { getProductCategories, getProducts } from '@/services/Request';
 
 interface NavItemProps {
     label: string;
@@ -16,15 +21,22 @@ const NavItem: React.FC<NavItemProps> = ({
     const baseClasses =
         'flex gap-[10px] justify-center items-center self-stretch p-2.5 my-auto whitespace-nowrap';
     const activeClasses = isActive ? 'text-blue-600 text-opacity-90' : '';
+    const [isoN, setIsON] = useState(false);
     return (
-        <div className={`${baseClasses} ${activeClasses}`}>
+        <div
+            className={`${baseClasses} ${activeClasses}`}
+            onMouseEnter={() => setIsON(true)}
+            onMouseLeave={() => setIsON(false)}
+        >
             <div className="self-stretch my-auto">{label}</div>
             {hasDropdown && (
                 <img
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/b44be660871b000454d1d6ea108e6120f8bec04cd17166c2ca1c0e680053543d?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
                     alt=""
-                    className="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
+                    className={`object-contain shrink-0 self-stretch my-auto w-6 aspect-square ${
+                        isoN ? 'rotate-180' : ''
+                    }`}
                 />
             )}
         </div>
@@ -105,36 +117,65 @@ const NavContent = ({
 
 const FlagDropdown: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [currentLang, setCurrentLang] = useState('ru');
+    const { language, setLanguage } = useLanguage();
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
 
+    const handleLanguageChange = (lang: string) => {
+        console.log('lang', lang);
+        setLanguage(lang);
+        setIsOpen(false);
+        // localStorage.setItem('Accept-Language', lang);
+        // You may want to add logic here to trigger a language change in your app
+    };
+
+    const getFlagSrc = (lang: string) => `/svg/flag${lang}.svg`;
+
     return (
-        <div className="flex justify-between items-center self-stretch my-auto w-[53px]">
+        <div className="relative flex flex-col leading-none text-black whitespace-nowrap w-[70px]">
             <button
+                className="flex gap-1.5 justify-center items-center bg-[#F5F5F5] rounded-md w-[54px] h-[34px]"
                 onClick={toggleDropdown}
-                className="flex gap-1 items-center self-stretch px-1 my-auto rounded bg-neutral-100"
+                aria-haspopup="listbox"
                 aria-expanded={isOpen}
-                aria-haspopup="true"
             >
                 <img
                     loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/be57c0592c36034e6b0a4410ca2ff8876c2b4d3331c39a63f066ca66f4f0018a?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
-                    alt="Selected flag"
-                    className="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
+                    src={getFlagSrc(language)}
+                    alt={`${language} flag`}
+                    className="self-stretch my-auto w-5 aspect-square"
                 />
                 <img
-                    loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/2117283efc5c9016f46fe19dfe9046f21fc0b2e6d9a8940802f4612fbc234498?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
-                    alt="Dropdown arrow"
-                    className="object-contain shrink-0 self-stretch my-auto aspect-square w-[18px]"
+                    src="/svg/strelka.svg"
+                    alt="strelka"
+                    className="object-contain shrink-0 self-stretch my-auto w-5 aspect-square"
                 />
             </button>
             {isOpen && (
-                <div className="absolute mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                    {/* Dropdown content would go here */}
-                </div>
+                <ul
+                    className="absolute top-full left-[0px] z-50 mt-1 bg-white border border-gray-200 rounded-md shadow-lg  w-fit"
+                    role="listbox"
+                >
+                    {['az', 'ru', 'en'].map((lang) => (
+                        <li key={lang}>
+                            <button
+                                className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
+                                onClick={() => handleLanguageChange(lang)}
+                                role="option"
+                                aria-selected={language === lang}
+                            >
+                                <img
+                                    src={getFlagSrc(lang)}
+                                    alt={`${lang} flag`}
+                                    className="w-[24px]"
+                                />
+                            </button>
+                        </li>
+                    ))}
+                </ul>
             )}
         </div>
     );
@@ -223,7 +264,23 @@ const products = [
 const Header = ({ activeindex }: { activeindex: number }) => {
     const [IsBarOpen, setIsBarOpen] = useState<boolean>(false);
     console.log('IsBarOpen:', IsBarOpen);
-
+    const { language } = useLanguage();
+    const {
+        data: productCategoriesData,
+        isLoading: productCategoriesLoading,
+        isError: productCategoriesError,
+    } = useQuery({
+        queryKey: ['productCategories', language],
+        queryFn: () => getProductCategories(language),
+    });
+    const {
+        data: productsData,
+        isLoading: productsLoading,
+        isError: productsError,
+    } = useQuery({
+        queryKey: ['products', language],
+        queryFn: () => getProducts(language, ''),
+    });
     return (
         <header className="flex flex-wrap gap-5 justify-between items-center px-[100px] pt-2.5 bg-white relative shadow-[0px_0px_11px_rgba(167,167,167,0.12)] max-md:px-5">
             <NavLogo />
@@ -235,9 +292,11 @@ const Header = ({ activeindex }: { activeindex: number }) => {
             />
             <FlagDropdown />
             <CategoryBAr
+                isLoading={productCategoriesLoading}
                 isopen={IsBarOpen}
-                categories={categories}
-                products={products}
+                categories={productCategoriesData}
+                products={productsData?.data}
+                productsLoading={productsLoading}
             />
         </header>
     );

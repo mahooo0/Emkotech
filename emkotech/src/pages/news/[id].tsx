@@ -1,14 +1,40 @@
 import BreadcrumbNavigation from '@/components/BreadCamp';
 import { Footer } from '@/components/Footer';
 import Header from '@/components/Header';
+import { useLanguage } from '@/components/Hoc/LanguageContext';
 import { Aside } from '@/components/NewsIdAside';
 import MainID from '@/components/NewsIdMain';
 import { NewsSwiper } from '@/components/NewsSwipper';
+import { getNewsById } from '@/services/Request';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import React from 'react';
 
 export default function id() {
     const router = useRouter();
+    const { id } = router.query;
+    const { language } = useLanguage();
+    console.log(id);
+
+    const {
+        data: newsData,
+        isLoading: newsLoading,
+        isError: newsError,
+    } = useQuery({
+        queryKey: ['news', id, language],
+        queryFn: () => getNewsById(language, id),
+    });
+    console.log(newsData);
+    if (newsLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+        );
+    }
+    if (newsError) {
+        return <div>Error</div>;
+    }
     return (
         <div>
             {' '}
@@ -20,8 +46,7 @@ export default function id() {
                         data-layername="məhsullar"
                         className="self-center text-4xl max-md:text-4xl text-center  max-w-[595px]"
                     >
-                        5 Things More Important for Your Content Than
-                        Content-Length in 2018
+                        {newsData.data.title}
                     </h1>
                 </div>
                 <section className="flex gap-5 items-center self-start ml-[11%] text-base tracking-normal whitespace-nowrap text-neutral-400 ">
@@ -34,7 +59,9 @@ export default function id() {
                             alt={'alt'}
                             className="object-contain shrink-0 self-stretch my-auto aspect-square w-[18px]"
                         />
-                        <span className="self-stretch my-auto">{'25.3k'}</span>
+                        <span className="self-stretch my-auto">
+                            {newsData.data.date}
+                        </span>
                     </div>
                     <div className="flex gap-2 items-center self-stretch my-auto">
                         <svg
@@ -58,11 +85,13 @@ export default function id() {
                             />
                         </svg>
 
-                        <span className="self-stretch my-auto">25.3K </span>
+                        <span className="self-stretch my-auto">
+                            {newsData.data.views}
+                        </span>
                     </div>
                 </section>
                 <section className="flex mt-3 flex-row justify-between flex-wrap-reverse lg:px-[100px] md:px-[60px] px-[30px] gap-[76px] ">
-                    <MainID />
+                    <MainID data={newsData.data} />
                     <Aside />
                 </section>
                 <section className=" mt-[100px]">
