@@ -39,13 +39,26 @@ export default function Products() {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const debouncedSearchTerm = useDebounce(searchTerm, 300);
     const [selectedCategory, setSelectedCategory] = useState<number>(0);
-    const [selectedSort, setSelectedSort] = useState<number>(0);
-    const [mappingData, setMappingData] = useState<Product[]>([]);
+    const [selectedSort, setSelectedSort] = useState<string>('no');
     console.log('selectedSort', selectedSort);
     const [page, setPage] = useState<number>(1);
     const { data: productsData, isLoading: productsLoading } = useQuery({
-        queryKey: ['products', language, debouncedSearchTerm, page],
-        queryFn: () => getProductsByParams(language, page, debouncedSearchTerm),
+        queryKey: [
+            'products',
+            language,
+            debouncedSearchTerm,
+            page,
+            selectedCategory,
+            selectedSort,
+        ],
+        queryFn: () =>
+            getProductsByParams(
+                language,
+                page,
+                debouncedSearchTerm,
+                selectedCategory === 0 ? undefined : selectedCategory,
+                selectedSort === 'no' ? undefined : selectedSort
+            ),
     });
     type DataItem = {
         id: number;
@@ -80,27 +93,27 @@ export default function Products() {
             setSelectedCategory(Number(category));
         }
     }, [category]);
-    useEffect(() => {
-        console.log('selectedCategory::::::::::::::::', selectedCategory);
-        let newData: Product[];
-        if (selectedCategory === 0) {
-            newData = productsData?.data;
-        } else {
-            newData = productsData?.data?.filter(
-                (item: Product) => item.category_id === selectedCategory
-            );
-        }
+    // useEffect(() => {
+    //     // console.log('selectedCategory::::::::::::::::', selectedCategory);
+    //     // let newData: Product[];
+    //     // if (selectedCategory === 0) {
+    //     //     newData = productsData?.data;
+    //     // } else {
+    //     //     newData = productsData?.data?.filter(
+    //     //         (item: Product) => item.category_id === selectedCategory
+    //     //     );
+    //     // }
 
-        if (selectedSort > 0) {
-            newData = [...(newData || [])].sort((a: Product, b: Product) =>
-                selectedSort === 1
-                    ? a.discounted_price - b.discounted_price
-                    : b.discounted_price - a.discounted_price
-            );
-        }
+    //     // if (selectedSort > 0) {
+    //     //     newData = [...(newData || [])].sort((a: Product, b: Product) =>
+    //     //         selectedSort === 1
+    //     //             ? a.discounted_price - b.discounted_price
+    //     //             : b.discounted_price - a.discounted_price
+    //     //     );
+    //     // }
 
-        setMappingData(newData);
-    }, [productsData, selectedCategory, selectedSort]);
+    //     // setMappingData(newData);
+    // }, [productsData, selectedCategory, selectedSort]);
     const { data: translationsData } = useQuery({
         queryKey: ['translations', language],
         queryFn: () => getTranslations(language),
@@ -201,21 +214,27 @@ export default function Products() {
                                 className="w-full"
                                 value={selectedSort}
                                 onChange={(e) =>
-                                    setSelectedSort(Number(e.target.value))
+                                    setSelectedSort(e.target.value)
                                 }
                             >
                                 <option
                                     key={0}
                                     data-layername="kategoriyalar"
-                                    value={0}
+                                    value={'no'}
                                 >
                                     No Sort
                                 </option>
-                                <option key={1} value={1}>
+                                <option key={1} value={'price_asc'}>
                                     ucuzdan bahaya
                                 </option>
-                                <option key={2} value={2}>
+                                <option key={2} value={'price_desc'}>
                                     bahadan ucuza
+                                </option>
+                                <option key={3} value={'title_asc'}>
+                                    a-z{' '}
+                                </option>{' '}
+                                <option key={4} value={'title_desc'}>
+                                    z-a{' '}
                                 </option>
                             </select>
                         </div>
@@ -260,8 +279,8 @@ export default function Products() {
                                     </div>
                                 </div>
                             ))
-                    ) : mappingData?.length > 0 ? (
-                        mappingData.map((item: Product) => (
+                    ) : productsData?.data?.length > 0 ? (
+                        productsData.data.map((item: Product) => (
                             <ProductCard key={item.id} data={item} />
                         ))
                     ) : (
@@ -269,7 +288,7 @@ export default function Products() {
                     )}
                 </section>
                 <PaginationComponent
-                    totalPages={12}
+                    totalPages={productsData?.total_page}
                     currentPage={page}
                     onPageChange={(page) => setPage(page)}
                 />

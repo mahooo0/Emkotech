@@ -334,15 +334,27 @@ export const getTranslations = async (language) => {
         throw error;
     }
 };
-export const getProductsByParams = async (language, page = 1, search = '') => {
+export const getProductsByParams = async (
+    language,
+    page = 1,
+    search,
+    category,
+    sort
+) => {
     try {
         const response = await axios.get(
-            `https://emkotech.epart.az/api/products`,
+            `https://emkotech.epart.az/api/products${
+                page ? `?page=${page}` : ''
+            }${category ? `&category=${category}` : ''}${
+                sort ? `&sort=${sort}` : ''
+            }${search ? `&search=${search}` : ''}`,
             {
-                params: {
-                    page,
-                    search,
-                },
+                // params: {
+                //     page,
+                //     search,
+                //     // ...(category && { category }),
+                //     // ...(sort && { sort }),
+                // },
                 headers: {
                     'Accept-Language': language,
                 },
