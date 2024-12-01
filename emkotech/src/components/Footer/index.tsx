@@ -1,13 +1,18 @@
 import * as React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useLanguage } from '@/components/Hoc/LanguageContext';
-import { getFooter, getTranslations } from '@/services/Request';
+import { getFooter, getPages, getTranslations } from '@/services/Request';
 import { useRouter } from 'next/router';
 
 interface SocialMediaItem {
     url: string;
     icon: string;
     id: string;
+}
+interface Document {
+    id: string;
+    title: string;
+    file_url: string;
 }
 
 export function Footer() {
@@ -19,6 +24,10 @@ export function Footer() {
     const { data: translationsData } = useQuery({
         queryKey: ['translations', language],
         queryFn: () => getTranslations(language),
+    });
+    const { data: pagesData } = useQuery({
+        queryKey: ['pages', language],
+        queryFn: () => getPages(language),
     });
     const router = useRouter();
     console.log(data);
@@ -35,12 +44,17 @@ export function Footer() {
                         <div className="grow shrink self-start text-base font-medium leading-7 max-w-[483px] text-white opacity-50 w-[471px] max-md:max-w-full">
                             {translationsData?.data?.footerDescription}
                         </div>
-                        <div className="flex flex-col items-start text-white opacity-50">
+                        <div className="flex flex-col items-start text-white opacity-50 gap-4">
                             {/* {data.data} */}
+                            {pagesData?.data?.map((item: Document) => (
+                                <a key={item.id} href={item.file_url}>
+                                    <div>{item.title}</div>
+                                </a>
+                            ))}
                         </div>
                         <div className="flex flex-col items-start text-white opacity-50">
                             <div
-                                className="mt-4 cursor-pointer"
+                                className="cursor-pointer"
                                 onClick={() => router.push('/')}
                             >
                                 {translationsData?.data?.Əsas_səhifə}

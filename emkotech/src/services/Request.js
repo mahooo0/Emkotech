@@ -339,7 +339,8 @@ export const getProductsByParams = async (
     page = 1,
     search,
     category,
-    sort
+    sort,
+    subCategory
 ) => {
     try {
         const response = await axios.get(
@@ -347,14 +348,10 @@ export const getProductsByParams = async (
                 page ? `?page=${page}` : ''
             }${category ? `&category=${category}` : ''}${
                 sort ? `&sort=${sort}` : ''
-            }${search ? `&search=${search}` : ''}`,
+            }${search ? `&search=${search}` : ''}${
+                subCategory ? `&subcategory=${subCategory}` : ''
+            }`,
             {
-                // params: {
-                //     page,
-                //     search,
-                //     // ...(category && { category }),
-                //     // ...(sort && { sort }),
-                // },
                 headers: {
                     'Accept-Language': language,
                 },
@@ -372,6 +369,56 @@ export const getProductsByParams = async (
             throw new Error('Please check your internet connection');
         }
         console.error('Error fetching products:', error);
+        throw error;
+    }
+};
+export const getProductSubCategories = async (language) => {
+    try {
+        const response = await axios.get(
+            'https://emkotech.epart.az/api/product-subcategories',
+            {
+                headers: {
+                    'Accept-Language': language,
+                },
+                timeout: 5000,
+            }
+        );
+        return response.data;
+    } catch (error) {
+        if (error.code === 'ECONNABORTED') {
+            console.error('Request timeout:', error);
+            throw new Error('Request timed out. Please try again.');
+        }
+        if (!navigator.onLine) {
+            console.error('No internet connection');
+            throw new Error('Please check your internet connection');
+        }
+        console.error('Error fetching product subcategories:', error);
+        throw error;
+    }
+};
+export const getPages = async (language) => {
+    try {
+        const response = await axios.get(
+            'https://emkotech.epart.az/api/pages',
+            {
+                headers: {
+                    'Accept-Language': language,
+                },
+                timeout: 5000,
+            }
+        );
+        return response.data;
+    } catch (error) {
+        if (error.code === 'ECONNABORTED') {
+            console.error('Request timeout:', error);
+            throw new Error('Request timed out. Please try again.');
+        }
+        if (!navigator.onLine) {
+            console.error('No internet connection');
+            throw new Error('Please check your internet connection');
+        }
+        console.error('Error fetching pages:', error);
         throw error;
     }
 };

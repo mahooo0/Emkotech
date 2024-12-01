@@ -8,6 +8,7 @@ import useDebounce from '@/hooks/useDebounce';
 import {
     getProductCategories,
     getProductsByParams,
+    getProductSubCategories,
     getTranslations,
 } from '@/services/Request';
 import { useQuery } from '@tanstack/react-query';
@@ -41,6 +42,7 @@ export default function Products() {
     const [selectedCategory, setSelectedCategory] = useState<number>(0);
     const [selectedSort, setSelectedSort] = useState<string>('no');
     console.log('selectedSort', selectedSort);
+    const [selectedSubCategory, setSelectedSubCategory] = useState<number>(0);
     const [page, setPage] = useState<number>(1);
     const { data: productsData, isLoading: productsLoading } = useQuery({
         queryKey: [
@@ -50,6 +52,7 @@ export default function Products() {
             page,
             selectedCategory,
             selectedSort,
+            selectedSubCategory,
         ],
         queryFn: () =>
             getProductsByParams(
@@ -57,29 +60,43 @@ export default function Products() {
                 page,
                 debouncedSearchTerm,
                 selectedCategory === 0 ? undefined : selectedCategory,
-                selectedSort === 'no' ? undefined : selectedSort
+                selectedSort === 'no' ? undefined : selectedSort,
+                selectedSubCategory === 0 ? undefined : selectedSubCategory
             ),
     });
+    console.log('selectedSubCategory', selectedSubCategory);
     type DataItem = {
         id: number;
         title: string;
         description: string;
         image: string; // URL
     };
-
-    type ApiResponse = {
-        data: DataItem[];
+    interface Subcategory {
+        id: number;
+        name: string;
+        category_id: number;
+    }
+    type ApiResponse<T> = {
+        data: T[];
     };
 
     const {
         data: productCategoriesData,
         isLoading: productCategoriesLoading,
         isError: productCategoriesError,
-    } = useQuery<ApiResponse>({
+    } = useQuery<ApiResponse<DataItem>>({
         queryKey: ['productCategories', language],
         queryFn: () => getProductCategories(language),
     });
-
+    const {
+        data: productSubCategoriesData,
+        isLoading: productSubCategoriesLoading,
+        isError: productSubCategoriesError,
+    } = useQuery<ApiResponse<Subcategory>>({
+        queryKey: ['productSubCategories', language],
+        queryFn: () => getProductSubCategories(language),
+    });
+    console.log('productSubCategoriesData', productSubCategoriesData);
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         console.log(event.target.value);
         setSearchTerm(event.target.value);
@@ -118,7 +135,7 @@ export default function Products() {
         queryKey: ['translations', language],
         queryFn: () => getTranslations(language),
     });
-    if (productCategoriesLoading) {
+    if (productCategoriesLoading || productSubCategoriesLoading) {
         return (
             <div className="flex items-center justify-center min-h-screen">
                 <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
@@ -126,7 +143,7 @@ export default function Products() {
         );
     }
 
-    if (productCategoriesError) {
+    if (productCategoriesError || productSubCategoriesError) {
         return (
             <div className="flex items-center justify-center min-h-screen">
                 <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
@@ -193,19 +210,30 @@ export default function Products() {
                             <select
                                 data-layername="əsasSəhifə"
                                 className="w-full"
+                                value={selectedSubCategory}
+                                onChange={(e) =>
+                                    setSelectedSubCategory(
+                                        Number(e.target.value)
+                                    )
+                                }
                             >
                                 <option
                                     data-layername="kategoriyalar"
-                                    value="kategoriyalar"
+                                    value="0"
                                 >
-                                    Kategoriyalar
+                                    {translationsData?.data?.Hamısı}
                                 </option>
-                                <option
-                                    data-layername="kategoriyalar"
-                                    value="kategoriyalar"
-                                >
-                                    Kategoriyalar
-                                </option>
+                                {productSubCategoriesData?.data?.map(
+                                    (item: Subcategory, index: number) => (
+                                        <option
+                                            key={index}
+                                            data-layername="kategoriyalar"
+                                            value={item.id}
+                                        >
+                                            {item.name}
+                                        </option>
+                                    )
+                                )}
                             </select>
                         </div>
                         <div className="flex grow  shrink gap-10 justify-between items-center self-stretch px-6 py-2.5  whitespace-nowrap rounded-2xl border border-solid border-neutral-200 min-w-[240px] w-[230px] max-md:px-5">

@@ -136,7 +136,7 @@ export default function NevsId() {
                     )}
                 </section>
                 <PaginationComponent
-                    totalPages={12}
+                    totalPages={data?.total_pages}
                     currentPage={page}
                     onPageChange={setPage}
                 />
