@@ -6,6 +6,7 @@ import { useLanguage } from '@/components/Hoc/LanguageContext';
 import { ProductSwiper } from '@/components/ProductSwipper';
 import { getProduct, getTranslations } from '@/services/Request';
 import { useQuery } from '@tanstack/react-query';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import React from 'react';
 
@@ -101,16 +102,18 @@ export default function ProductDetails() {
                             {translationsData?.data?.PopulyarMəhsullar}
                         </h2>
                         <div className=" lg:absolute md:absolute  static lg:right-[100px] md:right-[60px] right-[30px] flex  h-[48px] items-end">
-                            <button className="flex gap-2.5 justify-center items-center self-end text-base font-medium rounded-[35px] text-blue-600 text-opacity-90">
-                                <p className="self-stretch my-auto text-nowrap ">
-                                    {translationsData?.data?.HamısınaBax}
-                                </p>
-                                <img
-                                    src="/svg/strelkablue.svg"
-                                    alt="View all arrow"
-                                    className="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
-                                />
-                            </button>
+                            <Link href="/products">
+                                <button className="flex gap-2.5 justify-center items-center self-end text-base font-medium rounded-[35px] text-blue-600 text-opacity-90">
+                                    <p className="self-stretch my-auto text-nowrap ">
+                                        {translationsData?.data?.HamısınaBax}
+                                    </p>
+                                    <img
+                                        src="/svg/strelkablue.svg"
+                                        alt="View all arrow"
+                                        className="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
+                                    />
+                                </button>
+                            </Link>
                         </div>
                     </div>
                     <ProductSwiper data={productData?.similars || []} />

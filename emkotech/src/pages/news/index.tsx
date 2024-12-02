@@ -84,7 +84,7 @@ export default function NevsId() {
                         data?.data?.map((item: NewsItem, i: number) => (
                             <div
                                 key={i}
-                                className="flex overflow-hidden flex-col justify-center bg-white rounded-2xl max-w-[288px]"
+                                className="flex cursor-pointer overflow-hidden flex-col justify-center bg-white rounded-2xl max-w-[288px]"
                                 onClick={() => router.push(`/news/${item.id}`)}
                             >
                                 <div className="flex overflow-hidden flex-col w-full">
