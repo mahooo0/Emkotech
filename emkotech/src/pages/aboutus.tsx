@@ -102,7 +102,7 @@ export default function AboutUs() {
                                         <img
                                             loading="lazy"
                                             src={aboutData?.data[0].image}
-                                            className="object-contain w-full rounded-2xl aspect-square max-md:mt-6 max-md:max-w-full"
+                                            className="object-cover w-full rounded-2xl aspect-square max-md:mt-6 max-md:max-w-full"
                                         />
                                     </div>
                                     <div className="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full">
@@ -110,12 +110,12 @@ export default function AboutUs() {
                                             <img
                                                 loading="lazy"
                                                 src={aboutData?.data[0].image2}
-                                                className="object-contain w-full rounded-2xl aspect-[2.08] max-md:max-w-full"
+                                                className="object-cover w-full rounded-2xl aspect-[2.08] max-md:max-w-full"
                                             />
                                             <img
                                                 loading="lazy"
                                                 src={aboutData?.data[0].image3}
-                                                className="object-contain mt-6 w-full rounded-2xl aspect-[2.08] max-md:max-w-full"
+                                                className="object-cover mt-6 w-full rounded-2xl aspect-[2.08] max-md:max-w-full"
                                             />
                                         </div>
                                     </div>
