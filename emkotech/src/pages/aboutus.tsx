@@ -79,13 +79,13 @@ export default function AboutUs() {
                     ) : (
                         <>
                             <div className="z-10 mt-0 max-md:-mr-2 max-md:max-w-full">
-                                <div className="flex gap-5 max-md:flex-col items-center">
+                                <div className="flex lg:gap-[120px] gap-5 max-md:flex-col items-center">
                                     <div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full ">
                                         <h1 className="text-5xl text-black max-md:mt-10 max-md:max-w-full max-md:text-4xl leading-[72px]">
                                             {aboutData?.data[0].title}
                                         </h1>
                                     </div>
-                                    <div className="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full">
+                                    <div className="flex flex-col ml-10 w-6/12 max-md:ml-0 max-md:w-full">
                                         <div
                                             dangerouslySetInnerHTML={{
                                                 __html: aboutData?.data[0]
@@ -102,7 +102,7 @@ export default function AboutUs() {
                                         <img
                                             loading="lazy"
                                             src={aboutData?.data[0].image}
-                                            className="object-cover w-full rounded-2xl aspect-square max-md:mt-6 max-md:max-w-full"
+                                            className="object-cover object-center w-full rounded-2xl aspect-square max-md:mt-6 max-md:max-w-full"
                                         />
                                     </div>
                                     <div className="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full">
@@ -110,12 +110,16 @@ export default function AboutUs() {
                                             <img
                                                 loading="lazy"
                                                 src={aboutData?.data[0].image2}
-                                                className="object-cover w-full rounded-2xl aspect-[2.08] max-md:max-w-full"
+                                                style={{
+                                                    backgroundPosition:
+                                                        'center',
+                                                }}
+                                                className="object-cover   w-full rounded-2xl aspect-[2.08] max-md:max-w-full"
                                             />
                                             <img
                                                 loading="lazy"
                                                 src={aboutData?.data[0].image3}
-                                                className="object-cover mt-6 w-full rounded-2xl aspect-[2.08] max-md:max-w-full"
+                                                className="object-cover object-center mt-6 w-full rounded-2xl aspect-[2.08] max-md:max-w-full"
                                             />
                                         </div>
                                     </div>
@@ -127,7 +131,7 @@ export default function AboutUs() {
                 <section className="flex flex-col rounded-2xl lg:px-[100px] md:px-[60px] px-[30px] mt-[120px]">
                     <h2 className="self-center text-5xl font-medium text-black max-md:max-w-full max-md:text-4xl">
                         <span className="text-[#D2D641] ">
-                            {translationsData?.data?.Yekunlaşdırma}
+                            {translationsData?.data?.Yekunlaşdırma}{' '}
                         </span>
                         <span className="">
                             {translationsData?.data?.Şirkətimizin}

@@ -11,7 +11,7 @@ export const ProductSwiper = ({ data }: { data: Product[] }) => {
     return (
         <div>
             <Swiper
-                className="!mt-[60px] lg:!mx-[90px] md:!mx-[60px] !mx-[30px] !px-[10px]"
+                className="!mt-[60px] lg:!mx-[90px] md:!mx-[60px] !mx-[30px] !px-[10px] !flex !justify-center"
                 onSwiper={(swiper) => (swiperRef.current = swiper)}
                 spaceBetween={50}
                 breakpoints={{
@@ -27,7 +27,10 @@ export const ProductSwiper = ({ data }: { data: Product[] }) => {
                 }}
             >
                 {data?.map((item: Product, i: number) => (
-                    <SwiperSlide key={i} className="!py-[10px]">
+                    <SwiperSlide
+                        key={i}
+                        className="!py-[10px] !flex !justify-center "
+                    >
                         <ProductCard data={item} />
                     </SwiperSlide>
                 ))}

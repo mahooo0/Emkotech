@@ -90,7 +90,7 @@ const Contact = () => {
                         {translationsData?.data?.Əlaqə}
                     </h1>
                     <div
-                        className="rounded-xl overflow-hidden mt-6"
+                        className="rounded-[16px] overflow-hidden mt-6"
                         style={{
                             backgroundImage: `url(${data.image})`,
                             backgroundSize: 'cover',

@@ -88,9 +88,9 @@ export default function ProjectsId() {
                     </div>
                 </section>
                 <h2 className="self-center w-full text-center mt-[120px] text-5xl text-black max-md:text-4xl">
-                    {data?.data?.title}
+                    {translationsData?.data?.Digər_Layihələr}
                 </h2>
-                <div className="grid lg:grid-cols-3 grid-cols-1 w-full self-center justify-self-center gap-6 mt-[34px] max-w-[1200px] mx-auto">
+                <div className="grid lg:grid-cols-3 grid-cols-1 w-full self-center justify-self-center place-items-center gap-6 mt-[34px] max-w-[1200px] mx-auto">
                     {data?.projects?.map((item: Project) => (
                         <ProjectCard key={item.id} data={item} />
                     ))}

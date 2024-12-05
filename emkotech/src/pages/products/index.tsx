@@ -41,9 +41,10 @@ export default function Products() {
     const debouncedSearchTerm = useDebounce(searchTerm, 300);
     const [selectedCategory, setSelectedCategory] = useState<number>(0);
     const [selectedSort, setSelectedSort] = useState<string>('no');
-    console.log('selectedSort', selectedSort);
+    // console.log('selectedSort', selectedSort);
     const [selectedSubCategory, setSelectedSubCategory] = useState<number>(0);
     const [page, setPage] = useState<number>(1);
+    const [sub, setsub] = useState<Subcategory[] | undefined>([]);
     const { data: productsData, isLoading: productsLoading } = useQuery({
         queryKey: [
             'products',
@@ -64,12 +65,13 @@ export default function Products() {
                 selectedSubCategory === 0 ? undefined : selectedSubCategory
             ),
     });
-    console.log('selectedSubCategory', selectedSubCategory);
+    // console.log('selectedSubCategory', selectedSubCategory);
     type DataItem = {
         id: number;
         title: string;
         description: string;
         image: string; // URL
+        subcategories: Subcategory[];
     };
     interface Subcategory {
         id: number;
@@ -96,20 +98,38 @@ export default function Products() {
         queryKey: ['productSubCategories', language],
         queryFn: () => getProductSubCategories(language),
     });
-    console.log('productSubCategoriesData', productSubCategoriesData);
+    // console.log('productSubCategoriesData', productSubCategoriesData);
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(event.target.value);
+        // console.log(event.target.value);
         setSearchTerm(event.target.value);
     };
     const router = useRouter();
-    const { category } = router.query;
+    const { category, sub_category } = router.query;
 
     useEffect(() => {
         if (category) {
-            console.log('Category from URL:', category);
+            // console.log('Category from URL:', category);
             setSelectedCategory(Number(category));
         }
-    }, [category]);
+        if (sub_category) {
+            setSelectedSubCategory(Number(sub_category));
+        }
+    }, [category, sub_category]);
+    useEffect(() => {
+        if (selectedCategory) {
+            console.log(
+                'data',
+                productCategoriesData?.data.find(
+                    (item) => item.id === selectedCategory
+                )?.subcategories
+            );
+            setsub(
+                productCategoriesData?.data.find(
+                    (item) => item.id === selectedCategory
+                )?.subcategories
+            );
+        }
+    }, [productCategoriesData, selectedCategory]);
     // useEffect(() => {
     //     // console.log('selectedCategory::::::::::::::::', selectedCategory);
     //     // let newData: Product[];
@@ -190,7 +210,7 @@ export default function Products() {
                                     data-layername="kategoriyalar"
                                     value="0"
                                 >
-                                    {translationsData?.data?.Hamısı}
+                                    {translationsData?.data?.category}
                                 </option>
                                 {productCategoriesData?.data?.map(
                                     (item: DataItem, index: number) => (
@@ -221,19 +241,48 @@ export default function Products() {
                                     data-layername="kategoriyalar"
                                     value="0"
                                 >
-                                    {translationsData?.data?.Hamısı}
+                                    {translationsData?.data?.subcategory}
                                 </option>
-                                {productSubCategoriesData?.data?.map(
-                                    (item: Subcategory, index: number) => (
-                                        <option
-                                            key={index}
-                                            data-layername="kategoriyalar"
-                                            value={item.id}
-                                        >
-                                            {item.name}
-                                        </option>
-                                    )
-                                )}
+                                {
+                                    selectedCategory === 0
+                                        ? productSubCategoriesData?.data?.map(
+                                              (
+                                                  item: Subcategory,
+                                                  index: number
+                                              ) => (
+                                                  <option
+                                                      key={index}
+                                                      data-layername="kategoriyalar"
+                                                      value={item.id}
+                                                  >
+                                                      {item.name}
+                                                  </option>
+                                              )
+                                          )
+                                        : sub?.map(
+                                              (
+                                                  item: Subcategory,
+                                                  index: number
+                                              ) => (
+                                                  <option
+                                                      key={index}
+                                                      data-layername="kategoriyalar"
+                                                      value={item.id}
+                                                  >
+                                                      {item.name}
+                                                  </option>
+                                              )
+                                          )
+                                    // ?.subcategories?.map( (item: Subcategory, index: number) => (
+                                    //     <option
+                                    //         key={index}
+                                    //         data-layername="kategoriyalar"
+                                    //         value={item.id}
+                                    //     >
+                                    //         {item.name}
+                                    //     </option>
+                                    // ))
+                                }
                             </select>
                         </div>
                         <div className="flex grow  shrink gap-10 justify-between items-center self-stretch px-6 py-2.5  whitespace-nowrap rounded-2xl border border-solid border-neutral-200 min-w-[240px] w-[230px] max-md:px-5">
@@ -250,7 +299,7 @@ export default function Products() {
                                     data-layername="kategoriyalar"
                                     value={'no'}
                                 >
-                                    No Sort
+                                    Sort
                                 </option>
                                 <option key={1} value={'price_asc'}>
                                     ucuzdan bahaya

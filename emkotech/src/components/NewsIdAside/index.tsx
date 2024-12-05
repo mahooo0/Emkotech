@@ -69,7 +69,7 @@ export function Aside({ data }: { data: NewsItem[] }) {
                             <img
                                 loading="lazy"
                                 src={item.image}
-                                className="object-cover shrink-0 rounded-none aspect-[1.04] w-[83px]"
+                                className="object-cover shrink-0 rounded-none aspect-[1.04] w-[83px] max-h-[80px]"
                             />
                             <div className="flex flex-col my-auto">
                                 <div className="self-start leading-4 text-neutral-400">

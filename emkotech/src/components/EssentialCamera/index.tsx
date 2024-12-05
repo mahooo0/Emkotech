@@ -58,7 +58,7 @@ const EssentialCamera: React.FC<{ data: Product | undefined }> = ({ data }) => {
                         )}
                     </div>
                 </section>
-                <section className="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full lg:pr-[100px] pr-0">
+                <section className="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full lg:pr-[100px]  lg:px-0 px-[20px]">
                     <div className="flex flex-col items-start mt-10 w-full max-md:max-w-full">
                         <h1 className="text-4xl text-black">{data?.title}</h1>
                         <h2 className="mt-2.5 text-xl text-black">

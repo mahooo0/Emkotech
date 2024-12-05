@@ -74,7 +74,7 @@ export default function Projects() {
                             <div className="w-full flex justify-center items-center mt-[50px] ">
                                 <button
                                     onClick={() => setShowAll(true)}
-                                    className="bg-[#186FE0] text-white px-[28px] py-[14px] rounded-[18px]"
+                                    className="bg-[#186FE0] hover:bg-[#1829e0] duration-300 text-white px-[28px] py-[14px] rounded-[18px]"
                                 >
                                     {translationsData?.data?.Daha_çox}
                                 </button>

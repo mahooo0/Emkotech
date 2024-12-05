@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import {
     getProductCategories,
     getProducts,
+    getProductSubCategories,
     getProjects,
     getTranslations,
 } from '@/services/Request';
@@ -132,7 +133,7 @@ const NavContent = ({
                     onMouseLeave={() => setIsProjectsBarOpen(false)}
                     className={`${
                         isProjectsBarOpen ? 'block' : 'hidden'
-                    } w-full bg-white  h-[200px] absolute top-[80%] rounded-b-lg z-50 overflow-y-auto overflow-x-hidden flex flex-col gap-2  [&::-webkit-scrollbar]:w-[3px] [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-transparent`}
+                    }  bg-white  h-[200px] absolute top-[80%] w-[200px] rounded-b-lg z-50 overflow-y-auto overflow-x-hidden flex flex-col gap-2  [&::-webkit-scrollbar]:w-[3px] [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-transparent`}
                 >
                     {projectsData?.data.map((item: Project) => (
                         <Link href={`/projects/${item.id}`} key={item.id}>
@@ -239,9 +240,15 @@ const Header = ({ activeindex }: { activeindex: number }) => {
         queryKey: ['products', language],
         queryFn: () => getProducts(language),
     });
+    console.log(productsData);
+
     const { data: translationsData } = useQuery({
         queryKey: ['translations', language],
         queryFn: () => getTranslations(language),
+    });
+    const { data: productSubCategoriesData } = useQuery({
+        queryKey: ['productSubCategories', language],
+        queryFn: () => getProductSubCategories(language),
     });
     return (
         <>
@@ -258,7 +265,7 @@ const Header = ({ activeindex }: { activeindex: number }) => {
                     isLoading={productCategoriesLoading}
                     isopen={IsBarOpen}
                     categories={productCategoriesData}
-                    products={productsData?.data}
+                    products={productSubCategoriesData?.data}
                     productsLoading={productsLoading}
                 />
             </header>

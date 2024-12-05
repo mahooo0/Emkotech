@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useRouter } from 'next/router';
 import { useLanguage } from '../Hoc/LanguageContext';
 import { Product } from '@/pages/products/[id]';
+import Link from 'next/link';
 
 const ProductCard = ({ data }: { data: Product }) => {
     const router = useRouter();
@@ -31,13 +32,15 @@ const ProductCard = ({ data }: { data: Product }) => {
                         {data.price}$
                     </p>
                 </div>
-                <button className="gap-2.5 self-center w-full flex p-2.5 mt-8 text-base text-white rounded-[18px] border border-solid bg-blue-600 bg-opacity-90 hover:bg-[#105ABA] duration-300 border-blue-600 border-opacity-90 max-md:mr-1 justify-center">
-                    {language === 'az'
-                        ? 'İndi Al'
-                        : language === 'en'
-                        ? 'Buy Now'
-                        : 'Купить сейчас'}
-                </button>
+                <Link href={'/contact'}>
+                    <button className="gap-2.5 self-center w-full flex p-2.5 mt-8 text-base text-white rounded-[18px] border border-solid bg-blue-600 bg-opacity-90 hover:bg-[#105ABA] duration-300 border-blue-600 border-opacity-90 max-md:mr-1 justify-center">
+                        {language === 'az'
+                            ? 'İndi Al'
+                            : language === 'en'
+                            ? 'Buy Now'
+                            : 'Купить сейчас'}
+                    </button>
+                </Link>
                 <button
                     className="gap-2.5 flex justify-center self-stretch p-2.5 mt-3.5 text-base text-blue-600 rounded-[18px] hover:bg-[#186FE0F0] hover:text-white duration-300 border border-indigo-500 border-solid max-md:mr-1"
                     onClick={() => router.push(`/products/${data.id}`)}
