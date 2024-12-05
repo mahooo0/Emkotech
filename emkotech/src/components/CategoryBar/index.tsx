@@ -1,3 +1,4 @@
+import { log } from 'console';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
@@ -41,6 +42,7 @@ const CategoryBAr = ({
         categories?.data[0].id
     );
     console.log(productsLoading);
+    console.log(products);
 
     const router = useRouter();
 
