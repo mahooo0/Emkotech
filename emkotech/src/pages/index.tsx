@@ -210,7 +210,7 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-            <section className="mt-[100px] lg:px-[100px] md:px-[60px] px-[30px]">
+            <section className="lg:mt-[100px] md:mt-[80px] mt-[40px] lg:px-[100px] md:px-[60px] px-[30px]">
                 <div className="flex flex-col rounded-2xl">
                     <h2 className="self-center text-5xl text-black text-wrap  max-md:text-4xl mr-2">
                         {translationsData?.data?.statisciksTitle}
@@ -259,7 +259,7 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-            <section className=" mt-[100px]">
+            <section className=" lg:mt-[100px] md:mt-[80px] mt-[40px]">
                 <div className="w-full flex  lg:justify-center md:justify-center justify-start flex-wrap lg:px-[100px] md:px-[60px] px-[30px]  ">
                     <h2 className="text-5xl text-black text-wrap  max-md:text-4xl ">
                         {translationsData?.data?.Populyar_Məhsullar}
@@ -282,7 +282,7 @@ export default function Home() {
                 </div>
                 <ProductSwiper data={productsData.data} />
             </section>
-            <section className=" mt-[100px]">
+            <section className=" lg:mt-[100px] md:mt-[80px] mt-[40px]">
                 <div className="w-full flex  lg:justify-center md:justify-center justify-start flex-wrap  lg:px-[100px] md:px-[60px] px-[30px] ">
                     <h2 className="text-5xl text-black text-wrap  max-md:text-4xl ">
                         {translationsData?.data?.Endirimli_məhsullar}
@@ -310,7 +310,7 @@ export default function Home() {
                 />
             </section>
             <section className="w-full lg:px-[100px] md:px-[60px] px-[30px]">
-                <div className="w-full flex gap-4  mt-[100px] lg:justify-center md:justify-center justify-start flex-wrap  ">
+                <div className="w-full flex gap-4  lg:mt-[100px] md:mt-[80px] mt-[40px] lg:justify-center md:justify-center justify-start flex-wrap  ">
                     <h2 className="text-5xl text-black text-wrap  max-md:text-4xl">
                         {translationsData?.data?.Kateqoriyalar}
                     </h2>
