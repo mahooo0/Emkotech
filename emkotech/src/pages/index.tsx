@@ -310,7 +310,7 @@ export default function Home() {
                 />
             </section>
             <section className="w-full lg:px-[100px] md:px-[60px] px-[30px]">
-                <div className="w-full flex  mt-[100px] lg:justify-center md:justify-center justify-start flex-wrap  ">
+                <div className="w-full flex gap-4  mt-[100px] lg:justify-center md:justify-center justify-start flex-wrap  ">
                     <h2 className="text-5xl text-black text-wrap  max-md:text-4xl">
                         {translationsData?.data?.Kateqoriyalar}
                     </h2>
