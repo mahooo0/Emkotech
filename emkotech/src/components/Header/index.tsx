@@ -318,13 +318,13 @@ const Header = ({ activeindex }: { activeindex: number }) => {
                             </Link>
                         </div>
                         <div className="block px-4 py-2 text-sm text-gray-700">
-                            <Link href="/contact">
-                                {translationsData?.data?.Əlaqə}
+                            <Link href="/news">
+                                {translationsData?.data?.Xəbərlər}
                             </Link>
                         </div>
                         <div className="block px-4 py-2 text-sm text-gray-700">
-                            <Link href="/news">
-                                {translationsData?.data?.Xəbərlər}
+                            <Link href="/contact">
+                                {translationsData?.data?.Əlaqə}
                             </Link>
                         </div>
                     </div>
