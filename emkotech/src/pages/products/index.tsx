@@ -200,7 +200,7 @@ export default function Products() {
                         <div className="flex grow  shrink gap-10 justify-between items-center self-stretch px-6 py-2.5  whitespace-nowrap rounded-2xl border border-solid border-neutral-200 min-w-[240px] w-[230px] max-md:px-5">
                             <select
                                 data-layername="əsasSəhifə"
-                                className="w-full"
+                                className="w-full bg-white"
                                 value={selectedCategory}
                                 onChange={(e) =>
                                     setSelectedCategory(Number(e.target.value))
@@ -229,7 +229,7 @@ export default function Products() {
                         <div className="flex grow  shrink gap-10 justify-between items-center self-stretch px-6 py-2.5  whitespace-nowrap rounded-2xl border border-solid border-neutral-200 min-w-[240px] w-[230px] max-md:px-5">
                             <select
                                 data-layername="əsasSəhifə"
-                                className="w-full"
+                                className="w-full bg-white"
                                 value={selectedSubCategory}
                                 onChange={(e) =>
                                     setSelectedSubCategory(
@@ -288,7 +288,7 @@ export default function Products() {
                         <div className="flex grow  shrink gap-10 justify-between items-center self-stretch px-6 py-2.5  whitespace-nowrap rounded-2xl border border-solid border-neutral-200 min-w-[240px] w-[230px] max-md:px-5">
                             <select
                                 data-layername="əsasSəhifə"
-                                className="w-full"
+                                className="w-full bg-white"
                                 value={selectedSort}
                                 onChange={(e) =>
                                     setSelectedSort(e.target.value)
@@ -339,7 +339,7 @@ export default function Products() {
                         </div>
                     </section>
                 </section>
-                <section className="grid  mt-[30px] flex-row lg:grid-cols-4 md:grid-cols-3 justify-self-center sm:grid-cols-2 grid-cols-1 lg:px-[100px] md:px-[60px] px-[30px] justify-center gap-4">
+                <section className="grid   mt-[30px] flex-row lg:grid-cols-4 md:grid-cols-3 items-center justify-self-center sm:grid-cols-2 grid-cols-1 lg:px-[100px] md:px-[60px] px-[30px] justify-center gap-4">
                     {productsLoading ? (
                         Array(8)
                             .fill(0)
@@ -361,7 +361,12 @@ export default function Products() {
                             <ProductCard key={item.id} data={item} />
                         ))
                     ) : (
-                        <>{translationsData?.data?.Tapılmadı}</>
+                        <>
+                            <div></div> <div></div>
+                            <p className="ml-[-11%]">
+                                {translationsData?.data?.Tapılmadı}
+                            </p>
+                        </>
                     )}
                 </section>
                 <PaginationComponent

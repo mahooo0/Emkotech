@@ -78,7 +78,7 @@ export default function NewsId() {
                 <div className="flex flex-col text-black justify-center w-full mt-[24px]">
                     <h1
                         data-layername="məhsullar"
-                        className="self-center text-4xl max-md:text-4xl text-center  max-w-[595px]"
+                        className="self-center text-4xl max-md:text-4xl text-center  px-3 max-w-[595px]"
                     >
                         {newsData.data.title}
                     </h1>
