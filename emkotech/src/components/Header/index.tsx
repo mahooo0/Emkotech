@@ -322,6 +322,11 @@ const Header = ({ activeindex }: { activeindex: number }) => {
                                 {translationsData?.data?.Əlaqə}
                             </Link>
                         </div>
+                        <div className="block px-4 py-2 text-sm text-gray-700">
+                            <Link href="/news">
+                                {translationsData?.data?.Xəbərlər}
+                            </Link>
+                        </div>
                     </div>
                 </div>
                 <NavLogo />

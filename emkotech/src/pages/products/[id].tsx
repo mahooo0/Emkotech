@@ -97,7 +97,7 @@ export default function ProductDetails() {
                     ></video>
                 )}
                 <section className=" mt-[100px]">
-                    <div className="w-full flex  lg:justify-center md:justify-center justify-start flex-wrap  ">
+                    <div className="w-full flex  lg:justify-center md:justify-center justify-start flex-wrap  px-[20px]">
                         <h2 className="text-5xl text-black max-md:text-4xl text-nowrap">
                             {translationsData?.data?.PopulyarMəhsullar}
                         </h2>

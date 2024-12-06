@@ -11,9 +11,9 @@ export const ProductSwiper = ({ data }: { data: Product[] }) => {
     return (
         <div>
             <Swiper
-                className="!mt-[60px] lg:!mx-[90px] md:!mx-[60px] !mx-[30px] !px-[10px] !flex !justify-center"
+                className="lg:!mt-[60px] !mt-[30px] lg:!mx-[90px] md:!mx-[60px] !mx-[30px] !px-[10px] !flex !justify-center"
                 onSwiper={(swiper) => (swiperRef.current = swiper)}
-                spaceBetween={50}
+                spaceBetween={24}
                 breakpoints={{
                     268: {
                         slidesPerView: 1,
@@ -22,6 +22,9 @@ export const ProductSwiper = ({ data }: { data: Product[] }) => {
                         slidesPerView: 2,
                     },
                     768: {
+                        slidesPerView: 3,
+                    },
+                    1250: {
                         slidesPerView: 4,
                     },
                 }}

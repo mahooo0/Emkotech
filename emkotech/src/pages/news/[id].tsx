@@ -83,7 +83,7 @@ export default function NewsId() {
                         {newsData.data.title}
                     </h1>
                 </div>
-                <section className="flex gap-5 items-center self-start ml-[11%] text-base tracking-normal whitespace-nowrap text-neutral-400 ">
+                <section className="flex gap-5 items-center mt-4 self-start ml-[11%] text-base tracking-normal whitespace-nowrap text-neutral-400 ">
                     <div className="flex gap-2 items-center self-stretch my-auto">
                         <img
                             loading="lazy"
@@ -129,7 +129,7 @@ export default function NewsId() {
                     <Aside data={popularData?.data} />
                 </section>
                 <section className=" mt-[100px]">
-                    <div className="w-full flex  lg:justify-center md:justify-center justify-start flex-wrap  ">
+                    <div className="w-full flex  lg:justify-center md:justify-center justify-start flex-wrap px-[30px] ">
                         <h2 className="text-5xl text-black max-md:text-4xl text-nowrap">
                             {translationsData?.data?.Populyar_Məhsullar}
                         </h2>

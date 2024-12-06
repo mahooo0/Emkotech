@@ -65,7 +65,7 @@ export function Aside({ data }: { data: NewsItem[] }) {
                 </div>
                 {data?.map((item: NewsItem, i: number) => (
                     <Link href={`/news/${item.id}`} key={i}>
-                        <div className="flex gap-5  mt-12" key={i}>
+                        <div className="flex gap-5  mt-3" key={i}>
                             <img
                                 loading="lazy"
                                 src={item.image}

@@ -212,7 +212,7 @@ export default function Home() {
             </section>
             <section className="mt-[100px] lg:px-[100px] md:px-[60px] px-[30px]">
                 <div className="flex flex-col rounded-2xl">
-                    <h2 className="self-center text-5xl text-black text-wrap ml-2 max-md:text-4xl">
+                    <h2 className="self-center text-5xl text-black text-wrap  max-md:text-4xl mr-2">
                         {translationsData?.data?.statisciksTitle}
                     </h2>
                     <div className="flex overflow-hidden flex-col px-16 py-14 mt-12 w-full rounded-2xl bg-zinc-100 max-md:px-5 max-md:mt-10 max-md:max-w-full">
@@ -233,12 +233,12 @@ export default function Home() {
                                 )
                             )}
                         </div>
-                        <div className="flex lg:flex-row md:flex-row flex-col lg:gap-[140px] md:gap-[140px] gap-10 mt-12 w-full max-md:mt-10 max-md:max-w-full">
-                            <p className="grow shrink text-lg text-stone-300 w-[776px] max-md:max-w-full">
+                        <div className="flex lg:flex-row md:flex-row justify-between flex-col lg:gap-[140px] md:gap-[140px] gap-10 mt-12 w-full max-md:mt-10 max-md:max-w-full">
+                            <p className=" text-lg text-wrap text-stone-300 w-[776px] ">
                                 {translationsData?.data?.statisciksdesc}
                             </p>
                             <button
-                                className="gap-2.5 text-nowrap self-start p-2.5 mt-1.5 px-[20px] py-[10px]  text-base font-medium text-[#D2D641] border border-[#D2D641] border-solid rounded-[35px]"
+                                className="gap-2.5 mr-[20px] text-nowrap leading-[20px] self-start p-2.5 mt-1.5 px-[20px] py-[10px]  text-base font-medium text-[#D2D641] border border-[#D2D641] border-solid rounded-[35px]"
                                 onClick={() => router.push('/projects')}
                             >
                                 {translationsData?.data?.layihelerebax}
@@ -261,7 +261,7 @@ export default function Home() {
             </section>
             <section className=" mt-[100px]">
                 <div className="w-full flex  lg:justify-center md:justify-center justify-start flex-wrap lg:px-[100px] md:px-[60px] px-[30px]  ">
-                    <h2 className="text-5xl text-black text-wrap ml-2 max-md:text-4xl ">
+                    <h2 className="text-5xl text-black text-wrap  max-md:text-4xl ">
                         {translationsData?.data?.Populyar_Məhsullar}
                     </h2>
                     <div className=" lg:absolute md:absolute  static lg:right-[100px] md:right-[60px] right-[30px] flex  h-[48px] items-end">
@@ -284,7 +284,7 @@ export default function Home() {
             </section>
             <section className=" mt-[100px]">
                 <div className="w-full flex  lg:justify-center md:justify-center justify-start flex-wrap  lg:px-[100px] md:px-[60px] px-[30px] ">
-                    <h2 className="text-5xl text-black text-wrap ml-2 max-md:text-4xl ">
+                    <h2 className="text-5xl text-black text-wrap  max-md:text-4xl ">
                         {translationsData?.data?.Endirimli_məhsullar}
                     </h2>
                     <div className=" lg:absolute md:absolute  static lg:right-[100px] md:right-[60px] right-[30px] flex  h-[48px] items-end">
@@ -310,8 +310,8 @@ export default function Home() {
                 />
             </section>
             <section className="w-full lg:px-[100px] md:px-[60px] px-[30px]">
-                <div className="w-full flex  lg:justify-center md:justify-center justify-start flex-wrap  ">
-                    <h2 className="text-5xl text-black text-wrap ml-2 max-md:text-4xl">
+                <div className="w-full flex  mt-[100px] lg:justify-center md:justify-center justify-start flex-wrap  ">
+                    <h2 className="text-5xl text-black text-wrap  max-md:text-4xl">
                         {translationsData?.data?.Kateqoriyalar}
                     </h2>
                     <div className=" lg:absolute md:absolute  static lg:right-[100px] md:right-[60px] right-[30px] flex  h-[48px] items-end">
@@ -357,7 +357,7 @@ export default function Home() {
                 </div>
             </section>
             <section className="flex flex-col rounded-none lg:px-[100px] md:px-[60px] px-[30px] mt-[120px]">
-                <div className="self-center text-5xl text-black text-wrap ml-2 max-md:text-4xl">
+                <div className="self-center text-5xl text-black text-wrap  max-md:text-4xl mr-2">
                     {translationsData?.data?.Müştərilərimiz}
                 </div>
                 <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6 mt-8 w-full max-md:max-w-full">
@@ -406,7 +406,7 @@ export default function Home() {
                             }}
                         ></div>
                         <button
-                            className="gap-2.5  self-stretch py-2.5 px-[62px] mt-5 text-base text-black w-fit whitespace-nowrap bg-white rounded-[35px]"
+                            className="gap-2.5  self-stretch py-2.5 px-[62px] leading-[20px] mt-5 text-base text-black w-fit whitespace-nowrap bg-white rounded-[35px]"
                             onClick={() => router.push('/products')}
                         >
                             {bottomBannerData.data.button_text}
@@ -415,7 +415,7 @@ export default function Home() {
                 </div>
             </section>
             <section className="ProductSwippenSection flex flex-col rounded-none  mt-[120px] w-[100%] overflow-hidden">
-                <div className="self-center text-5xl text-black text-wrap ml-2 max-md:text-4xl">
+                <div className="self-center text-5xl text-black text-wrap  max-md:text-4xl mr-2">
                     {translationsData?.data?.Partnyorlar}
                 </div>
                 <PartnersSlider data={partnersData.data} />

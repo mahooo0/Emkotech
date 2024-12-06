@@ -51,7 +51,7 @@ export default function NevsId() {
                         {translationsData?.data?.Xəbərlər}
                     </h1>
                 </section>
-                <section className="flex flex-row flex-wrap lg:px-[100px] md:px-[60px] px-[30px] justify-center gap-4 mt-[34px]">
+                <section className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 justify-self-center sm:grid-cols-2 gap-4 lg:px-[100px] md:px-[60px] px-[30px] mt-[34px]">
                     {isLoading ? (
                         <>
                             {[1, 2, 3, 4].map((item) => (
@@ -97,7 +97,7 @@ export default function NevsId() {
                                 <div className="flex flex-col justify-center p-6 w-full bg-white text-zinc-800">
                                     <div className="flex flex-col w-full">
                                         <div className="flex flex-col w-full">
-                                            <div className="text-xl font-medium leading-snug">
+                                            <div className="text-xl font-medium leading-snug h-[2.5em] overflow-hidden">
                                                 {item.title}
                                             </div>
                                             <div

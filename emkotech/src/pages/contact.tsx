@@ -168,7 +168,7 @@ const Contact = () => {
                                                                         ?.data
                                                                         ?.Ad_və_soyad
                                                                 }
-                                                                className="px-5 py-5 w-full bg-white border border-solid border-black border-opacity-10 rounded-[100px] outline-none"
+                                                                className="px-5 py-5 w-full h-[56px] bg-white border border-solid border-black border-opacity-10 rounded-[100px] outline-none"
                                                             />
                                                             {errors.fullName &&
                                                                 touched.fullName && (
@@ -181,7 +181,7 @@ const Contact = () => {
                                                         </div>
 
                                                         <div className="flex flex-col mt-3 w-full text-black text-opacity-60 max-md:max-w-full">
-                                                            <div className="flex items-center px-5 py-5 w-full bg-white border border-solid border-black border-opacity-10 rounded-[100px]">
+                                                            <div className="flex items-center px-5 py-5 w-full h-[56px] bg-white border border-solid border-black border-opacity-10 rounded-[100px]">
                                                                 <span className="text-black">
                                                                     +994
                                                                 </span>
@@ -220,7 +220,7 @@ const Contact = () => {
                                                             disabled={
                                                                 isSubmitting
                                                             }
-                                                            className="self-stretch px-7 py-3.5 mt-7 font-medium text-white bg-blue-600 rounded-2xl max-md:px-5 max-md:max-w-full disabled:opacity-50"
+                                                            className="self-stretch px-7 py-3.5 mt-7 font-medium text-white bg-blue-600 rounded-[18px] max-md:px-5 max-md:max-w-full disabled:opacity-50"
                                                         >
                                                             {isSubmitting
                                                                 ? translationsData

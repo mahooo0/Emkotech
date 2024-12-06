@@ -339,7 +339,7 @@ export default function Products() {
                         </div>
                     </section>
                 </section>
-                <section className="flex mt-[30px] flex-row flex-wrap lg:px-[100px] md:px-[60px] px-[30px] justify-center gap-4">
+                <section className="grid  mt-[30px] flex-row lg:grid-cols-4 md:grid-cols-3 justify-self-center sm:grid-cols-2 grid-cols-1 lg:px-[100px] md:px-[60px] px-[30px] justify-center gap-4">
                     {productsLoading ? (
                         Array(8)
                             .fill(0)
