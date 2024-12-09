@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import CategoryBAr from '../CategoryBar';
 import Link from 'next/link';
 import { useLanguage } from '../Hoc/LanguageContext';
@@ -49,7 +49,7 @@ const NavItem: React.FC<NavItemProps> = ({
 
 const NavLogo: React.FC = () => {
     return (
-        <div className="flex flex-wrap gap-10 items-end self-stretch my-auto text-base text-black  max-md:max-w-full">
+        <div className="flex pb-2 flex-wrap gap-10 items-end self-stretch my-auto text-base text-black  max-md:max-w-full">
             <Link href={'/'}>
                 <img
                     loading="lazy"
@@ -250,6 +250,25 @@ const Header = ({ activeindex }: { activeindex: number }) => {
         queryKey: ['productSubCategories', language],
         queryFn: () => getProductSubCategories(language),
     });
+
+    const dropdownref = useRef<HTMLDivElement | null>(null);
+    const buttonRef = useRef<HTMLDivElement | null>(null);
+    useEffect(() => {
+        const handleOutsideClick = (e: MouseEvent) => {
+            if (
+                dropdownref.current &&
+                !dropdownref.current.contains(e.target as Node) &&
+                buttonRef.current &&
+                !buttonRef.current.contains(e.target as Node)
+            ) {
+                setsohowAside(false);
+            }
+        };
+        document.addEventListener('mousedown', handleOutsideClick);
+        return () =>
+            document.removeEventListener('mousedown', handleOutsideClick);
+    }, []);
+
     return (
         <>
             <header className=" lg:flex hidden flex-wrap gap-5 justify-between items-center px-[100px] pt-2.5 bg-white relative shadow-[0px_0px_11px_rgba(167,167,167,0.12)] max-md:px-5">
@@ -271,7 +290,10 @@ const Header = ({ activeindex }: { activeindex: number }) => {
             </header>
             <header className="lg:hidden bg-white  flex flex-row px-5 py-2 justify-around items-center">
                 <div className="relative ml-3 w-fit lg:hidden block">
-                    <div onClick={() => setsohowAside((prew) => !prew)}>
+                    <div
+                        ref={buttonRef}
+                        onClick={() => setsohowAside((prew) => !prew)}
+                    >
                         <div className="w-[33px] h-[33px]   aspect-square rounded-full bg-black bg-opacity-40 bg-blur-[4px] flex justify-center items-center">
                             <svg
                                 width="24"
@@ -289,6 +311,7 @@ const Header = ({ activeindex }: { activeindex: number }) => {
                     </div>
 
                     <div
+                        ref={dropdownref}
                         className={`absolute  ${
                             sohowAside ? '' : 'hidden'
                         }  right-[-160px] z-[9999999999] mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
@@ -297,32 +320,50 @@ const Header = ({ activeindex }: { activeindex: number }) => {
                         aria-labelledby="user-menu-button"
                         tabIndex={-1}
                     >
-                        <div className="block px-4 py-2 text-sm text-gray-700">
+                        <div
+                            className="block px-4 py-2 text-sm text-gray-700"
+                            onClick={() => setsohowAside(false)}
+                        >
                             <Link href="/" className="w-full">
                                 {translationsData?.data?.Əsas_səhifə}
                             </Link>
                         </div>
-                        <div className="block px-4 py-2 text-sm text-gray-700">
+                        <div
+                            className="block px-4 py-2 text-sm text-gray-700"
+                            onClick={() => setsohowAside(false)}
+                        >
                             <Link href="/aboutus">
                                 {translationsData?.data?.Haqqımızda}
                             </Link>
                         </div>
-                        <div className="block px-4 py-2 text-sm text-gray-700">
+                        <div
+                            className="block px-4 py-2 text-sm text-gray-700"
+                            onClick={() => setsohowAside(false)}
+                        >
                             <Link href="/projects">
                                 {translationsData?.data?.Layihələr}
                             </Link>
                         </div>
-                        <div className="block px-4 py-2 text-sm text-gray-700  ">
+                        <div
+                            className="block px-4 py-2 text-sm text-gray-700"
+                            onClick={() => setsohowAside(false)}
+                        >
                             <Link href="/products">
                                 {translationsData?.data?.Məhsullar}
                             </Link>
                         </div>
-                        <div className="block px-4 py-2 text-sm text-gray-700">
+                        <div
+                            className="block px-4 py-2 text-sm text-gray-700"
+                            onClick={() => setsohowAside(false)}
+                        >
                             <Link href="/news">
                                 {translationsData?.data?.Xəbərlər}
                             </Link>
                         </div>
-                        <div className="block px-4 py-2 text-sm text-gray-700">
+                        <div
+                            className="block px-4 py-2 text-sm text-gray-700"
+                            onClick={() => setsohowAside(false)}
+                        >
                             <Link href="/contact">
                                 {translationsData?.data?.Əlaqə}
                             </Link>

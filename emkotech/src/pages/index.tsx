@@ -215,37 +215,37 @@ export default function Home() {
                     <h2 className="self-center text-5xl text-black text-wrap  max-md:text-4xl mr-2">
                         {translationsData?.data?.statisciksTitle}
                     </h2>
-                    <div className="flex overflow-hidden flex-col px-16 py-14 mt-12 w-full rounded-2xl bg-zinc-100 max-md:px-5 max-md:mt-10 max-md:max-w-full">
-                        <div className="flex flex-wrap gap-10 justify-center items-center text-2xl text-center text-[#D2D641] border-b border-[#D2D641] max-md:max-w-full">
+                    <div className="flex overflow-hidden flex-col justify-center items-center px-16 py-14 mt-12 w-full rounded-2xl bg-zinc-100 max-md:px-5 max-md:mt-10 max-md:max-w-full">
+                        <div className="flex flex-wrap w-full gap-10 justify-center items-center text-2xl text-center text-[#D2D641] border-b border-[#D2D641] max-md:max-w-full">
                             {statisticsData.data.map(
                                 (item: Statistic, index: number) => (
                                     <div
                                         key={index}
                                         className="flex flex-col grow shrink justify-center self-stretch my-auto whitespace-nowrap  w-[157px]"
                                     >
-                                        <h3 className="gap-2.5 self-stretch p-2.5 w-full font-medium">
+                                        <h3 className="gap-2.5 self-stretch lg:p-2.5 p-0 w-full font-medium">
                                             {item.statistic}
                                         </h3>
-                                        <p className="gap-2.5 self-stretch p-2.5 mt-2.5 w-full font-semibold">
+                                        <p className="gap-2.5 self-stretch lg:p-2.5 p-0 mt-2.5 w-full font-semibold">
                                             {item.value}
                                         </p>
                                     </div>
                                 )
                             )}
                         </div>
-                        <div className="flex lg:flex-row md:flex-row justify-between flex-col lg:gap-[140px] md:gap-[140px] gap-10 mt-12 w-full max-md:mt-10 max-md:max-w-full">
-                            <p className=" text-lg text-wrap text-stone-300 w-[776px] ">
+                        <div className="flex  lg:flex-row md:flex-row justify-between flex-col lg:gap-[140px] md:gap-[140px] gap-10 mt-12 w-full max-md:mt-10 max-md:max-w-full">
+                            <p className=" text-lg text-wrap text-stone-300 lg:w-[776px] w-full ">
                                 {translationsData?.data?.statisciksdesc}
                             </p>
                             <button
-                                className="gap-2.5 mr-[20px] text-nowrap leading-[20px] self-start p-2.5 mt-1.5 px-[20px] py-[10px]  text-base font-medium text-[#D2D641] border border-[#D2D641] border-solid rounded-[35px]"
+                                className="gap-2.5  text-nowrap leading-[20px] self-start p-2.5 mt-1.5 px-[20px] py-[10px]  text-base font-medium text-[#D2D641] border border-[#D2D641] border-solid rounded-[35px]"
                                 onClick={() => router.push('/projects')}
                             >
                                 {translationsData?.data?.layihelerebax}
                             </button>
                         </div>
                         <div className="w-full flex justify-center">
-                            <div className="grid lg:grid-cols-3 grid-cols-1 w-full self-center justify-items-center justify-self-center gap-6 mt-6 max-w-[1200px] mx-auto">
+                            <div className="grid lg:grid-cols-3 grid-cols-1 w-full self-center  justify-items-center justify-self-center gap-6 mt-6 max-w-[1200px] mx-auto">
                                 {statisticsData.projects.map(
                                     (item: Project) => (
                                         <ProjectCard
@@ -260,7 +260,7 @@ export default function Home() {
                 </div>
             </section>
             <section className=" lg:mt-[100px] md:mt-[80px] mt-[40px]">
-                <div className="w-full flex  lg:justify-center md:justify-center justify-start flex-wrap lg:px-[100px] md:px-[60px] px-[30px]  ">
+                <div className="w-full flex  lg:justify-center md:justify-center justify-start lg:flex-row md:flex-row flex-col lg:px-[100px] md:px-[60px] px-[30px]  ">
                     <h2 className="text-5xl text-black text-wrap  max-md:text-4xl ">
                         {translationsData?.data?.Populyar_Məhsullar}
                     </h2>
@@ -283,7 +283,7 @@ export default function Home() {
                 <ProductSwiper data={productsData.data} />
             </section>
             <section className=" lg:mt-[100px] md:mt-[80px] mt-[40px]">
-                <div className="w-full flex  lg:justify-center md:justify-center justify-start flex-wrap  lg:px-[100px] md:px-[60px] px-[30px] ">
+                <div className="w-full flex  lg:justify-center md:justify-center justify-start lg:flex-row md:flex-row flex-col  lg:px-[100px] md:px-[60px] px-[30px] ">
                     <h2 className="text-5xl text-black text-wrap  max-md:text-4xl ">
                         {translationsData?.data?.Endirimli_məhsullar}
                     </h2>
@@ -310,7 +310,7 @@ export default function Home() {
                 />
             </section>
             <section className="w-full lg:px-[100px] md:px-[60px] px-[30px]">
-                <div className="w-full flex gap-4  lg:mt-[100px] md:mt-[80px] mt-[40px] lg:justify-center md:justify-center justify-start flex-wrap  ">
+                <div className="w-full flex gap-4  lg:mt-[100px] md:mt-[80px] mt-[40px] lg:justify-center md:justify-center justify-between lg:flex-row md:flex-row flex-col  ">
                     <h2 className="text-5xl text-black text-wrap  max-md:text-4xl">
                         {translationsData?.data?.Kateqoriyalar}
                     </h2>
@@ -330,7 +330,7 @@ export default function Home() {
                         </button>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full mt-[60px]">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full lg:mt-[60px] mt-4">
                     {productCategoriesData.data.map(
                         (item: ProductCategory, index: number) => (
                             <div
@@ -356,11 +356,11 @@ export default function Home() {
                     )}
                 </div>
             </section>
-            <section className="flex flex-col rounded-none lg:px-[100px] md:px-[60px] px-[30px] mt-[120px]">
+            <section className="flex flex-col rounded-none lg:px-[100px] md:px-[60px] px-[30px] lg:mt-[120px] mt-[60px]">
                 <div className="self-center text-5xl text-black text-wrap  max-md:text-4xl mr-2">
                     {translationsData?.data?.Müştərilərimiz}
                 </div>
-                <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6 mt-8 w-full max-md:max-w-full">
+                <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 lg:gap-6 gap-3 mt-8 w-full max-md:max-w-full">
                     {customersData.data.map((item: Customer, index: number) => (
                         <div
                             className="  flex flex-1 gap-3.5  rounded-2xl bg-white bg-opacity-70 shadow-[0px_0px_4px_rgba(0,0,0,0.05)]"
@@ -388,7 +388,7 @@ export default function Home() {
                     ))}{' '}
                 </div>
                 <div
-                    className="mt-[120px] rounded-lg"
+                    className="lg:mt-[120px] mt-[60px] rounded-lg"
                     style={{
                         backgroundImage: `url("${bottomBannerData.data.image}")`,
                         backgroundSize: 'cover', // This ensures the image covers the area
@@ -414,7 +414,7 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-            <section className="ProductSwippenSection flex flex-col rounded-none  mt-[120px] w-[100%] overflow-hidden">
+            <section className="ProductSwippenSection flex flex-col rounded-none  lg:mt-[120px] mt-[60px] w-[100%] overflow-hidden">
                 <div className="self-center text-5xl text-black text-wrap  max-md:text-4xl mr-2">
                     {translationsData?.data?.Partnyorlar}
                 </div>

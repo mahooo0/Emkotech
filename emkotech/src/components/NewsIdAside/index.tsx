@@ -76,7 +76,7 @@ export function Aside({ data }: { data: NewsItem[] }) {
                                     {item.title}
                                 </div>
                                 <div className="mt-4 leading-6 text-neutral-900">
-                                    {item.short_description}
+                                    {item.short_description.slice(0, 50)}...
                                 </div>
                             </div>
                         </div>

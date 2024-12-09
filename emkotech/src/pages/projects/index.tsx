@@ -43,7 +43,7 @@ export default function Projects() {
                         <h2 className="self-center text-5xl text-black max-md:text-4xl">
                             {translationsData?.data?.Layihələr}
                         </h2>
-                        <div className=" grid lg:grid-cols-3 grid-cols-1  self-center justify-self-center gap-6 mt-6">
+                        <div className=" grid lg:grid-cols-3 max-w-[1100px] grid-cols-1  self-center justify-self-center gap-6 mt-6">
                             {isLoading &&
                                 Array.from({ length: 4 }).map((_, index) => (
                                     <div key={index} className="animate-pulse">
