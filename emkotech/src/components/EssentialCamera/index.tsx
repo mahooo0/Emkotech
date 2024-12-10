@@ -31,7 +31,7 @@ const EssentialCamera: React.FC<{ data: Product | undefined }> = ({ data }) => {
             <div className="flex gap-5 max-md:flex-col">
                 <section className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
                     <div
-                        className="flex overflow-hidden flex-col grow items-start px-12 pt-48 pb-28 rounded-none pointer-events-auto max-md:px-5 max-md:py-24 max-md:mt-6 max-md:max-w-full "
+                        className="flex overflow-hidden flex-col grow items-start   px-12 pt-48 pb-28 rounded-none pointer-events-auto max-md:px-5 max-md:py-24 max-md:mt-6 max-md:max-w-full "
                         style={{
                             backgroundImage: `url('${data?.slide_images[selectedImage].image}')`,
                             backgroundRepeat: 'no-repeat',

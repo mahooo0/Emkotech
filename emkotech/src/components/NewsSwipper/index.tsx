@@ -26,7 +26,10 @@ export const NewsSwiper = ({ data }: { data: NewsData[] }) => {
                 }}
             >
                 {data?.map((item: NewsData, i: number) => (
-                    <SwiperSlide className="!py-[10px]" key={i}>
+                    <SwiperSlide
+                        className="!py-[10px] !flex !justify-center"
+                        key={i}
+                    >
                         <NewsCard data={item} i={i} />
                     </SwiperSlide>
                 ))}

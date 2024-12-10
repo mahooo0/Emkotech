@@ -78,7 +78,7 @@ export default function NewsId() {
                 <div className="flex flex-col text-black justify-center w-full mt-[24px]">
                     <h1
                         data-layername="məhsullar"
-                        className="self-center text-4xl max-md:text-4xl text-center  px-3 max-w-[595px]"
+                        className="self-center lg:text-4xl text-[28px] text-center  px-3 max-w-[595px]"
                     >
                         {newsData.data.title}
                     </h1>
@@ -124,7 +124,7 @@ export default function NewsId() {
                         </span>
                     </div>
                 </section>
-                <section className="flex mt-3 flex-row justify-between flex-wrap-reverse lg:px-[100px] md:px-[60px] px-[30px] gap-[76px] ">
+                <section className="flex mt-3 lg:flex-row flex-col-reverse justify-between lg:px-[100px] md:px-[60px] px-[30px] gap-[76px] ">
                     <MainID data={newsData.data} />
                     <Aside data={popularData?.data} />
                 </section>

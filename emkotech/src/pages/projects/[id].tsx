@@ -48,7 +48,7 @@ export default function ProjectsId() {
                     <BreadcrumbNavigation
                         items={[
                             {
-                                text: `${translationsData?.data?.Məhsullar}`,
+                                text: `${translationsData?.data?.Layihələr}`,
                                 path: '/projects',
                             },
                             {
@@ -65,7 +65,7 @@ export default function ProjectsId() {
                         </h2>
 
                         <div className="flex flex-col rounded-2xl">
-                            <div className="mt-6 max-md:-mr-0.5 max-md:max-w-full">
+                            <div className="lg:mt-6 mt-0 max-md:-mr-0.5 max-md:max-w-full">
                                 <div className="flex gap-5 max-md:flex-col">
                                     <div className="flex flex-col w-[41%] max-md:ml-0 max-md:w-full">
                                         <img
@@ -90,7 +90,7 @@ export default function ProjectsId() {
                 <h2 className="self-center w-full text-center mt-[120px] text-5xl text-black max-md:text-4xl">
                     {translationsData?.data?.Digər_Layihələr}
                 </h2>
-                <div className="grid lg:grid-cols-3 grid-cols-1 w-full self-center justify-self-center place-items-center gap-6 mt-[34px] max-w-[1200px] mx-auto">
+                <div className="grid px-[30px] lg:grid-cols-3 grid-cols-1 w-full self-center justify-self-center place-items-center gap-6 mt-[34px] max-w-[1200px] mx-auto">
                     {data?.projects?.map((item: Project) => (
                         <ProjectCard key={item.id} data={item} />
                     ))}

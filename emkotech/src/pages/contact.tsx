@@ -82,7 +82,7 @@ const Contact = () => {
                         },
                     ]}
                 />
-                <section className="flex flex-col text-black lg:px-[100px] md:px-[60px] px-[30px] mt-6 ">
+                <section className="flex flex-col text-black lg:px-[100px] md:px-[60px] px-[16px] mt-6 ">
                     <h1
                         data-layername="məhsullar"
                         className="self-center text-5xl max-md:text-4xl"
@@ -96,7 +96,7 @@ const Contact = () => {
                             backgroundSize: 'cover',
                         }}
                     >
-                        <div className="p-16 w-full max-md:px-5 max-md:max-w-full bg-opacity-60 bg-black ">
+                        <div className="p-16 w-full lg:px-5 md:px-5 px-4 max-md:max-w-full bg-opacity-60 bg-black ">
                             <div className="flex lg:gap-[111px] gap-5 max-md:flex-col">
                                 <div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
                                     <div className="flex flex-col mt-1 text-white max-md:mt-10 max-md:max-w-full">
@@ -136,7 +136,7 @@ const Contact = () => {
                                     </div>
                                 </div>
                                 <div className="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full">
-                                    <div className="flex overflow-hidden flex-col grow justify-center p-7 w-full rounded-3xl bg-white bg-opacity-20 max-md:px-5 max-md:mt-10 max-md:max-w-full">
+                                    <div className="flex overflow-hidden flex-col grow justify-center p-7 w-full rounded-3xl bg-white bg-opacity-20 lg:px-5 md:px-5 px-2 max-md:mt-10 max-md:max-w-full">
                                         <div className="flex flex-col max-md:max-w-full">
                                             <div className="text-xl font-semibold text-center text-white max-md:max-w-full">
                                                 {

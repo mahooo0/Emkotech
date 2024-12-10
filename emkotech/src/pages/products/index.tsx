@@ -195,12 +195,12 @@ export default function Products() {
                     </h1>
                     <section
                         data-layername="filter"
-                        className="flex flex-wrap gap-6 items-center px-28 py-8 mt-6 w-full text-base bg-white max-md:px-5 max-md:max-w-full"
+                        className="flex flex-wrap lg:gap-6 md:gap-6 gap-3 items-center px-28 py-8 mt-6 w-full text-base bg-white max-md:px-5 max-md:max-w-full"
                     >
                         <div className="flex grow  shrink gap-10 justify-between items-center self-stretch px-6 py-2.5  whitespace-nowrap rounded-2xl border border-solid border-neutral-200 min-w-[240px] w-[230px] max-md:px-5">
                             <select
                                 data-layername="əsasSəhifə"
-                                className="w-full bg-white"
+                                className="w-full bg-white select-none outline-none border-none"
                                 value={selectedCategory}
                                 onChange={(e) =>
                                     setSelectedCategory(Number(e.target.value))
@@ -229,7 +229,7 @@ export default function Products() {
                         <div className="flex grow  shrink gap-10 justify-between items-center self-stretch px-6 py-2.5  whitespace-nowrap rounded-2xl border border-solid border-neutral-200 min-w-[240px] w-[230px] max-md:px-5">
                             <select
                                 data-layername="əsasSəhifə"
-                                className="w-full bg-white"
+                                className="w-full bg-white select-none outline-none border-none"
                                 value={selectedSubCategory}
                                 onChange={(e) =>
                                     setSelectedSubCategory(
@@ -288,7 +288,7 @@ export default function Products() {
                         <div className="flex grow  shrink gap-10 justify-between items-center self-stretch px-6 py-2.5  whitespace-nowrap rounded-2xl border border-solid border-neutral-200 min-w-[240px] w-[230px] max-md:px-5">
                             <select
                                 data-layername="əsasSəhifə"
-                                className="w-full bg-white"
+                                className="w-full bg-white select-none outline-none border-none"
                                 value={selectedSort}
                                 onChange={(e) =>
                                     setSelectedSort(e.target.value)

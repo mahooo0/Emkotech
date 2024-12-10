@@ -22,7 +22,7 @@ export function Aside({ data }: { data: NewsItem[] }) {
         queryFn: () => getTranslations(language),
     });
     return (
-        <section className="lg:w-[30%] w-full">
+        <section className="lg:w-[40%] lg:min-w-[320px] md:min-w-[320px] min-w-0 w-full">
             <div className="flex  gap-10 justify-between items-center px-6 py-2.5 w-full text-sm font-medium leading-none rounded-2xl border border-gray-200 border-solid bg-neutral-100 text-stone-500">
                 <input
                     type="text"
@@ -72,11 +72,11 @@ export function Aside({ data }: { data: NewsItem[] }) {
                                 className="object-cover shrink-0 rounded-none aspect-[1.04] w-[83px] max-h-[80px]"
                             />
                             <div className="flex flex-col my-auto">
-                                <div className="self-start leading-4 text-neutral-400">
+                                <div className="self-start  leading-4 lg:text-[16px] md:text-[16px] text-[13px] text-neutral-400">
                                     {item.title}
                                 </div>
-                                <div className="mt-4 leading-6 text-neutral-900">
-                                    {item.short_description.slice(0, 50)}...
+                                <div className="mt-4 lg:leading-6 leading-[17px] text-neutral-900 overflow-hidden line-clamp-2 ">
+                                    {item.short_description}
                                 </div>
                             </div>
                         </div>

@@ -23,7 +23,7 @@ const BreadcrumbNavigation: React.FC<BreadcrumbNavigationProps> = ({
                     loading="lazy"
                     src={'/svg/homeIcon.svg'}
                     alt=""
-                    className="object-cover shrink-0 self-stretch my-auto aspect-square w-[18px]"
+                    className="object-cover shrink-0 self-stretch my-auto aspect-square min-w-[18px]"
                 />
             </Link>
             <img
@@ -36,7 +36,7 @@ const BreadcrumbNavigation: React.FC<BreadcrumbNavigationProps> = ({
                 <React.Fragment key={index}>
                     <Link href={item.path}>
                         <span
-                            className={`self-stretch my-auto ${
+                            className={`self-stretch my-auto line-clamp-1 ${
                                 index === items.length - 1
                                     ? 'font-medium text-zinc-400'
                                     : ''

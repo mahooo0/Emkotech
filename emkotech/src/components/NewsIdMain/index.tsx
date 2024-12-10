@@ -8,9 +8,9 @@ interface NewsData {
 function MainID({ data }: { data: NewsData }) {
     return (
         <div className="flex flex-col pb-5 rounded-none lg:max-w-[63%] w-full">
-            <div className="flex  flex-row gap-6 w-full max-md:max-w-full">
+            <div className="flex  lg:flex-row flex-col-reverse gap-6 w-full max-md:max-w-full">
                 {/* icons */}
-                <div className="flex flex-col gap-4">
+                <div className="flex lg:flex-col flex-row gap-4">
                     <img
                         loading="lazy"
                         src="/images/faceboock.png"
@@ -72,10 +72,10 @@ function MainID({ data }: { data: NewsData }) {
                 <img
                     loading="lazy"
                     src={data.image}
-                    className="object-cover rounded-lg grow shrink-0  aspect-[1.22] basis-0 w-[80%] max-md:max-w-full"
+                    className="object-cover rounded-lg grow shrink-0  aspect-[1.22] basis-0 lg:w-[80%] w-full max-md:max-w-full"
                 />
             </div>
-            <div className="flex flex-col pr-1 pl-14 mt-6 w-full max-md:pl-5 max-md:max-w-full">
+            <div className="flex flex-col pr-1 lg:pl-14 pl-0 mt-6 w-full  max-md:max-w-full">
                 <div
                     className="self-start text-base leading-10 text-neutral-600 max-md:max-w-full"
                     dangerouslySetInnerHTML={{ __html: data.description }}

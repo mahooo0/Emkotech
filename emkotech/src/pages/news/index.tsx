@@ -46,12 +46,12 @@ export default function NevsId() {
                 <section className="flex flex-col text-black">
                     <h1
                         data-layername="məhsullar"
-                        className="self-center text-5xl max-md:text-4xl"
+                        className="self-center text-5xl max-md:text-4xl mt-[24px]"
                     >
                         {translationsData?.data?.Xəbərlər}
                     </h1>
                 </section>
-                <section className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 justify-self-center items-center sm:grid-cols-2 gap-x-4 gap-y-[52px] lg:px-[100px] md:px-[60px] px-[30px] mt-[34px]">
+                <section className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3 justify-self-center items-center sm:grid-cols-2 gap-x-4 lg:gap-y-[52px] gap-y-8  lg:px-[100px] md:px-[60px] px-[30px] mt-[34px]">
                     {isLoading ? (
                         <>
                             {[1, 2, 3, 4].map((item) => (
