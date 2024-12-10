@@ -112,7 +112,7 @@ export function Footer() {
                     /> */}
                 </div>
                 <div className="self-stretch mt-10 w-full bg-white border border-white border-solid opacity-10 min-h-[1px] max-md:max-w-full" />
-                <div className="mt-4 ml-28 leading-none max-md:ml-2.5 opacity-50">
+                <div className="mt-4 lg:ml-[100px] md:ml-[60px] ml-[30px] leading-none  opacity-50">
                     Bütün hüquqlar qorunur @ 166tech
                 </div>
             </div>

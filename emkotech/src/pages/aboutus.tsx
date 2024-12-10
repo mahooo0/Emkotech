@@ -62,7 +62,7 @@ export default function AboutUs() {
                                     <div className="mt-4 h-24 bg-gray-200 rounded"></div>
                                 </div>
                             </div>
-                            <div className="mt-5 w-full max-md:max-w-full">
+                            <div className="lg:mt-5 mt-0 w-full max-md:max-w-full">
                                 <div className="flex gap-5 max-md:flex-col">
                                     <div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
                                         <div className="bg-gray-200 rounded-2xl aspect-square w-full"></div>
@@ -79,9 +79,9 @@ export default function AboutUs() {
                     ) : (
                         <>
                             <div className="z-10 mt-0 max-md:-mr-2 max-md:max-w-full">
-                                <div className="flex lg:gap-[120px] gap-5 max-md:flex-col items-center">
+                                <div className="flex lg:gap-[0] gap-5 max-md:flex-col items-center">
                                     <div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full ">
-                                        <h1 className="text-5xl text-black max-md:mt-10 max-md:max-w-full max-md:text-4xl leading-[72px]">
+                                        <h1 className="lg:text-5xl text-[2rem] text-black lg:mt-10 mt-0 max-md:max-w-full  lg:leading-[56px] leading-[42px]">
                                             {aboutData?.data[0].title}
                                         </h1>
                                     </div>
@@ -91,13 +91,13 @@ export default function AboutUs() {
                                                 __html: aboutData?.data[0]
                                                     .description,
                                             }}
-                                            className="mt-4 text-lg text-black max-md:mt-10 max-md:max-w-full leading-6"
+                                            className="lg:mt-4 mt-0 text-lg text-black  max-md:max-w-full leading-6"
                                         ></div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="mt-5 w-full max-md:max-w-full">
-                                <div className="flex gap-5 max-md:flex-col">
+                            <div className="lg:mt-5 mt-0 w-full max-md:max-w-full">
+                                <div className="flex gap-5 max-md:flex-col lg:mt-4 mt-0">
                                     <div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
                                         <img
                                             loading="lazy"
@@ -128,7 +128,7 @@ export default function AboutUs() {
                         </>
                     )}
                 </section>
-                <section className="flex flex-col rounded-2xl lg:px-[100px] md:px-[60px] px-[30px] mt-[120px]">
+                <section className="flex flex-col rounded-2xl lg:px-[100px] md:px-[60px] px-[30px] lg:mt-[120px] mt-[60px]">
                     <h2 className="self-center text-5xl font-medium text-black max-md:max-w-full max-md:text-4xl">
                         <span className="text-[#D2D641] ">
                             {translationsData?.data?.Yekunlaşdırma}{' '}
@@ -137,8 +137,8 @@ export default function AboutUs() {
                             {translationsData?.data?.Şirkətimizin}
                         </span>
                     </h2>
-                    <div className="mt-12 w-full max-md:mt-10 max-md:max-w-full">
-                        <div className="flex gap-5 max-md:flex-col">
+                    <div className="lg:mt-12 mt-0 w-full  max-md:max-w-full">
+                        <div className="flex gap-5 max-md:flex-col mt-6">
                             {aboutBannerLoading
                                 ? Array(4)
                                       .fill(0)
@@ -162,7 +162,7 @@ export default function AboutUs() {
                                               className="flex flex-col w-3/12 max-md:ml-0 max-md:w-full"
                                               key={item.id}
                                           >
-                                              <div className="flex flex-col grow p-5 w-full text-black bg-indigo-50 rounded-2xl border border-blue-200 border-solid max-md:mt-6">
+                                              <div className="flex flex-col grow p-5 w-full text-black bg-indigo-50 rounded-2xl border border-blue-200 border-solid lg:mt-6 mt-0">
                                                   <img
                                                       loading="lazy"
                                                       src={item.image}
