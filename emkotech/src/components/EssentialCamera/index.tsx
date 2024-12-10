@@ -31,35 +31,49 @@ const EssentialCamera: React.FC<{ data: Product | undefined }> = ({ data }) => {
             <div className="flex gap-5 max-md:flex-col">
                 <section className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
                     <div
-                        className="flex overflow-hidden flex-col grow items-start   px-12 pt-48 pb-28 rounded-none pointer-events-auto max-md:px-5 max-md:py-24 max-md:mt-6 max-md:max-w-full "
-                        style={{
-                            backgroundImage: `url('${data?.slide_images[selectedImage].image}')`,
-                            backgroundRepeat: 'no-repeat',
-                            backgroundSize: 'cover',
-                            backgroundPosition: 'center',
-                        }}
+                        className="flex overflow-hidden relative gap-4 flex-col grow  max-h-[700px]    justify-center pl-[50px] items-start  rounded-none pointer-events-auto max-md:px-5 max-md:py-10 max-md:mt-6 max-md:max-w-full "
+                        // style={{
+                        //     backgroundImage: `url('${data?.slide_images[selectedImage].image}')`,
+                        //     backgroundRepeat: 'no-repeat',
+                        //     backgroundSize: 'cover',
+                        //     backgroundPosition: 'center',
+                        // }}
                     >
-                        {data?.slide_images.map(
-                            (item: SlideImage, index: number) => (
-                                <img
-                                    key={index}
-                                    src={item.image}
-                                    alt={`${item.id}`}
-                                    className={`object-cover rounded-2xl aspect-square w-[84px] cursor-pointer ${
-                                        index > 0 ? 'mt-5' : ''
-                                    } ${
-                                        selectedImage === index
-                                            ? 'border-2 border-blue-600'
-                                            : ''
-                                    }`}
-                                    onClick={() => handleImageClick(index)}
-                                />
-                            )
-                        )}
+                        <img
+                            src={data?.slide_images[selectedImage].image}
+                            alt=""
+                            className="w-full lg:h-full md:h-full max-h-[700px] h-[300px] object-cover lg:absolute md:absolute  block z-[-1] top-0 right-0  "
+                        />
+                        <div
+                            className="max-h-[400px] pr-2 flex flex-row lg:flex-col md:flex-col gap-5 overflow-x-scroll lg:overflow-y-scroll md:overflow-y-scroll 
+  [&::-webkit-scrollbar]:h-[3px] 
+  lg:[&::-webkit-scrollbar]:w-[3px] 
+  [&::-webkit-scrollbar-thumb]:bg-gray-300 
+  [&::-webkit-scrollbar-track]:bg-transparent"
+                        >
+                            {' '}
+                            {data?.slide_images.map(
+                                (item: SlideImage, index: number) => (
+                                    <img
+                                        key={index}
+                                        src={item.image}
+                                        alt={`${item.id}`}
+                                        className={`object-cover rounded-2xl aspect-square w-[84px] cursor-pointer ${
+                                            index > 0 ? '' : ''
+                                        } ${
+                                            selectedImage === index
+                                                ? 'border-2 border-blue-600'
+                                                : ''
+                                        }`}
+                                        onClick={() => handleImageClick(index)}
+                                    />
+                                )
+                            )}
+                        </div>
                     </div>
                 </section>
-                <section className="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full lg:pr-[100px]  lg:px-0 px-[20px]">
-                    <div className="flex flex-col items-start mt-10 w-full max-md:max-w-full">
+                <section className="flex flex-col  w-6/12  max-md:w-full lg:pr-[100px]  lg:px-0 pr-[20px] px-[20px]">
+                    <div className="flex flex-col items-start  w-full max-md:max-w-full">
                         <h1 className="text-4xl text-black">{data?.title}</h1>
                         <h2 className="mt-2.5 text-xl text-black">
                             {data?.category_name}

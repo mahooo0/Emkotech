@@ -83,49 +83,51 @@ export default function NewsId() {
                         {newsData.data.title}
                     </h1>
                 </div>
-                <section className="flex gap-5 items-center mt-4 self-start ml-[11%] text-base tracking-normal whitespace-nowrap text-neutral-400 ">
-                    <div className="flex gap-2 items-center self-stretch my-auto">
-                        <img
-                            loading="lazy"
-                            src={
-                                'https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/cf817ca617e1878a4b6ce857d280b52ff3dee263e9c43ed5302ad800e47a0a6d?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&'
-                            }
-                            alt={'alt'}
-                            className="object-contain shrink-0 self-stretch my-auto aspect-square w-[18px]"
-                        />
-                        <span className="self-stretch my-auto">
-                            {newsData.data.date}
-                        </span>
-                    </div>
-                    <div className="flex gap-2 items-center self-stretch my-auto">
-                        <svg
-                            width="18"
-                            height="18"
-                            viewBox="0 0 18 18"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                d="M11.25 9C11.25 9.59674 11.0129 10.169 10.591 10.591C10.169 11.0129 9.59674 11.25 9 11.25C8.40326 11.25 7.83097 11.0129 7.40901 10.591C6.98705 10.169 6.75 9.59674 6.75 9C6.75 8.40326 6.98705 7.83097 7.40901 7.40901C7.83097 6.98705 8.40326 6.75 9 6.75C9.59674 6.75 10.169 6.98705 10.591 7.40901C11.0129 7.83097 11.25 8.40326 11.25 9Z"
-                                stroke="#9B9B9B"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                            />
-                            <path
-                                d="M1.5 9C2.7 5.92725 5.502 3.75 9 3.75C12.498 3.75 15.3 5.92725 16.5 9C15.3 12.0728 12.498 14.25 9 14.25C5.502 14.25 2.7 12.0728 1.5 9Z"
-                                stroke="#9B9B9B"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                            />
-                        </svg>
+                <section className="flex mt-3 lg:flex-row flex-col-reverse justify-between lg:px-[100px] md:px-[60px] px-[30px] lg:gap-[76px] gap-[36px] ">
+                    <div>
+                        <section className="flex gap-5 items-center mt-4 self-start mb-4 lg:ml-[60px] ml-0 text-base tracking-normal whitespace-nowrap text-neutral-400 ">
+                            <div className="flex gap-2 items-center self-stretch my-auto">
+                                <img
+                                    loading="lazy"
+                                    src={
+                                        'https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/cf817ca617e1878a4b6ce857d280b52ff3dee263e9c43ed5302ad800e47a0a6d?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&'
+                                    }
+                                    alt={'alt'}
+                                    className="object-contain shrink-0 self-stretch my-auto aspect-square w-[18px]"
+                                />
+                                <span className="self-stretch my-auto">
+                                    {newsData.data.date}
+                                </span>
+                            </div>
+                            <div className="flex gap-2 items-center self-stretch my-auto">
+                                <svg
+                                    width="18"
+                                    height="18"
+                                    viewBox="0 0 18 18"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M11.25 9C11.25 9.59674 11.0129 10.169 10.591 10.591C10.169 11.0129 9.59674 11.25 9 11.25C8.40326 11.25 7.83097 11.0129 7.40901 10.591C6.98705 10.169 6.75 9.59674 6.75 9C6.75 8.40326 6.98705 7.83097 7.40901 7.40901C7.83097 6.98705 8.40326 6.75 9 6.75C9.59674 6.75 10.169 6.98705 10.591 7.40901C11.0129 7.83097 11.25 8.40326 11.25 9Z"
+                                        stroke="#9B9B9B"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    />
+                                    <path
+                                        d="M1.5 9C2.7 5.92725 5.502 3.75 9 3.75C12.498 3.75 15.3 5.92725 16.5 9C15.3 12.0728 12.498 14.25 9 14.25C5.502 14.25 2.7 12.0728 1.5 9Z"
+                                        stroke="#9B9B9B"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    />
+                                </svg>
 
-                        <span className="self-stretch my-auto">
-                            {newsData.data.views}
-                        </span>
+                                <span className="self-stretch my-auto">
+                                    {newsData.data.views}
+                                </span>
+                            </div>
+                        </section>
+                        <MainID data={newsData.data} />
                     </div>
-                </section>
-                <section className="flex mt-3 lg:flex-row flex-col-reverse justify-between lg:px-[100px] md:px-[60px] px-[30px] gap-[76px] ">
-                    <MainID data={newsData.data} />
                     <Aside data={popularData?.data} />
                 </section>
                 <section className=" mt-[100px]">

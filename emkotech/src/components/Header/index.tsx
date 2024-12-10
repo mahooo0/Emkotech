@@ -55,7 +55,7 @@ const NavLogo: React.FC = () => {
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/abb16285b3506646182d892ed29e09d03528a73b813f583ab565493b4f934b39?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
                     alt="Company logo"
-                    className="object-contain shrink-0 aspect-[2.52] w-[141px]"
+                    className="object-contain shrink-0 aspect-[2.52] w-[130px]"
                 />
             </Link>
         </div>
@@ -288,7 +288,7 @@ const Header = ({ activeindex }: { activeindex: number }) => {
                     productsLoading={productsLoading}
                 />
             </header>
-            <header className="lg:hidden bg-white  flex flex-row px-5 py-2 justify-around items-center">
+            <header className="lg:hidden bg-white  flex flex-row px-5 py-2 justify-between items-center">
                 <div className="relative ml-3 w-fit lg:hidden block">
                     <div
                         ref={buttonRef}

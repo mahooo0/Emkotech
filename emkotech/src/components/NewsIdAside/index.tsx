@@ -22,7 +22,7 @@ export function Aside({ data }: { data: NewsItem[] }) {
         queryFn: () => getTranslations(language),
     });
     return (
-        <section className="lg:w-[40%] lg:min-w-[320px] md:min-w-[320px] min-w-0 w-full">
+        <section className="lg:w-full lg:min-w-[320px] md:min-w-[320px] min-w-0 w-full">
             <div className="flex  gap-10 justify-between items-center px-6 py-2.5 w-full text-sm font-medium leading-none rounded-2xl border border-gray-200 border-solid bg-neutral-100 text-stone-500">
                 <input
                     type="text"

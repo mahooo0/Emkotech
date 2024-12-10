@@ -7,7 +7,7 @@ interface NewsData {
 
 function MainID({ data }: { data: NewsData }) {
     return (
-        <div className="flex flex-col pb-5 rounded-none lg:max-w-[63%] w-full">
+        <div className="flex flex-col pb-5 rounded-none  w-full">
             <div className="flex  lg:flex-row flex-col-reverse gap-6 w-full max-md:max-w-full">
                 {/* icons */}
                 <div className="flex lg:flex-col flex-row gap-4">

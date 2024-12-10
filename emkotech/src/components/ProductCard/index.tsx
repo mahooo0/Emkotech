@@ -9,7 +9,7 @@ const ProductCard = ({ data }: { data: Product }) => {
     const { language } = useLanguage();
     return (
         <div
-            className="flex flex-col grow pb-7 w-full hover:border-[#186FE0] hover:border duration-300 bg-white rounded-2xl shadow-[0px_0px_11px_rgba(167,167,167,0.12)] max-md:mt-6 relative max-w-[296px]"
+            className="flex flex-col h-full justify-around grow pb-7 w-full hover:border-[#186FE0] hover:border duration-300 bg-white rounded-2xl shadow-[0px_0px_11px_rgba(167,167,167,0.12)] max-md:mt-6 relative max-w-[296px]"
             key={data.id}
         >
             <img
@@ -18,39 +18,41 @@ const ProductCard = ({ data }: { data: Product }) => {
                 src={data.image}
                 className="object-cover cursor-pointer w-full rounded-2xl aspect-[1.05]"
             />
-            <div className="flex flex-col px-3.5 mt-8 w-full">
+            <div className="flex flex-col h-full  justify-between px-3.5 mt-8 w-full">
                 <p className="text-lg font-medium text-black">
                     {data.title}
                     <br />
                 </p>
-                <div className="flex gap-1.5 items-center self-start mt-8 whitespace-nowrap">
-                    <p className="self-stretch my-auto text-2xl font-semibold text-black">
-                        {data.discounted_price}$
-                    </p>
-                    <p className="self-stretch line-through my-auto text-lg font-medium text-stone-300">
-                        {' '}
-                        {data.price}$
-                    </p>
-                </div>
-                <Link href={'/contact'}>
-                    <button className="gap-2.5 self-center w-full flex p-2.5 mt-8 text-base text-white rounded-[18px] border border-solid bg-blue-600 bg-opacity-90 hover:bg-[#105ABA] duration-300 border-blue-600 border-opacity-90 max-md:mr-1 justify-center">
+                <div>
+                    <div className="flex gap-1.5 items-center self-start mt-8 whitespace-nowrap">
+                        <p className="self-stretch my-auto text-2xl font-semibold text-black">
+                            {data.discounted_price}$
+                        </p>
+                        <p className="self-stretch line-through my-auto text-lg font-medium text-stone-300">
+                            {' '}
+                            {data.price}$
+                        </p>
+                    </div>
+                    <Link href={'/contact'}>
+                        <button className="gap-2.5 self-center w-full flex p-2.5 mt-8 text-base text-white rounded-[18px] border border-solid bg-blue-600 bg-opacity-90 hover:bg-[#105ABA] duration-300 border-blue-600 border-opacity-90 max-md:mr-1 justify-center">
+                            {language === 'az'
+                                ? 'İndi Al'
+                                : language === 'en'
+                                ? 'Buy Now'
+                                : 'Купить сейчас'}
+                        </button>
+                    </Link>
+                    <button
+                        className="gap-2.5 w-full flex justify-center self-stretch p-2.5 mt-3.5 text-base text-blue-600 rounded-[18px] hover:bg-[#186FE0F0] hover:text-white duration-300 border border-indigo-500 border-solid max-md:mr-1"
+                        onClick={() => router.push(`/products/${data.id}`)}
+                    >
                         {language === 'az'
-                            ? 'İndi Al'
+                            ? 'Ətraflı bax'
                             : language === 'en'
-                            ? 'Buy Now'
-                            : 'Купить сейчас'}
+                            ? 'View Details'
+                            : 'Подробнее'}
                     </button>
-                </Link>
-                <button
-                    className="gap-2.5 flex justify-center self-stretch p-2.5 mt-3.5 text-base text-blue-600 rounded-[18px] hover:bg-[#186FE0F0] hover:text-white duration-300 border border-indigo-500 border-solid max-md:mr-1"
-                    onClick={() => router.push(`/products/${data.id}`)}
-                >
-                    {language === 'az'
-                        ? 'Ətraflı bax'
-                        : language === 'en'
-                        ? 'View Details'
-                        : 'Подробнее'}
-                </button>
+                </div>
             </div>
             {data.discount ? (
                 <div className=" absolute  w-[113px] h-fit top-[16px] left-[-8px] z-[998] ">
