@@ -1,5 +1,6 @@
 import BreadcrumbNavigation from '@/components/BreadCamp';
-
+import { Footer } from '@/components/Footer';
+import Header from '@/components/Header';
 import { useLanguage } from '@/components/Hoc/LanguageContext';
 import PaginationComponent from '@/components/Pagination';
 import ProductCard from '@/components/ProductCard';
@@ -338,36 +339,38 @@ export default function Products() {
                         </div>
                     </section>
                 </section>
-                <section className="grid   mt-[30px] flex-row lg:grid-cols-4 md:grid-cols-3 items-center justify-self-center sm:grid-cols-2 grid-cols-1 lg:px-[100px] md:px-[60px] px-[30px] justify-center gap-x-4 lg:gap-y-[52px] gap-y-0">
-                    {productsLoading ? (
-                        Array(8)
-                            .fill(0)
-                            .map((_, index) => (
-                                <div
-                                    key={index}
-                                    className="w-[280px] h-[400px] bg-gray-200 rounded-lg animate-pulse"
-                                >
-                                    <div className="w-full h-[200px] bg-gray-300 rounded-t-lg" />
-                                    <div className="p-4 space-y-3">
-                                        <div className="h-4 bg-gray-300 rounded w-3/4" />
-                                        <div className="h-4 bg-gray-300 rounded w-1/2" />
-                                        <div className="h-4 bg-gray-300 rounded w-1/4" />
+                <div className="flex justify-center">
+                    <section className="grid w-fit   mt-[30px] flex-row lg:grid-cols-4 md:grid-cols-3 items-center justify-self-center sm:grid-cols-2 grid-cols-1 lg:px-[100px] md:px-[60px] px-[30px] justify-center gap-x-4 lg:gap-y-[52px] gap-y-4">
+                        {productsLoading ? (
+                            Array(8)
+                                .fill(0)
+                                .map((_, index) => (
+                                    <div
+                                        key={index}
+                                        className="w-[280px] h-[400px] bg-gray-200 rounded-lg animate-pulse"
+                                    >
+                                        <div className="w-full h-[200px] bg-gray-300 rounded-t-lg" />
+                                        <div className="p-4 space-y-3">
+                                            <div className="h-4 bg-gray-300 rounded w-3/4" />
+                                            <div className="h-4 bg-gray-300 rounded w-1/2" />
+                                            <div className="h-4 bg-gray-300 rounded w-1/4" />
+                                        </div>
                                     </div>
-                                </div>
+                                ))
+                        ) : productsData?.data?.length > 0 ? (
+                            productsData.data.map((item: Product) => (
+                                <ProductCard key={item.id} data={item} />
                             ))
-                    ) : productsData?.data?.length > 0 ? (
-                        productsData.data.map((item: Product) => (
-                            <ProductCard key={item.id} data={item} />
-                        ))
-                    ) : (
-                        <>
-                            <div></div> <div></div>
-                            <p className="ml-[-11%]">
-                                {translationsData?.data?.Tapılmadı}
-                            </p>
-                        </>
-                    )}
-                </section>
+                        ) : (
+                            <>
+                                <div></div> <div></div>
+                                <p className="ml-[-11%]">
+                                    {translationsData?.data?.Tapılmadı}
+                                </p>
+                            </>
+                        )}
+                    </section>
+                </div>
                 <PaginationComponent
                     totalPages={productsData?.total_page}
                     currentPage={page}
