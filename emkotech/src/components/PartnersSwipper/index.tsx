@@ -2,6 +2,7 @@ import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { Autoplay } from 'swiper/modules';
+import Link from 'next/link';
 
 interface Partner {
     url: string;
@@ -26,7 +27,7 @@ const PartnersSlider = ({ data }: { data: Partner[] }) => {
             {/* Duplicate slides for a seamless loop effect */}
             {data.map((item: Partner, index: number) => (
                 <SwiperSlide key={index} className="!w-fit">
-                    <a
+                    <Link
                         className="flex flex-col rounded-none max-w-[184px]"
                         href={item.url}
                     >
@@ -38,11 +39,11 @@ const PartnersSlider = ({ data }: { data: Partner[] }) => {
                                     src={item.icon}
                                 />
                             </div>
-                            <a className="self-center mt-2.5 text-sm text-center text-black text-opacity-80">
+                            <p className="self-center mt-2.5 text-sm text-center text-black text-opacity-80">
                                 {item.name}
-                            </a>
+                            </p>
                         </div>
-                    </a>
+                    </Link>
                 </SwiperSlide>
             ))}
         </Swiper>

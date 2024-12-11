@@ -1,27 +1,24 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
-// Define the context type
-interface LanguageContextType {
+interface LanguageContextProps {
     language: string;
     setLanguage: (lang: string) => void;
 }
 
-// Create the context
-const LanguageContext = createContext<LanguageContextType | undefined>(
+const LanguageContext = createContext<LanguageContextProps | undefined>(
     undefined
 );
 
-// Provider component
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
-    const [language, setLanguage] = useState('az');
-
-    // Update localStorage when language changes
+    const [language, setLanguage] = useState<string>('az'); // Default language
     useEffect(() => {
-        localStorage.setItem('accept-language', language);
-    }, [language]);
-
+        const storedLang = localStorage.getItem('accept-language');
+        if (storedLang) {
+            setLanguage(storedLang);
+        }
+    }, []);
     return (
         <LanguageContext.Provider value={{ language, setLanguage }}>
             {children}
@@ -29,7 +26,6 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({
     );
 };
 
-// Custom hook to use the context
 export const useLanguage = () => {
     const context = useContext(LanguageContext);
     if (!context) {

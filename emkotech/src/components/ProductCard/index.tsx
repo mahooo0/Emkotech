@@ -19,10 +19,13 @@ const ProductCard = ({ data }: { data: Product }) => {
                 className="object-cover cursor-pointer w-full rounded-2xl aspect-[1.05]"
             />
             <div className="flex flex-col h-full  justify-between px-3.5 mt-8 w-full">
-                <p className="text-lg font-medium text-black">
-                    {data.title}
-                    <br />
-                </p>
+                <div className="min-h-[56px]">
+                    <p className="text-lg font-medium text-black line-clamp-2  ">
+                        {data.title}
+                        <br />
+                    </p>
+                </div>
+
                 <div>
                     <div className="flex gap-1.5 items-center self-start mt-8 whitespace-nowrap">
                         <p className="self-stretch my-auto text-2xl font-semibold text-black">

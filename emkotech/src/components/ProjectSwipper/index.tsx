@@ -3,7 +3,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import ProjectCard from '../ProjectCard';
 import { Swiper as SwiperType } from 'swiper';
-export const ProjectSwiper = () => {
+import { Project } from '@/pages/projects/[id]';
+export const ProjectSwiper = ({ data }: { data: Project[] }) => {
     const swiperRef = useRef<SwiperType | null>(null);
 
     return (
@@ -24,9 +25,9 @@ export const ProjectSwiper = () => {
                     },
                 }}
             >
-                {Array.from({ length: 10 })?.map((data, i) => (
+                {data?.map((item, i) => (
                     <SwiperSlide className="!py-[10px]" key={i}>
-                        <ProjectCard key={i} data={undefined} />
+                        <ProjectCard key={i} data={item} />
                     </SwiperSlide>
                 ))}
             </Swiper>

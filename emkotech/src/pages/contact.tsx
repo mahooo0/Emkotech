@@ -1,18 +1,17 @@
+import { parse } from 'cookie';
 import BreadcrumbNavigation from '@/components/BreadCamp';
-import { Footer } from '@/components/Footer';
-import Header from '@/components/Header';
-import React from 'react';
-import { useQuery } from '@tanstack/react-query';
+
+import React, { useEffect } from 'react';
 import {
     getContacts,
     getTranslations,
     postUserRequest,
 } from '@/services/Request';
-import { useLanguage } from '@/components/Hoc/LanguageContext';
 import { Formik, Form, Field, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { GetServerSidePropsContext } from 'next';
 
 const ContactSchema = Yup.object().shape({
     fullName: Yup.string().required('Ad və soyad tələb olunur'),
@@ -26,73 +25,84 @@ interface FormValues {
     notes: string;
 }
 
-const Contact = () => {
-    const { language } = useLanguage();
-    const { data, isLoading } = useQuery({
-        queryKey: ['contacts'],
-        queryFn: () => getContacts(language),
-    });
-    const { data: translationsData } = useQuery({
-        queryKey: ['translations', language],
-        queryFn: () => getTranslations(language),
-    });
+interface ContactData {
+    id: number;
+    icon: string;
+    data: string;
+}
 
+interface ContactsData {
+    image: string;
+    data: ContactData[];
+    iframe: string;
+}
+
+export interface TranslationsData {
+    data: {
+        Əlaqə: string;
+        Bizimlə_əlaqə: string;
+        Formu_doldur_biz_əlaqə_saxlayaq: string;
+        Ad_və_soyad: string;
+        [key: string]: string; // To handle dynamic translations
+    };
+}
+
+interface ContactProps {
+    lang: string;
+    contactsData: ContactsData;
+    translationsData: TranslationsData;
+}
+
+const Contact = ({ contactsData, translationsData }: ContactProps) => {
     const handleSubmit = async (
         values: FormValues,
         { setSubmitting }: FormikHelpers<FormValues>
     ) => {
-        console.log(values);
         const newValues = {
             category_id: '2',
             name: values.fullName,
             phone: values.phone,
             note: values.notes,
         };
-        console.log(newValues);
         try {
             await postUserRequest(newValues);
-
             toast.success('Müraciət göndərildi');
         } catch (error) {
-            console.log(error);
             toast.error('Müraciət göndərilərkən xəta baş verdi');
+            console.log(error);
         }
-
-        // Handle form submission here
         setSubmitting(false);
     };
-
-    if (isLoading) {
-        return (
-            <div className="flex items-center justify-center min-h-screen">
-                <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-            </div>
-        );
-    }
-
+    useEffect(() => {
+        if (contactsData) {
+            const element = document.getElementById('iframe_div');
+            if (element) {
+                element.innerHTML = contactsData.iframe;
+            }
+            // console.log(element.textContent);
+        }
+    }, [contactsData]);
     return (
-        <div>
-            <Header activeindex={5} />
+        <div className="mt-[94px]">
             <main>
                 <BreadcrumbNavigation
                     items={[
                         {
-                            text: `${translationsData?.data?.Əlaqə}`,
+                            text: translationsData?.data?.Əlaqə,
                             path: '/contact',
                         },
                     ]}
                 />
-                <section className="flex flex-col text-black lg:px-[100px] md:px-[60px] px-[16px] mt-6 ">
-                    <h1
-                        data-layername="məhsullar"
-                        className="self-center text-5xl max-md:text-4xl"
-                    >
-                        {translationsData?.data?.Əlaqə}
-                    </h1>
+                <section className="flex flex-col text-black lg:px-[100px] md:px-[60px] px-[16px] mt-6">
+                    {translationsData && translationsData.data ? (
+                        <h1>{translationsData?.data?.Əlaqə}</h1>
+                    ) : (
+                        <p>Loading...</p>
+                    )}
                     <div
                         className="rounded-[16px] overflow-hidden mt-6"
                         style={{
-                            backgroundImage: `url(${data.image})`,
+                            backgroundImage: `url(${contactsData.image})`,
                             backgroundSize: 'cover',
                         }}
                     >
@@ -107,12 +117,8 @@ const Contact = () => {
                                             }
                                         </div>
                                         <div className="flex flex-col mt-7 gap-3 w-full text-base max-md:max-w-full">
-                                            {data.data.map(
-                                                (contact: {
-                                                    id: number;
-                                                    icon: string;
-                                                    data: string;
-                                                }) => (
+                                            {contactsData.data.map(
+                                                (contact) => (
                                                     <div
                                                         key={contact.id}
                                                         className="flex overflow-hidden flex-col justify-center items-start p-2 w-full rounded-2xl bg-white bg-opacity-20 max-md:pr-5 max-md:max-w-full"
@@ -240,17 +246,55 @@ const Contact = () => {
                         </div>
                     </div>
                     <div
+                        id="iframe_div"
                         className="w-full h-[570px] rounded-xl mt-[20px] iframecantainer"
-                        dangerouslySetInnerHTML={{
-                            __html: data.iframe,
-                        }}
-                    ></div>
+                        // dangerouslySetInnerHTML={{
+                        //     __html:
+                        //         contactsData && contactsData?.iframe
+                        //             ? contactsData.iframe
+                        //             : '', // Default to an empty string
+                        // }}
+                    />
                 </section>
             </main>
-            <Footer />
             <ToastContainer />
         </div>
     );
 };
 
 export default Contact;
+
+export const getServerSideProps = async (
+    context: GetServerSidePropsContext
+) => {
+    const cookies = parse(context.req.headers.cookie || '');
+    const lang = cookies['accept-language'] || 'az';
+
+    try {
+        const contactsData = await getContacts(lang);
+        const translationsData = await getTranslations(lang);
+        console.log(contactsData);
+
+        // Ensure that contactsData and translationsData are valid
+        if (!contactsData || !translationsData) {
+            throw new Error('Missing data');
+        }
+
+        return {
+            props: {
+                lang,
+                contactsData,
+                translationsData,
+            },
+        };
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return {
+            props: {
+                lang,
+                contactsData: null,
+                translationsData: null,
+            },
+        };
+    }
+};

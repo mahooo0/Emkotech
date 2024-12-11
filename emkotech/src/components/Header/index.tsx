@@ -23,16 +23,20 @@ const NavItem: React.FC<NavItemProps> = ({
     hasDropdown = false,
 }) => {
     const baseClasses =
-        'flex gap-[10px] justify-center items-center self-stretch p-2.5 my-auto whitespace-nowrap';
+        'flex gap-[10px] flex-nowrap justify-center items-center self-stretch p-2.5 my-auto whitespace-nowrap h-[80%]';
     const activeClasses = isActive ? 'text-blue-600 text-opacity-90' : '';
     const [isoN, setIsON] = useState(false);
     return (
         <div
-            className={`${baseClasses} ${activeClasses}`}
+            className={`${baseClasses} ${activeClasses} `}
             onMouseEnter={() => setIsON(true)}
             onMouseLeave={() => setIsON(false)}
         >
-            <div className="self-stretch my-auto">{label}</div>
+            {label ? (
+                <div className="self-stretch my-auto">{label}</div>
+            ) : (
+                <div className="self-stretch my-auto animate-pulse bg-gray-300 h-4 w-20 rounded"></div>
+            )}
             {hasDropdown && (
                 <img
                     loading="lazy"
@@ -86,7 +90,7 @@ const NavContent = ({
     }
 
     return (
-        <nav className="flex flex-wrap items-center min-w-[240px] max-md:max-w-full h-[55px]">
+        <nav className="flex flex-wrap  items-center min-w-[240px] max-md:max-w-full h-[55px]">
             <div className="h-full">
                 <Link href={'/'}>
                     <NavItem
@@ -175,7 +179,12 @@ const FlagDropdown: React.FC = () => {
     const handleLanguageChange = (lang: string) => {
         console.log('lang', lang);
         setLanguage(lang);
+        localStorage.setItem('accept-language', lang); // Persist language selection
         setIsOpen(false);
+        document.cookie = `accept-language=${lang}; path=/`;
+
+        // Optionally reload the page or fetch new translations
+        window.location.reload(); // Reload for server-side rendering changes
     };
 
     const getFlagSrc = (lang: string) => `/svg/flag${lang}.svg`;
@@ -270,8 +279,8 @@ const Header = ({ activeindex }: { activeindex: number }) => {
     }, []);
 
     return (
-        <>
-            <header className=" lg:flex hidden flex-wrap gap-5 justify-between items-center px-[100px] pt-2.5 bg-white relative shadow-[0px_0px_11px_rgba(167,167,167,0.12)] max-md:px-5">
+        <div className=" fixed top-0 z-[1000] w-[100vw]">
+            <header className=" lg:flex hidden flex-wrap gap-5 justify-between items-center px-[100px] pt-2.5 bg-white relative shadow-[0px_0px_11px_rgba(167,167,167,0.12)] max-md:px-5 ">
                 <NavLogo />
                 <NavContent
                     setIsBarOpen={(par: boolean) => {
@@ -373,7 +382,7 @@ const Header = ({ activeindex }: { activeindex: number }) => {
                 <NavLogo />
                 <FlagDropdown />
             </header>
-        </>
+        </div>
     );
 };
 

@@ -1,8 +1,7 @@
-import Header from '@/components/Header';
 import { ProductSwiper } from '@/components/ProductSwipper';
-import { Footer } from '@/components/Footer';
 import { useRouter } from 'next/router';
-import { useQuery } from '@tanstack/react-query';
+import { parse } from 'cookie';
+
 import {
     getBottomBanner,
     getCustomers,
@@ -17,6 +16,10 @@ import PartnersSlider from '@/components/PartnersSwipper';
 import React, { useEffect } from 'react';
 import { useLanguage } from '@/components/Hoc/LanguageContext';
 import ProjectCard from '@/components/ProjectCard';
+import { Product } from './products/[id]';
+import { TranslationsData } from './contact';
+import { GetServerSidePropsContext } from 'next';
+// import VideoBanner from '@/components/Vidio';
 
 interface Statistic {
     statistic: string;
@@ -30,19 +33,27 @@ interface Project {
     image: string;
 }
 
-interface Product {
-    id: number;
-    title: string;
-    description: string;
-    price: number;
-    discount?: boolean;
-}
+// interface Product {
+//     id: number;
+//     title: string;
+//     description: string;
+//     price: number;
+//     discount?: boolean;
+// }
 
 interface Customer {
     id: number;
     name: string;
     description: string;
     icon: string;
+}
+interface TopBannerData {
+    data: {
+        title: string;
+        description: string;
+        button_text: string;
+        video: string;
+    };
 }
 
 interface ProductCategory {
@@ -51,120 +62,159 @@ interface ProductCategory {
     description: string;
     image: string;
 }
+interface ButtonBannerData {
+    data: {
+        title: string;
+        description: string;
+        button_text: string;
+        image: string;
+    };
+}
+interface Partner {
+    name: string;
+    url: string;
+    icon: string;
+}
 
-export default function Home() {
+interface PartnerData {
+    data: Partner[];
+}
+
+interface HomePageProps {
+    topBannerData: TopBannerData;
+    statisticsData: { data: Statistic[]; projects: [] };
+    productsData: { data: Product[] };
+    customersData: { data: Customer[] };
+    bottomBannerData: ButtonBannerData;
+    partnersData: PartnerData;
+    productCategoriesData: { data: ProductCategory[] };
+    translationsData: TranslationsData;
+}
+
+export default function Home({
+    topBannerData,
+    statisticsData,
+    productsData,
+    customersData,
+    bottomBannerData,
+    partnersData,
+    productCategoriesData,
+    translationsData,
+}: HomePageProps) {
+    // console.log('---lanf---', topBannerData);
+
     const router = useRouter();
     const { language } = useLanguage();
     // Add effect to listen to localStorage changes
     useEffect(() => {
-        console.log('languageaxsept:', localStorage.getItem('accept-language'));
-        console.log('language', language);
+        // console.log('languageaxsept:', localStorage.getItem('accept-language'));
+        // console.log('language', language);
     }, [language]);
-    const {
-        data: topBannerData,
-        isLoading: topBannerLoading,
-        isError: topBannerError,
-    } = useQuery({
-        queryKey: ['topBanner', language],
-        queryFn: () => getTopBanner(language),
-    });
-    const {
-        data: statisticsData,
-        isLoading: statisticsLoading,
-        isError: statisticsError,
-    } = useQuery({
-        queryKey: ['statistics', language],
-        queryFn: () => getStatistics(language),
-    });
-    const {
-        data: productsData,
-        isLoading: productsLoading,
-        isError: productsError,
-    } = useQuery({
-        queryKey: ['products', language],
-        queryFn: () => getProducts(language),
-    });
-    console.log('productsData', productsData);
-    const {
-        data: customersData,
-        isLoading: customersLoading,
-        isError: customersError,
-    } = useQuery({
-        queryKey: ['customers', language],
-        queryFn: () => getCustomers(language),
-    });
-    const {
-        data: bottomBannerData,
-        isLoading: bottomBannerLoading,
-        isError: bottomBannerError,
-    } = useQuery({
-        queryKey: ['bottomBanner', language],
-        queryFn: () => getBottomBanner(language),
-    });
-    const {
-        data: partnersData,
-        isLoading: partnersLoading,
-        isError: partnersError,
-    } = useQuery({
-        queryKey: ['partners', language],
-        queryFn: () => getPartners(language),
-    });
-    const {
-        data: productCategoriesData,
-        isLoading: productCategoriesLoading,
-        isError: productCategoriesError,
-    } = useQuery({
-        queryKey: ['productCategories', language],
-        queryFn: () => getProductCategories(language),
-    });
-    const { data: translationsData } = useQuery({
-        queryKey: ['translations', language],
-        queryFn: () => getTranslations(language),
-    });
+    // const {
+    //     data: topBannerData,
+    //     isLoading: topBannerLoading,
+    //     isError: topBannerError,
+    // } = useQuery({
+    //     queryKey: ['topBanner', language],
+    //     queryFn: () => getTopBanner(language),
+    // });
+    // const {
+    //     data: statisticsData,
+    //     isLoading: statisticsLoading,
+    //     isError: statisticsError,
+    // } = useQuery({
+    //     queryKey: ['statistics', language],
+    //     queryFn: () => getStatistics(language),
+    // });
+    // const {
+    //     data: productsData,
+    //     isLoading: productsLoading,
+    //     isError: productsError,
+    // } = useQuery({
+    //     queryKey: ['products', language],
+    //     queryFn: () => getProducts(language),
+    // });
+    // // console.log('productsData', productsData);
+    // const {
+    //     data: customersData,
+    //     isLoading: customersLoading,
+    //     isError: customersError,
+    // } = useQuery({
+    //     queryKey: ['customers', language],
+    //     queryFn: () => getCustomers(language),
+    // });
+    // const {
+    //     data: bottomBannerData,
+    //     isLoading: bottomBannerLoading,
+    //     isError: bottomBannerError,
+    // } = useQuery({
+    //     queryKey: ['bottomBanner', language],
+    //     queryFn: () => getBottomBanner(language),
+    // });
+    // const {
+    //     data: partnersData,
+    //     isLoading: partnersLoading,
+    //     isError: partnersError,
+    // } = useQuery({
+    //     queryKey: ['partners', language],
+    //     queryFn: () => getPartners(language),
+    // });
+    // const {
+    //     data: productCategoriesData,
+    //     isLoading: productCategoriesLoading,
+    //     isError: productCategoriesError,
+    // } = useQuery({
+    //     queryKey: ['productCategories', language],
+    //     queryFn: () => getProductCategories(language),
+    // });
+    // const { data: translationsData } = useQuery({
+    //     queryKey: ['translations', language],
+    //     queryFn: () => getTranslations(language),
+    // });
 
-    if (
-        topBannerLoading ||
-        statisticsLoading ||
-        productsLoading ||
-        customersLoading ||
-        bottomBannerLoading ||
-        partnersLoading ||
-        productCategoriesLoading
-    ) {
-        return (
-            <div className="flex items-center justify-center min-h-screen">
-                <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-            </div>
-        );
-    }
+    // if (
+    //     topBannerLoading ||
+    //     statisticsLoading ||
+    //     productsLoading ||
+    //     customersLoading ||
+    //     bottomBannerLoading ||
+    //     partnersLoading ||
+    //     productCategoriesLoading
+    // ) {
+    //     return (
+    //         <div className="flex items-center justify-center min-h-screen">
+    //             <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+    //         </div>
+    //     );
+    // }
 
-    if (
-        topBannerError ||
-        statisticsError ||
-        productsError ||
-        customersError ||
-        bottomBannerError ||
-        partnersError ||
-        productCategoriesError
-    ) {
-        return (
-            <div className="flex items-center justify-center min-h-screen">
-                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-                    <p>Error</p>
-                </div>
-            </div>
-        );
-    }
+    // if (
+    //     topBannerError ||
+    //     statisticsError ||
+    //     productsError ||
+    //     customersError ||
+    //     bottomBannerError ||
+    //     partnersError ||
+    //     productCategoriesError
+    // ) {
+    //     return (
+    //         <div className="flex items-center justify-center min-h-screen">
+    //             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+    //                 <p>Error</p>
+    //             </div>
+    //         </div>
+    //     );
+    // }
     return (
         <>
-            <Header activeindex={0} />
-            <section className=" relative max-h-[553px]">
+            {/* <Header activeindex={0} />{' '} */}
+            <section className=" relative max-h-[553px] mt-[70px]">
                 <video
-                    className="  w-full h-full z-0 object-cover max-h-[553px]"
+                    className="  w-full h-[100%] z-0 object-cover max-h-[553px] "
                     loop={true}
                     autoPlay={true}
                     muted={true}
-                    src={topBannerData.data.video}
+                    src={topBannerData?.data?.video}
                 ></video>
                 <div className="flex absolute  top-0 left-0 overflow-hidden z-10 flex-col justify-center items-start px-[100px] py-44 bg-black bg-opacity-20 max-md:px-5 max-md:py-24 w-full h-full">
                     <div className="flex flex-col max-w-full w-[652px]">
@@ -178,7 +228,7 @@ export default function Home() {
                             }}
                         ></div>
                         <button
-                            className="w-[200px] h-[47px] relative flex justify-between items-center mt-[20px]"
+                            className="w-[200px] max-sm:w-[140px] h-[47px] max-sm:h-[36px] relative flex justify-between items-center mt-[20px]"
                             onClick={() => router.push('/products')}
                         >
                             <img
@@ -258,7 +308,7 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section>{' '}
             <section className=" lg:mt-[100px] md:mt-[80px] mt-[40px]">
                 <div className="w-full flex  lg:justify-center md:justify-center justify-start lg:flex-row md:flex-row flex-col lg:px-[100px] md:px-[60px] px-[30px]  ">
                     <h2 className="text-5xl text-black text-wrap  max-md:text-4xl ">
@@ -308,7 +358,7 @@ export default function Home() {
                         (item: Product) => item.discount
                     )}
                 />
-            </section>
+            </section>{' '}
             <section className="w-full lg:px-[100px] md:px-[60px] px-[30px]">
                 <div className="w-full flex gap-4  lg:mt-[100px] md:mt-[80px] mt-[40px] lg:justify-center md:justify-center justify-between lg:flex-row md:flex-row flex-col  ">
                     <h2 className="text-5xl text-black text-wrap  max-md:text-4xl">
@@ -413,14 +463,67 @@ export default function Home() {
                         </button>
                     </div>
                 </div>
-            </section>
+            </section>{' '}
             <section className="ProductSwippenSection flex flex-col rounded-none  lg:mt-[120px] mt-[60px] w-[100%] overflow-hidden">
                 <div className="self-center text-5xl text-black text-wrap  max-md:text-4xl mr-2">
-                    {translationsData?.data?.Partnyorlar}
+                    {translationsData.data.Partnyorlar}
                 </div>
                 <PartnersSlider data={partnersData.data} />
-            </section>
-            <Footer />
+            </section>{' '}
         </>
     );
+}
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+    const cookies = parse(context.req.headers.cookie || '');
+    const lang = cookies['accept-language'] || 'en';
+    console.log(lang);
+
+    try {
+        const [
+            topBannerData,
+            statisticsData,
+            productsData,
+            customersData,
+            bottomBannerData,
+            partnersData,
+            productCategoriesData,
+            translationsData,
+        ] = await Promise.all([
+            getTopBanner(lang),
+            getStatistics(lang),
+            getProducts(lang),
+            getCustomers(lang),
+            getBottomBanner(lang),
+            getPartners(lang),
+            getProductCategories(lang),
+            getTranslations(lang),
+        ]);
+
+        return {
+            props: {
+                topBannerData,
+                statisticsData,
+                productsData,
+                customersData,
+                bottomBannerData,
+                partnersData,
+                productCategoriesData,
+                translationsData,
+            },
+        };
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return {
+            props: {
+                topBannerData: null,
+                statisticsData: [],
+                productsData: [],
+                customersData: [],
+                bottomBannerData: null,
+                partnersData: null,
+                productCategoriesData: [],
+                translationsData: null,
+            },
+        };
+    }
 }

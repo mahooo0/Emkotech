@@ -1,6 +1,5 @@
 import BreadcrumbNavigation from '@/components/BreadCamp';
-import { Footer } from '@/components/Footer';
-import Header from '@/components/Header';
+
 import { useLanguage } from '@/components/Hoc/LanguageContext';
 import PaginationComponent from '@/components/Pagination';
 import ProductCard from '@/components/ProductCard';
@@ -174,8 +173,8 @@ export default function Products() {
     }
 
     return (
-        <div>
-            <Header activeindex={1} />
+        <div className="mt-[94px]">
+            {/* <Header activeindex={1} /> */}
             <BreadcrumbNavigation
                 items={[
                     {
@@ -375,7 +374,7 @@ export default function Products() {
                     onPageChange={(page) => setPage(page)}
                 />
             </main>
-            <Footer />
+            {/* <Footer /> */}
         </div>
     );
 }

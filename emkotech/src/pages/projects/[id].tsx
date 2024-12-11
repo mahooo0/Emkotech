@@ -1,69 +1,61 @@
 import BreadcrumbNavigation from '@/components/BreadCamp';
-import { Footer } from '@/components/Footer';
-import Header from '@/components/Header';
+
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { getProjectById, getTranslations } from '@/services/Request';
-import { useLanguage } from '@/components/Hoc/LanguageContext';
-import { useRouter } from 'next/router';
-import ProjectCard from '@/components/ProjectCard';
-import { Project } from '.';
+import {
+    getProjectById,
+    getProjects,
+    getTranslations,
+} from '@/services/Request';
+import { ProjectSwiper } from '@/components/ProjectSwipper';
+import { GetServerSidePropsContext } from 'next';
 
-export default function ProjectsId() {
-    const { language } = useLanguage();
-    const router = useRouter();
-    const { id } = router.query;
-    console.log(id);
+export interface Project {
+    id: number;
+    title: string;
+    description: string;
+    image: string;
+}
+type TranslationData = Record<string, string>;
 
-    const { data, isLoading, error } = useQuery({
-        queryKey: ['project', language, id],
-        queryFn: () => {
-            if (!id) return null;
-            return getProjectById(language, id);
-        },
-        enabled: !!id,
-    });
-
-    const { data: translationsData } = useQuery({
-        queryKey: ['translations', language],
-        queryFn: () => getTranslations(language),
-    });
-
-    console.log(data);
-    if (isLoading) {
-        return (
-            <div className="flex items-center justify-center min-h-screen">
-                <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-            </div>
-        );
+interface Translation {
+    Layihələr: string;
+    Digər_Layihələr: string;
+    data: TranslationData;
+}
+export default function ProjectsId({
+    project,
+    translations,
+    relatedProjects,
+}: {
+    project: Project;
+    translations: Translation;
+    relatedProjects: Project[];
+}) {
+    if (!project) {
+        return <div>Error: Project not found</div>;
     }
-    if (error) {
-        return <div>Error</div>;
-    }
+
     return (
         <div>
-            <Header activeindex={3} />
-            <main>
-                {data?.data?.title && (
-                    <BreadcrumbNavigation
-                        items={[
-                            {
-                                text: `${translationsData?.data?.Layihələr}`,
-                                path: '/projects',
-                            },
-                            {
-                                text: data?.data?.title,
-                                path: `/projects/${id}`,
-                            },
-                        ]}
-                    />
-                )}
-                <section className="flex flex-col text-black lg:px-[100px] md:px-[60px] px-[30px] ">
+            {/* <Header activeindex={3} /> */}
+            <main className="mt-[94px]">
+                <BreadcrumbNavigation
+                    items={[
+                        {
+                            text: `${translations?.Layihələr}`,
+                            path: '/projects',
+                        },
+                        {
+                            text: project.title,
+                            path: `/projects/${project.id}`,
+                        },
+                    ]}
+                />
+                <section className="flex flex-col text-black lg:px-[100px] md:px-[60px] px-[30px]">
                     <div className="flex flex-col rounded-2xl mt-[24px]">
                         <h2 className="self-center text-5xl text-black max-md:text-4xl">
-                            {data?.data?.title}
+                            {project.title}
                         </h2>
-
                         <div className="flex flex-col rounded-2xl">
                             <div className="lg:mt-6 mt-0 max-md:-mr-0.5 max-md:max-w-full">
                                 <div className="flex gap-5 max-md:flex-col">
@@ -71,14 +63,14 @@ export default function ProjectsId() {
                                         <img
                                             loading="lazy"
                                             className="object-cover w-full rounded-2xl aspect-square max-md:mt-6 max-md:max-w-full"
-                                            src={data?.data?.image}
+                                            src={project.image}
                                         />
                                     </div>
                                     <div className="flex flex-col ml-5 w-[59%] max-md:ml-0 max-md:w-full">
                                         <div
                                             className="text-base leading-8 text-neutral-600 max-md:mt-6 max-md:max-w-full"
                                             dangerouslySetInnerHTML={{
-                                                __html: data?.data?.description,
+                                                __html: project.description,
                                             }}
                                         ></div>
                                     </div>
@@ -88,17 +80,51 @@ export default function ProjectsId() {
                     </div>
                 </section>
                 <h2 className="self-center w-full text-center mt-[120px] text-5xl text-black max-md:text-4xl">
-                    {translationsData?.data?.Digər_Layihələr}
+                    {translations?.Digər_Layihələr}
                 </h2>
-                <div className="grid px-[30px] lg:grid-cols-3 grid-cols-1 w-full self-center justify-self-center place-items-center gap-6 mt-[34px] max-w-[1200px] mx-auto">
-                    {data?.projects?.map((item: Project) => (
+                <ProjectSwiper data={relatedProjects} />
+                {/* <div className="grid px-[30px] lg:grid-cols-3 grid-cols-1 w-full self-center justify-self-center place-items-center gap-6 mt-[34px] max-w-[1200px] mx-auto">
+                    {relatedProjects.map((item: Project) => (
                         <ProjectCard key={item.id} data={item} />
                     ))}
-                </div>
-
-                {/* <ProjectSwiper /> */}
+                </div> */}
             </main>
-            <Footer />
+            {/* <Footer /> */}
         </div>
     );
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+    const id = context?.params?.id; // Get project ID from URL params
+    const language = context.req.cookies['accept-language'] || 'en'; // Use 'accept-language' cookie or fallback to 'en'
+
+    try {
+        const [projectResponse, translationsResponse] = await Promise.all([
+            getProjectById(language, id),
+            getTranslations(language),
+        ]);
+
+        // Fetch related projects if needed
+        const relatedProjectsResponse = await getProjects(language); // Assuming `getProjects` fetches all projects
+        const relatedProjects = relatedProjectsResponse.data.filter(
+            (p: Project) => p.id !== Number(id)
+        );
+
+        return {
+            props: {
+                project: projectResponse.data || null,
+                translations: translationsResponse.data || {},
+                relatedProjects: relatedProjects || [],
+            },
+        };
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return {
+            props: {
+                project: null,
+                translations: {},
+                relatedProjects: [],
+            },
+        };
+    }
 }

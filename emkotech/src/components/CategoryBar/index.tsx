@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface subcategories {
     id: string;
@@ -40,6 +40,13 @@ const CategoryBAr = ({
     const [selectedCategory, setSelectedCategory] = useState<string>(
         categories?.data[0].id
     );
+
+    useEffect(() => {
+        if (categories?.data?.length > 0) {
+            setSelectedCategory(categories.data[0].id); // Correctly set the state
+        }
+    }, [categories]); // This effect will run when the 'categories' data changes
+
     console.log(productsLoading);
     console.log(products);
 

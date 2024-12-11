@@ -1,8 +1,6 @@
 import BreadcrumbNavigation from '@/components/BreadCamp';
-import { Footer } from '@/components/Footer';
-import Header from '@/components/Header';
-import { useLanguage } from '@/components/Hoc/LanguageContext';
-import { Aside } from '@/components/NewsIdAside';
+
+import { Aside, NewsItem } from '@/components/NewsIdAside';
 import MainID from '@/components/NewsIdMain';
 import { NewsSwiper } from '@/components/NewsSwipper';
 import {
@@ -11,64 +9,52 @@ import {
     getPopularNews,
     getTranslations,
 } from '@/services/Request';
-import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
 import React from 'react';
 
-export default function NewsId() {
-    const router = useRouter();
-    const { id } = router.query;
-    const { language } = useLanguage();
-    console.log(id);
+interface NewsIdProps {
+    newsData: {
+        title: string;
+        date: string;
+        views: number;
+        image: string;
+        description: string;
+    };
+    newsList: NewsData[];
+    popularData: NewsItem[];
+    translationsData: {
+        Xəbərlər: string;
+        Populyar_Məhsullar: string;
+        Hamısına_bax: string;
+    };
+    id: string;
+}
 
-    const {
-        data: newsData,
-        isLoading: newsLoading,
-        isError: newsError,
-    } = useQuery({
-        queryKey: ['newsid', id, language],
-        queryFn: () => getNewsById(language, id),
-    });
-    const { data, isLoading, isError } = useQuery({
-        queryKey: ['news', language, 0],
-        queryFn: () => getNews(language, 0),
-    });
-    const {
-        data: popularData,
-        isLoading: popularLoading,
-        isError: popularError,
-    } = useQuery({
-        queryKey: ['popularnews', language],
-        queryFn: () => getPopularNews(language),
-    });
-    const { data: translationsData } = useQuery({
-        queryKey: ['translations', language],
-        queryFn: () => getTranslations(language),
-    });
-    console.log(newsData);
-    if (newsLoading || popularLoading || isLoading) {
+export default function NewsId({
+    newsData,
+    newsList,
+    popularData,
+    translationsData,
+    id,
+}: NewsIdProps) {
+    if (!newsData || !newsList || !popularData) {
         return (
             <div className="flex items-center justify-center min-h-screen">
                 <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
             </div>
         );
     }
-    if (newsError || popularError || isError) {
-        return <div>Error</div>;
-    }
+
     return (
-        <div>
-            {' '}
-            <Header activeindex={4} />
-            {newsData.data.title && (
+        <div className="mt-[94px]">
+            {newsData.title && (
                 <BreadcrumbNavigation
                     items={[
                         {
-                            text: `${translationsData?.data?.Xəbərlər}`,
+                            text: `${translationsData?.Xəbərlər}`,
                             path: '/news',
                         },
                         {
-                            text: newsData.data.title,
+                            text: newsData.title,
                             path: `/news/${id}`,
                         },
                     ]}
@@ -78,25 +64,23 @@ export default function NewsId() {
                 <div className="flex flex-col text-black justify-center w-full mt-[24px]">
                     <h1
                         data-layername="məhsullar"
-                        className="self-center lg:text-4xl text-[28px] text-center  px-3 max-w-[595px]"
+                        className="self-center lg:text-4xl text-[28px] text-center px-3 max-w-[595px]"
                     >
-                        {newsData.data.title}
+                        {newsData.title}
                     </h1>
                 </div>
-                <section className="flex mt-3 lg:flex-row flex-col-reverse justify-between lg:px-[100px] md:px-[60px] px-[30px] lg:gap-[76px] gap-[36px] ">
+                <section className="flex mt-3 lg:flex-row flex-col-reverse justify-between lg:px-[100px] md:px-[60px] px-[30px] lg:gap-[76px] gap-[36px]">
                     <div>
-                        <section className="flex gap-5 items-center mt-4 self-start mb-4 lg:ml-[60px] ml-0 text-base tracking-normal whitespace-nowrap text-neutral-400 ">
+                        <section className="flex gap-5 items-center mt-4 self-start mb-4 lg:ml-[60px] ml-0 text-base tracking-normal whitespace-nowrap text-neutral-400">
                             <div className="flex gap-2 items-center self-stretch my-auto">
                                 <img
                                     loading="lazy"
-                                    src={
-                                        'https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/cf817ca617e1878a4b6ce857d280b52ff3dee263e9c43ed5302ad800e47a0a6d?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&'
-                                    }
-                                    alt={'alt'}
+                                    src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/cf817ca617e1878a4b6ce857d280b52ff3dee263e9c43ed5302ad800e47a0a6d?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
+                                    alt="alt"
                                     className="object-contain shrink-0 self-stretch my-auto aspect-square w-[18px]"
                                 />
                                 <span className="self-stretch my-auto">
-                                    {newsData.data.date}
+                                    {newsData.date}
                                 </span>
                             </div>
                             <div className="flex gap-2 items-center self-stretch my-auto">
@@ -122,39 +106,71 @@ export default function NewsId() {
                                 </svg>
 
                                 <span className="self-stretch my-auto">
-                                    {newsData.data.views}
+                                    {newsData.views}
                                 </span>
                             </div>
                         </section>
-                        <MainID data={newsData.data} />
+                        <MainID data={newsData} />
                     </div>
-                    <Aside data={popularData?.data} />
+                    <Aside data={popularData} />
                 </section>
-                <section className=" mt-[100px]">
-                    <div className="w-full flex  lg:justify-center md:justify-center justify-start flex-wrap px-[30px] ">
+                <section className="mt-[100px]">
+                    <div className="w-full flex lg:justify-center md:justify-center justify-start flex-wrap px-[30px]">
                         <h2 className="text-5xl text-black max-md:text-4xl text-nowrap">
-                            {translationsData?.data?.Populyar_Məhsullar}
+                            {translationsData?.Populyar_Məhsullar}
                         </h2>
-                        <div className=" lg:absolute md:absolute  static lg:right-[100px] md:right-[60px] right-[30px] flex  h-[48px] items-end">
+                        <div className="lg:absolute md:absolute static lg:right-[100px] md:right-[60px] right-[30px] flex h-[48px] items-end">
                             <button
                                 className="flex gap-2.5 justify-center text-nowrap items-center self-end text-base font-medium rounded-[35px] text-blue-600 text-opacity-90"
-                                onClick={() => router.push('/news')}
+                                onClick={() => (window.location.href = '/news')}
                             >
-                                <p className="self-stretch my-auto text-nowrap ">
-                                    {translationsData?.data?.Hamısına_bax}
+                                <p className="self-stretch my-auto text-nowrap">
+                                    {translationsData?.Hamısına_bax}
                                 </p>
                                 <img
                                     loading="lazy"
                                     src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/b0bcb315d4534a4ad48392d7c96985a79c21ac585f3284b9a6268cac196f65a9?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
-                                    className="object-contain shrink-0  self-stretch my-auto w-6 aspect-square"
+                                    className="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
                                 />
                             </button>
                         </div>
                     </div>
-                    <NewsSwiper data={data?.data} />
+                    <NewsSwiper data={newsList} />
                 </section>
             </main>
-            <Footer />
         </div>
     );
 }
+
+import { GetServerSideProps } from 'next';
+import { NewsData } from '@/components/NewsCard';
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    const { id } = context.params as { id: string };
+    const language = context.req.headers['accept-language'] || 'en';
+
+    try {
+        const [newsData, newsList, popularData, translationsData] =
+            await Promise.all([
+                getNewsById(language, id),
+                getNews(language, 0),
+                getPopularNews(language),
+                getTranslations(language),
+            ]);
+
+        return {
+            props: {
+                newsData: newsData.data,
+                newsList: newsList.data,
+                popularData: popularData.data,
+                translationsData: translationsData.data,
+                id,
+            },
+        };
+    } catch (error) {
+        console.error(error);
+        return {
+            props: {},
+        };
+    }
+};

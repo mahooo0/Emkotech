@@ -32,7 +32,7 @@ export const ProductSwiper = ({ data }: { data: Product[] }) => {
                 {data?.map((item: Product, i: number) => (
                     <SwiperSlide
                         key={i}
-                        className="!py-[10px] !flex !justify-center "
+                        className="!py-[10px] !flex !justify-center !min-h-[675px] "
                     >
                         <ProductCard data={item} />
                     </SwiperSlide>
