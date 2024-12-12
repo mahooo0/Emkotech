@@ -144,7 +144,7 @@ export default function NewsId({
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const { id } = context.params as { id: string };
+    const id = context?.params?.id; // Get product ID from URL
     const language = context.req.headers['accept-language'] || 'en';
 
     try {
