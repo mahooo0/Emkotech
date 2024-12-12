@@ -11,6 +11,7 @@ import {
     getTranslations,
 } from '@/services/Request';
 import React from 'react';
+import { useRouter } from 'next/router';
 
 interface NewsIdProps {
     newsData: {
@@ -41,10 +42,21 @@ export default function NewsId({
     nodata,
     error,
 }: NewsIdProps) {
+    const router = useRouter();
+
+    // Handle no data scenario
     if (nodata) {
-        console.log('error:', error);
-        return <>error</>;
+        console.error('Error fetching data:', error);
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <h1 className="text-center text-2xl text-red-500">
+                    Failed to load data. Showing default content.
+                </h1>
+            </div>
+        );
     }
+
+    // Loading spinner for fallback states
     if (!newsData || !newsList || !popularData) {
         return (
             <div className="flex items-center justify-center min-h-screen">
@@ -55,11 +67,12 @@ export default function NewsId({
 
     return (
         <div className="mt-[94px]">
-            {newsData.title && (
+            {/* Breadcrumb Navigation */}
+            {translationsData?.Xəbərlər && newsData.title && (
                 <BreadcrumbNavigation
                     items={[
                         {
-                            text: `${translationsData?.Xəbərlər}`,
+                            text: translationsData.Xəbərlər,
                             path: '/news',
                         },
                         {
@@ -70,76 +83,59 @@ export default function NewsId({
                 />
             )}
             <main>
+                {/* Title Section */}
                 <div className="flex flex-col text-black justify-center w-full mt-[24px]">
-                    <h1
-                        data-layername="məhsullar"
-                        className="self-center lg:text-4xl text-[28px] text-center px-3 max-w-[595px]"
-                    >
+                    <h1 className="self-center lg:text-4xl text-[28px] text-center px-3 max-w-[595px]">
                         {newsData.title}
                     </h1>
                 </div>
+
+                {/* Main Content Section */}
                 <section className="flex mt-3 lg:flex-row flex-col-reverse justify-between lg:px-[100px] md:px-[60px] px-[30px] lg:gap-[76px] gap-[36px]">
                     <div>
-                        <section className="flex gap-5 items-center mt-4 self-start mb-4 lg:ml-[60px] ml-0 text-base tracking-normal whitespace-nowrap text-neutral-400">
-                            <div className="flex gap-2 items-center self-stretch my-auto">
+                        {/* News Meta Info */}
+                        <section className="flex gap-5 items-center mt-4 mb-4 text-base text-neutral-400">
+                            <div className="flex gap-2 items-center">
                                 <img
                                     loading="lazy"
-                                    src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/cf817ca617e1878a4b6ce857d280b52ff3dee263e9c43ed5302ad800e47a0a6d?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
-                                    alt="alt"
-                                    className="object-contain shrink-0 self-stretch my-auto aspect-square w-[18px]"
+                                    src="/icons/calendar.svg"
+                                    alt="date"
+                                    className="w-[18px] h-[18px]"
                                 />
-                                <span className="self-stretch my-auto">
-                                    {newsData.date}
-                                </span>
+                                <span>{newsData.date}</span>
                             </div>
-                            <div className="flex gap-2 items-center self-stretch my-auto">
-                                <svg
-                                    width="18"
-                                    height="18"
-                                    viewBox="0 0 18 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        d="M11.25 9C11.25 9.59674 11.0129 10.169 10.591 10.591C10.169 11.0129 9.59674 11.25 9 11.25C8.40326 11.25 7.83097 11.0129 7.40901 10.591C6.98705 10.169 6.75 9.59674 6.75 9C6.75 8.40326 6.98705 7.83097 7.40901 7.40901C7.83097 6.98705 8.40326 6.75 9 6.75C9.59674 6.75 10.169 6.98705 10.591 7.40901C11.0129 7.83097 11.25 8.40326 11.25 9Z"
-                                        stroke="#9B9B9B"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    />
-                                    <path
-                                        d="M1.5 9C2.7 5.92725 5.502 3.75 9 3.75C12.498 3.75 15.3 5.92725 16.5 9C15.3 12.0728 12.498 14.25 9 14.25C5.502 14.25 2.7 12.0728 1.5 9Z"
-                                        stroke="#9B9B9B"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    />
-                                </svg>
-
-                                <span className="self-stretch my-auto">
-                                    {newsData.views}
-                                </span>
+                            <div className="flex gap-2 items-center">
+                                <img
+                                    loading="lazy"
+                                    src="/icons/views.svg"
+                                    alt="views"
+                                    className="w-[18px] h-[18px]"
+                                />
+                                <span>{newsData.views}</span>
                             </div>
                         </section>
                         <MainID data={newsData} />
                     </div>
                     <Aside data={popularData} />
                 </section>
+
+                {/* Popular Products Section */}
                 <section className="mt-[100px]">
-                    <div className="w-full flex lg:justify-center md:justify-center justify-start flex-wrap px-[30px]">
-                        <h2 className="text-5xl text-black max-md:text-4xl text-nowrap">
+                    <div className="w-full flex lg:justify-center justify-start flex-wrap px-[30px]">
+                        <h2 className="text-5xl text-black max-md:text-4xl">
                             {translationsData?.Populyar_Məhsullar}
                         </h2>
-                        <div className="lg:absolute md:absolute static lg:right-[100px] md:right-[60px] right-[30px] flex h-[48px] items-end">
+                        <div className="lg:absolute md:absolute static lg:right-[100px] md:right-[60px] right-[30px]">
                             <button
-                                className="flex gap-2.5 justify-center text-nowrap items-center self-end text-base font-medium rounded-[35px] text-blue-600 text-opacity-90"
-                                onClick={() => (window.location.href = '/news')}
+                                className="flex gap-2.5 items-center text-base font-medium text-blue-600"
+                                onClick={() => router.push('/news')}
                             >
-                                <p className="self-stretch my-auto text-nowrap">
-                                    {translationsData?.Hamısına_bax}
-                                </p>
+                                <p>{translationsData?.Hamısına_bax}</p>
                                 <img
                                     loading="lazy"
-                                    src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/b0bcb315d4534a4ad48392d7c96985a79c21ac585f3284b9a6268cac196f65a9?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
-                                    className="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
+                                    src="/icons/arrow-right.svg"
+                                    className="w-6 h-6"
+                                    alt="View All"
                                 />
                             </button>
                         </div>
@@ -151,10 +147,9 @@ export default function NewsId({
     );
 }
 
-// Update this import path as needed
-
+// Server-side Data Fetching
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const id = context?.params?.id as string | undefined; // Ensure id is of type string
+    const id = context?.params?.id as string | undefined;
     const language = context.req.headers['accept-language'] || 'en';
 
     try {
@@ -173,51 +168,38 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 popularData: popularData.data,
                 translationsData: translationsData.data,
                 id,
+                nodata: false,
+                error: '',
             },
         };
     } catch (error) {
         console.error(error);
 
-        // Default values in case of error
-        const defaultNewsData = {
-            title: 'Default News Title',
-            date: '2024-01-01',
-            views: 0,
-            image: '/default-image.jpg',
-            description: 'Default description for the news item.',
-        };
-        const defaultNewsList = [
-            {
-                id: '1',
-                title: 'Default News 1',
-                date: '2024-01-01',
-                image: '/default-image1.jpg',
-                description: 'Description of default news 1.',
-            },
-            {
-                id: '2',
-                title: 'Default News 2',
-                date: '2024-01-02',
-                image: '/default-image2.jpg',
-                description: 'Description of default news 2.',
-            },
-        ];
-        const defaultPopularData = [
-            { id: '1', title: 'Popular News 1', views: 100 },
-            { id: '2', title: 'Popular News 2', views: 200 },
-        ];
-        const defaultTranslationsData = {
-            Xəbərlər: 'News',
-            Populyar_Məhsullar: 'Popular Products',
-            Hamısına_bax: 'View All',
-        };
-
+        // Default values for error scenarios
         return {
             props: {
-                newsData: defaultNewsData,
-                newsList: defaultNewsList,
-                popularData: defaultPopularData,
-                translationsData: defaultTranslationsData,
+                newsData: {
+                    title: 'Default News Title',
+                    date: '2024-01-01',
+                    views: 0,
+                    image: '/default-image.jpg',
+                    description: 'Default description for the news item.',
+                },
+                newsList: [
+                    {
+                        id: '1',
+                        title: 'Default News 1',
+                        date: '2024-01-01',
+                        image: '/default-image1.jpg',
+                        description: 'Default description.',
+                    },
+                ],
+                popularData: [{ id: '1', title: 'Popular News 1', views: 100 }],
+                translationsData: {
+                    Xəbərlər: 'News',
+                    Populyar_Məhsullar: 'Popular Products',
+                    Hamısına_bax: 'View All',
+                },
                 id,
                 nodata: true,
                 error: `${error}`,

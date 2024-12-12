@@ -1,7 +1,7 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-    reactStrictMode: false,
+    reactStrictMode: true,
 
     images: {
         domains: ['emkotech.epart.az'], // Add your external domain here
