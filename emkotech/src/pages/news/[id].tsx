@@ -28,7 +28,7 @@ interface NewsIdProps {
         Hamısına_bax: string;
     };
     nodata: boolean;
-    error: any;
+    error: string;
     id: string;
 }
 
@@ -220,7 +220,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 translationsData: defaultTranslationsData,
                 id,
                 nodata: true,
-                error: error,
+                error: `${error}`,
             },
         };
     }
