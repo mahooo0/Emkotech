@@ -1,6 +1,5 @@
 import BreadcrumbNavigation from '@/components/BreadCamp';
-import { Footer } from '@/components/Footer';
-import Header from '@/components/Header';
+
 import { useLanguage } from '@/components/Hoc/LanguageContext';
 import PaginationComponent from '@/components/Pagination';
 import ProductCard from '@/components/ProductCard';

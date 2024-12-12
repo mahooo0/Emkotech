@@ -1,5 +1,6 @@
 import BreadcrumbNavigation from '@/components/BreadCamp';
-
+import { GetServerSideProps } from 'next';
+import { NewsData } from '@/components/NewsCard';
 import { Aside, NewsItem } from '@/components/NewsIdAside';
 import MainID from '@/components/NewsIdMain';
 import { NewsSwiper } from '@/components/NewsSwipper';
@@ -142,9 +143,6 @@ export default function NewsId({
     );
 }
 
-import { GetServerSideProps } from 'next';
-import { NewsData } from '@/components/NewsCard';
-
 export const getServerSideProps: GetServerSideProps = async (context) => {
     const { id } = context.params as { id: string };
     const language = context.req.headers['accept-language'] || 'en';
@@ -169,8 +167,49 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         };
     } catch (error) {
         console.error(error);
+
+        // Default values in case of error
+        const defaultNewsData = {
+            title: 'Default News Title',
+            date: '2024-01-01',
+            views: 0,
+            image: '/default-image.jpg',
+            description: 'Default description for the news item.',
+        };
+        const defaultNewsList = [
+            {
+                id: '1',
+                title: 'Default News 1',
+                date: '2024-01-01',
+                image: '/default-image1.jpg',
+                description: 'Description of default news 1.',
+            },
+            {
+                id: '2',
+                title: 'Default News 2',
+                date: '2024-01-02',
+                image: '/default-image2.jpg',
+                description: 'Description of default news 2.',
+            },
+        ];
+        const defaultPopularData = [
+            { id: '1', title: 'Popular News 1', views: 100 },
+            { id: '2', title: 'Popular News 2', views: 200 },
+        ];
+        const defaultTranslationsData = {
+            Xəbərlər: 'News',
+            Populyar_Məhsullar: 'Popular Products',
+            Hamısına_bax: 'View All',
+        };
+
         return {
-            props: {},
+            props: {
+                newsData: defaultNewsData,
+                newsList: defaultNewsList,
+                popularData: defaultPopularData,
+                translationsData: defaultTranslationsData,
+                id,
+            },
         };
     }
 };
