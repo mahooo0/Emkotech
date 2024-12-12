@@ -57,7 +57,11 @@ export default function Nevs({ news, translations, currentPage }: NevsProps) {
                             <div
                                 key={i}
                                 className="flex cursor-pointer overflow-hidden flex-col justify-center bg-white rounded-2xl max-w-[288px]"
-                                onClick={() => router.push(`/news/${item.id}`)}
+                                onClick={() =>
+                                    router.push(
+                                        `/news/${item.id}?id=${item.id}`
+                                    )
+                                }
                             >
                                 <div className="flex overflow-hidden flex-col w-full">
                                     <img
