@@ -26,7 +26,6 @@ export default function App({ Component, pageProps }: AppProps) {
             '/projects/[id]': 3,
             '/news': 4,
             '/contact': 5,
-
             '/news/[id]': 4,
 
             // Add more routes as needed
