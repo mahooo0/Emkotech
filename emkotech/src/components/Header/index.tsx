@@ -171,11 +171,26 @@ const NavContent = ({
 const FlagDropdown: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { language, setLanguage } = useLanguage();
-
+    const dropdownref = useRef<HTMLDivElement | null>(null);
+    const buttonRef = useRef<HTMLDivElement | null>(null);
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
-
+    useEffect(() => {
+        const handleOutsideClick = (e: MouseEvent) => {
+            if (
+                dropdownref.current &&
+                !dropdownref.current.contains(e.target as Node) &&
+                buttonRef.current &&
+                !buttonRef.current.contains(e.target as Node)
+            ) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleOutsideClick);
+        return () =>
+            document.removeEventListener('mousedown', handleOutsideClick);
+    }, []);
     const handleLanguageChange = (lang: string) => {
         console.log('lang', lang);
         setLanguage(lang);
@@ -191,11 +206,12 @@ const FlagDropdown: React.FC = () => {
 
     return (
         <div className="relative flex flex-col leading-none text-black whitespace-nowrap w-[70px]">
-            <button
-                className="flex gap-1.5 justify-center items-center bg-[#F5F5F5] rounded-md w-[54px] h-[34px]"
+            <div
+                className="flex gap-1.5 justify-center items-center bg-[#F5F5F5] rounded-md w-[54px] h-[34px] cursor-pointer"
                 onClick={toggleDropdown}
                 aria-haspopup="listbox"
                 aria-expanded={isOpen}
+                ref={buttonRef}
             >
                 <img
                     loading="lazy"
@@ -208,10 +224,11 @@ const FlagDropdown: React.FC = () => {
                     alt="strelka"
                     className="object-contain shrink-0 self-stretch my-auto w-5 aspect-square"
                 />
-            </button>
+            </div>
             {isOpen && (
-                <ul
-                    className="absolute top-full left-[0px] z-50 mt-1 bg-white border border-gray-200 rounded-md shadow-lg  w-fit"
+                <div
+                    ref={dropdownref}
+                    className="absolute top-full left-[0px] z-50 mt-1 bg-white border list-none border-gray-200 rounded-md shadow-lg  w-fit"
                     role="listbox"
                 >
                     {['az', 'ru', 'en'].map((lang) => (
@@ -230,7 +247,7 @@ const FlagDropdown: React.FC = () => {
                             </button>
                         </li>
                     ))}
-                </ul>
+                </div>
             )}
         </div>
     );

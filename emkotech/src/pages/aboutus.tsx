@@ -52,7 +52,7 @@ export default function AboutUs({
         return <p>error</p>;
 
     return (
-        <div>
+        <div className="mt-[94px]">
             <main>
                 <BreadcrumbNavigation
                     items={[

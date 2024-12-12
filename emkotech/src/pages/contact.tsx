@@ -95,7 +95,9 @@ const Contact = ({ contactsData, translationsData }: ContactProps) => {
                 />
                 <section className="flex flex-col text-black lg:px-[100px] md:px-[60px] px-[16px] mt-6">
                     {translationsData && translationsData.data ? (
-                        <h1>{translationsData?.data?.Əlaqə}</h1>
+                        <h1 className="text-[48px] font-normal text-center">
+                            {translationsData?.data?.Əlaqə}
+                        </h1>
                     ) : (
                         <p>Loading...</p>
                     )}
@@ -106,16 +108,16 @@ const Contact = ({ contactsData, translationsData }: ContactProps) => {
                             backgroundSize: 'cover',
                         }}
                     >
-                        <div className="p-16 w-full lg:px-5 md:px-5 px-4 max-md:max-w-full bg-opacity-60 bg-black ">
+                        <div className="p-16 w-full lg:px-[60px] md:px-5 px-4 max-md:max-w-full bg-opacity-60 bg-black ">
                             <div className="flex lg:gap-[111px] gap-5 max-md:flex-col">
                                 <div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
                                     <div className="flex flex-col mt-1 text-white max-md:mt-10 max-md:max-w-full">
-                                        <div className="text-4xl font-semibold max-md:max-w-full">
+                                        <h1 className="text-4xl font-semibold max-md:max-w-full">
                                             {
                                                 translationsData?.data
                                                     ?.Bizimlə_əlaqə
                                             }
-                                        </div>
+                                        </h1>
                                         <div className="flex flex-col mt-7 gap-3 w-full text-base max-md:max-w-full">
                                             {contactsData.data.map(
                                                 (contact) => (
