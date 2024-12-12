@@ -1,5 +1,5 @@
 import BreadcrumbNavigation from '@/components/BreadCamp';
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { GetServerSidePropsContext } from 'next';
 import { NewsData } from '@/components/NewsCard';
 import { Aside, NewsItem } from '@/components/NewsIdAside';
 import MainID from '@/components/NewsIdMain';
