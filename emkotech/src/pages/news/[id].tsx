@@ -1,5 +1,5 @@
 import BreadcrumbNavigation from '@/components/BreadCamp';
-import { GetServerSideProps } from 'next';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 import { NewsData } from '@/components/NewsCard';
 import { Aside, NewsItem } from '@/components/NewsIdAside';
 import MainID from '@/components/NewsIdMain';
@@ -148,9 +148,9 @@ export default function NewsId({
 }
 
 // Server-side Data Fetching
-export const getServerSideProps: GetServerSideProps = async (context) => {
-    const id = context?.params?.id as string | undefined;
-    const language = context.req.headers['accept-language'] || 'en';
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+    const id = context?.params?.id; // Get project ID from URL params
+    const language = context.req.cookies['accept-language'] || 'en';
 
     try {
         const [newsData, newsList, popularData, translationsData] =
@@ -163,10 +163,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
         return {
             props: {
-                newsData: newsData.data,
-                newsList: newsList.data,
-                popularData: popularData.data,
-                translationsData: translationsData.data,
+                newsData: newsData.data || null,
+                newsList: newsList.data || [],
+                popularData: popularData.data || [],
+                translationsData: translationsData.data || {},
                 id,
                 nodata: false,
                 error: '',
@@ -178,32 +178,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         // Default values for error scenarios
         return {
             props: {
-                newsData: {
-                    title: 'Default News Title',
-                    date: '2024-01-01',
-                    views: 0,
-                    image: '/default-image.jpg',
-                    description: 'Default description for the news item.',
-                },
-                newsList: [
-                    {
-                        id: '1',
-                        title: 'Default News 1',
-                        date: '2024-01-01',
-                        image: '/default-image1.jpg',
-                        description: 'Default description.',
-                    },
-                ],
-                popularData: [{ id: '1', title: 'Popular News 1', views: 100 }],
-                translationsData: {
-                    Xəbərlər: 'News',
-                    Populyar_Məhsullar: 'Popular Products',
-                    Hamısına_bax: 'View All',
-                },
+                newsData: null,
+                newsList: [],
+                popularData: [],
+                translationsData: {},
                 id,
                 nodata: true,
                 error: `${error}`,
             },
         };
     }
-};
+}
