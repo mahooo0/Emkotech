@@ -27,6 +27,8 @@ interface NewsIdProps {
         Populyar_Məhsullar: string;
         Hamısına_bax: string;
     };
+    nodata: boolean;
+    error: any;
     id: string;
 }
 
@@ -36,7 +38,13 @@ export default function NewsId({
     popularData,
     translationsData,
     id,
+    nodata,
+    error,
 }: NewsIdProps) {
+    if (nodata) {
+        console.log('error:', error);
+        return <>error</>;
+    }
     if (!newsData || !newsList || !popularData) {
         return (
             <div className="flex items-center justify-center min-h-screen">
@@ -143,15 +151,17 @@ export default function NewsId({
     );
 }
 
+// Update this import path as needed
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
-    const id = context?.params?.id; // Get product ID from URL
+    const id = context?.params?.id as string | undefined; // Ensure id is of type string
     const language = context.req.headers['accept-language'] || 'en';
 
     try {
         const [newsData, newsList, popularData, translationsData] =
             await Promise.all([
                 getNewsById(language, id),
-                getNews(language, 0),
+                getNews(language, 1),
                 getPopularNews(language),
                 getTranslations(language),
             ]);
@@ -209,6 +219,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
                 popularData: defaultPopularData,
                 translationsData: defaultTranslationsData,
                 id,
+                nodata: true,
+                error: error,
             },
         };
     }

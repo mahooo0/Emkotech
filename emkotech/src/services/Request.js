@@ -153,6 +153,8 @@ export const getNews = async (language, page) => {
 export const getNewsById = async (language, id) => {
     console.log('id', id);
     if (!id) {
+        console.log('id not found');
+
         return;
     }
     try {
