@@ -284,7 +284,7 @@ export default function Home({
                             )}
                         </div>
                         <div className="flex  lg:flex-row md:flex-row justify-between flex-col lg:gap-[140px] md:gap-[140px] gap-10 mt-12 w-full max-md:mt-10 max-md:max-w-full">
-                            <p className=" text-lg text-wrap text-stone-300 lg:w-[776px] w-full ">
+                            <p className=" text-lg text-wrap text-[#BDBDC1] lg:w-[776px] w-full ">
                                 {translationsData?.data?.statisciksdesc}
                             </p>
                             <button
@@ -310,7 +310,7 @@ export default function Home({
                 </div>
             </section>{' '}
             <section className=" lg:mt-[100px] md:mt-[80px] mt-[40px]">
-                <div className="w-full flex  lg:justify-center md:justify-center justify-start lg:flex-row md:flex-row flex-col lg:px-[100px] md:px-[60px] px-[30px]  ">
+                <div className="w-full flex  lg:justify-center md:justify-center justify-start lg:flex-row md:flex-row flex-wrap flex-col lg:px-[100px] md:px-[60px] px-[30px]  ">
                     <h2 className="text-5xl text-black text-wrap  max-md:text-4xl ">
                         {translationsData?.data?.Populyar_Məhsullar}
                     </h2>
@@ -395,9 +395,9 @@ export default function Home({
                                     backgroundImage: `url("${item.image}")`,
                                 }}
                             >
-                                <div className="text-xl font-semibold pt-[30px] pl-[30px]">
+                                <h6 className="text-xl font-semibold pt-[30px] pl-[30px] max-w-[340px]">
                                     {item.title}
-                                </div>
+                                </h6>
                                 <div className="text-base mt-4 ml-[30px]">
                                     {item.description}
                                 </div>
