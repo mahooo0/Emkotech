@@ -15,7 +15,12 @@ import { GetServerSidePropsContext } from 'next';
 
 const ContactSchema = Yup.object().shape({
     fullName: Yup.string().required('Ad və soyad tələb olunur'),
-    phone: Yup.string().required('Telefon nömrəsi tələb olunur'),
+    phone: Yup.string()
+        .matches(
+            /^[0-9]{2}[0-9]{3}[0-9]{2}[0-9]{2}$/,
+            'Telefon nömrəsi düzgün deyil'
+        )
+        .required('Telefon nömrəsi tələb olunur'),
     notes: Yup.string(),
 });
 
@@ -64,19 +69,20 @@ const Contact = ({ contactsData, translationsData }: ContactProps) => {
             toast.success('Müraciət göndərildi');
         } catch (error) {
             toast.error('Müraciət göndərilərkən xəta baş verdi');
-            console.log(error);
+            console.error(error);
         }
         setSubmitting(false);
     };
+
     useEffect(() => {
         if (contactsData) {
             const element = document.getElementById('iframe_div');
             if (element) {
                 element.innerHTML = contactsData.iframe;
             }
-            // console.log(element.textContent);
         }
     }, [contactsData]);
+
     return (
         <div className="mt-[94px]">
             <main>
@@ -103,7 +109,7 @@ const Contact = ({ contactsData, translationsData }: ContactProps) => {
                             backgroundSize: 'cover',
                         }}
                     >
-                        <div className="p-16 w-full lg:px-[60px] md:px-5 px-4 max-md:max-w-full bg-opacity-60 bg-black ">
+                        <div className="p-16 w-full lg:px-[60px] md:px-5 px-4 max-md:max-w-full bg-opacity-60 bg-black">
                             <div className="flex lg:gap-[111px] gap-5 max-md:flex-col">
                                 <div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
                                     <div className="flex flex-col mt-1 text-white max-md:mt-10 max-md:max-w-full">
@@ -182,7 +188,6 @@ const Contact = ({ contactsData, translationsData }: ContactProps) => {
                                                                     </div>
                                                                 )}
                                                         </div>
-
                                                         <div className="flex flex-col mt-3 w-full text-black text-opacity-60 max-md:max-w-full">
                                                             <div className="flex items-center px-5 py-5 w-full h-[56px] bg-white border border-solid border-black border-opacity-10 rounded-[100px]">
                                                                 <span className="text-black">
@@ -204,7 +209,6 @@ const Contact = ({ contactsData, translationsData }: ContactProps) => {
                                                                     </div>
                                                                 )}
                                                         </div>
-
                                                         <div className="flex flex-col mt-3 w-full rounded-2xl min-h-[111px] max-md:max-w-full">
                                                             <Field
                                                                 as="textarea"
@@ -217,7 +221,6 @@ const Contact = ({ contactsData, translationsData }: ContactProps) => {
                                                                 className="px-5 pt-4 pb-20 w-full bg-white border border-solid border-black border-opacity-10 rounded-3xl outline-none resize-none"
                                                             />
                                                         </div>
-
                                                         <button
                                                             type="submit"
                                                             disabled={
@@ -245,12 +248,6 @@ const Contact = ({ contactsData, translationsData }: ContactProps) => {
                     <div
                         id="iframe_div"
                         className="w-full h-[570px] rounded-xl mt-[20px] iframecantainer"
-                        // dangerouslySetInnerHTML={{
-                        //     __html:
-                        //         contactsData && contactsData?.iframe
-                        //             ? contactsData.iframe
-                        //             : '', // Default to an empty string
-                        // }}
                     />
                 </section>
             </main>
@@ -270,9 +267,7 @@ export const getServerSideProps = async (
     try {
         const contactsData = await getContacts(lang);
         const translationsData = await getTranslations(lang);
-        console.log(contactsData);
 
-        // Ensure that contactsData and translationsData are valid
         if (!contactsData || !translationsData) {
             throw new Error('Missing data');
         }

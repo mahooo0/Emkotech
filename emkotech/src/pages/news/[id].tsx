@@ -135,9 +135,8 @@ export default function NewsId({
                                 <p>{translationsData?.Hamısına_bax}</p>
                                 <img
                                     loading="lazy"
-                                    src="/icons/arrow-right.svg"
-                                    className="w-6 h-6"
-                                    alt="View All"
+                                    src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/b0bcb315d4534a4ad48392d7c96985a79c21ac585f3284b9a6268cac196f65a9?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
+                                    className="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
                                 />
                             </button>
                         </div>
