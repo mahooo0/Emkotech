@@ -24,7 +24,7 @@ export default function App({ Component, pageProps }: AppProps) {
         const path = `/${lang}${page === undefined ? '' : `/${page}`}`;
 
         const routeToIndex: { [key: string]: number } = {
-            '/': 0,
+            '/undefined': 0,
             '/az': 0,
             '/en': 0,
             '/ru': 0,

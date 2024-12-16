@@ -100,7 +100,7 @@ export default function NewsId({
                             <div className="flex gap-2 items-center">
                                 <img
                                     loading="lazy"
-                                    src="/icons/calendar.svg"
+                                    src="/svg/calendar.svg"
                                     alt="date"
                                     className="w-[18px] h-[18px]"
                                 />
@@ -109,7 +109,7 @@ export default function NewsId({
                             <div className="flex gap-2 items-center">
                                 <img
                                     loading="lazy"
-                                    src="/icons/views.svg"
+                                    src="/svg/views.svg"
                                     alt="views"
                                     className="w-[18px] h-[18px]"
                                 />
