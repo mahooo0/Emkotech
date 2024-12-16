@@ -3,6 +3,7 @@ import Link from 'next/link';
 import * as React from 'react';
 import { useLanguage } from '../Hoc/LanguageContext';
 import { getTranslations } from '@/services/Request';
+import { ROUTES } from '@/services/CONSTANTS';
 
 export interface NewsItem {
     id: string;
@@ -40,7 +41,10 @@ export function Aside({ data }: { data: NewsItem[] }) {
             <div className="rounded-[18px] overflow-hidden mt-[14px] bg-white">
                 {filteredData.length > 0 && search ? (
                     filteredData.map((item: NewsItem, i: number) => (
-                        <Link href={`/news/${item.id}`} key={i}>
+                        <Link
+                            href={`/${language}/${ROUTES.news[language]}/${item.id}`}
+                            key={i}
+                        >
                             <p
                                 key={i}
                                 className="h-[74px] px-[30px] flex items-center hover:bg-neutral-100 "
@@ -64,7 +68,10 @@ export function Aside({ data }: { data: NewsItem[] }) {
                     </div>
                 </div>
                 {data?.map((item: NewsItem, i: number) => (
-                    <Link href={`/news/${item.id}`} key={i}>
+                    <Link
+                        href={`/${language}/${ROUTES.news[language]}/${item.id}`}
+                        key={i}
+                    >
                         <div className="flex gap-5  mt-3" key={i}>
                             <img
                                 loading="lazy"

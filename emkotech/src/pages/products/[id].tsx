@@ -7,6 +7,8 @@ import { parse } from 'cookie';
 import Link from 'next/link';
 import Image from 'next/image'; // Import the Image component
 import { GetServerSidePropsContext } from 'next';
+import { useRouter } from 'next/router';
+import { ROUTES } from '@/services/CONSTANTS';
 
 export type SlideImage = {
     id: number;
@@ -83,10 +85,12 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
     productData,
     translationsData,
 }) => {
+    const router = useRouter();
+    const { lang } = router.query;
+    const language = lang ? lang?.toString() : 'az';
     if (!productData?.product?.title || !translationsData) {
         return <div>Loading...</div>;
     }
-
     return (
         <div className="mt-[94px]">
             {productData?.product?.title && (
@@ -94,7 +98,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                     items={[
                         {
                             text: `${translationsData?.data?.Məhsullar}`,
-                            path: '/products',
+                            path: `/${language}/${ROUTES.products[language]}`,
                         },
                         { text: productData?.product?.title, path: '' },
                     ]}

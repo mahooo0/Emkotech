@@ -13,12 +13,13 @@ import {
     getTranslations,
 } from '@/services/Request';
 import PartnersSlider from '@/components/PartnersSwipper';
-import React, { useEffect } from 'react';
-import { useLanguage } from '@/components/Hoc/LanguageContext';
+import React from 'react';
 import ProjectCard from '@/components/ProjectCard';
 import { Product } from './products/[id]';
 import { TranslationsData } from './contact';
 import { GetServerSidePropsContext } from 'next';
+import { ROUTES } from '@/services/CONSTANTS';
+import Link from 'next/link';
 // import VideoBanner from '@/components/Vidio';
 
 interface Statistic {
@@ -32,15 +33,6 @@ interface Project {
     description: string;
     image: string;
 }
-
-// interface Product {
-//     id: number;
-//     title: string;
-//     description: string;
-//     price: number;
-//     discount?: boolean;
-// }
-
 interface Customer {
     id: number;
     name: string;
@@ -101,110 +93,10 @@ export default function Home({
     productCategoriesData,
     translationsData,
 }: HomePageProps) {
-    // console.log('---lanf---', topBannerData);
-
     const router = useRouter();
-    const { language } = useLanguage();
-    // Add effect to listen to localStorage changes
-    useEffect(() => {
-        // console.log('languageaxsept:', localStorage.getItem('accept-language'));
-        // console.log('language', language);
-    }, [language]);
-    // const {
-    //     data: topBannerData,
-    //     isLoading: topBannerLoading,
-    //     isError: topBannerError,
-    // } = useQuery({
-    //     queryKey: ['topBanner', language],
-    //     queryFn: () => getTopBanner(language),
-    // });
-    // const {
-    //     data: statisticsData,
-    //     isLoading: statisticsLoading,
-    //     isError: statisticsError,
-    // } = useQuery({
-    //     queryKey: ['statistics', language],
-    //     queryFn: () => getStatistics(language),
-    // });
-    // const {
-    //     data: productsData,
-    //     isLoading: productsLoading,
-    //     isError: productsError,
-    // } = useQuery({
-    //     queryKey: ['products', language],
-    //     queryFn: () => getProducts(language),
-    // });
-    // // console.log('productsData', productsData);
-    // const {
-    //     data: customersData,
-    //     isLoading: customersLoading,
-    //     isError: customersError,
-    // } = useQuery({
-    //     queryKey: ['customers', language],
-    //     queryFn: () => getCustomers(language),
-    // });
-    // const {
-    //     data: bottomBannerData,
-    //     isLoading: bottomBannerLoading,
-    //     isError: bottomBannerError,
-    // } = useQuery({
-    //     queryKey: ['bottomBanner', language],
-    //     queryFn: () => getBottomBanner(language),
-    // });
-    // const {
-    //     data: partnersData,
-    //     isLoading: partnersLoading,
-    //     isError: partnersError,
-    // } = useQuery({
-    //     queryKey: ['partners', language],
-    //     queryFn: () => getPartners(language),
-    // });
-    // const {
-    //     data: productCategoriesData,
-    //     isLoading: productCategoriesLoading,
-    //     isError: productCategoriesError,
-    // } = useQuery({
-    //     queryKey: ['productCategories', language],
-    //     queryFn: () => getProductCategories(language),
-    // });
-    // const { data: translationsData } = useQuery({
-    //     queryKey: ['translations', language],
-    //     queryFn: () => getTranslations(language),
-    // });
+    const { lang } = router.query;
+    const language = lang ? lang?.toString() : 'az';
 
-    // if (
-    //     topBannerLoading ||
-    //     statisticsLoading ||
-    //     productsLoading ||
-    //     customersLoading ||
-    //     bottomBannerLoading ||
-    //     partnersLoading ||
-    //     productCategoriesLoading
-    // ) {
-    //     return (
-    //         <div className="flex items-center justify-center min-h-screen">
-    //             <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-    //         </div>
-    //     );
-    // }
-
-    // if (
-    //     topBannerError ||
-    //     statisticsError ||
-    //     productsError ||
-    //     customersError ||
-    //     bottomBannerError ||
-    //     partnersError ||
-    //     productCategoriesError
-    // ) {
-    //     return (
-    //         <div className="flex items-center justify-center min-h-screen">
-    //             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-    //                 <p>Error</p>
-    //             </div>
-    //         </div>
-    //     );
-    // }
     return (
         <>
             {/* <Header activeindex={0} />{' '} */}
@@ -227,36 +119,38 @@ export default function Home({
                                 __html: topBannerData.data.description,
                             }}
                         ></div>
-                        <button
-                            className="w-[200px] max-sm:w-[140px] h-[47px] max-sm:h-[36px] relative flex justify-between items-center mt-[20px]"
-                            onClick={() => router.push('/products')}
+                        <Link
+                            href={`/${language}/${ROUTES.products[language]}`}
                         >
-                            <img
-                                src="/images/homebtn.png"
-                                alt=""
-                                className="w-full h-full absolute"
-                            />
-                            <span className="z-20 w-[75%]  h-full flex justify-center items-center text-white">
-                                {translationsData?.data?.Daha_çox}
-                            </span>
-                            <svg
-                                className="w-[20%]  z-20"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    d="M8.91 19.92L15.43 13.4C16.2 12.63 16.2 11.37 15.43 10.6L8.91 4.08002"
-                                    stroke="white"
-                                    stroke-width="1.5"
-                                    stroke-miterlimit="10"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
+                            {' '}
+                            <button className="w-[200px] max-sm:w-[140px] h-[47px] max-sm:h-[36px] relative flex justify-between items-center mt-[20px]">
+                                <img
+                                    src="/images/homebtn.png"
+                                    alt=""
+                                    className="w-full h-full absolute"
                                 />
-                            </svg>
-                        </button>
+                                <span className="z-20 w-[75%]  h-full flex justify-center items-center text-white">
+                                    {translationsData?.data?.Daha_çox}
+                                </span>
+                                <svg
+                                    className="w-[20%]  z-20"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M8.91 19.92L15.43 13.4C16.2 12.63 16.2 11.37 15.43 10.6L8.91 4.08002"
+                                        stroke="white"
+                                        stroke-width="1.5"
+                                        stroke-miterlimit="10"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    />
+                                </svg>
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </section>
@@ -287,15 +181,16 @@ export default function Home({
                             <p className=" text-lg text-wrap text-[#BDBDC1] lg:w-[776px] w-full ">
                                 {translationsData?.data?.statisciksdesc}
                             </p>
-                            <button
-                                className="gap-2.5  text-nowrap leading-[20px] self-start p-2.5 mt-1.5 px-[20px] py-[10px]  text-base font-medium text-[#D2D641] border border-[#D2D641] border-solid rounded-[35px]"
-                                onClick={() => router.push('/projects')}
+                            <Link
+                                href={`/${language}/${ROUTES.products[language]}`}
                             >
-                                {translationsData?.data?.layihelerebax}
-                            </button>
+                                <button className="gap-2.5  text-nowrap leading-[20px] self-start p-2.5 mt-1.5 px-[20px] py-[10px]  text-base font-medium text-[#D2D641] border border-[#D2D641] border-solid rounded-[35px]">
+                                    {translationsData?.data?.layihelerebax}
+                                </button>
+                            </Link>
                         </div>
                         <div className="w-full flex justify-center">
-                            <div className="grid lg:grid-cols-3 grid-cols-1 w-full self-center  justify-items-center justify-self-center gap-6 mt-6 max-w-[1200px] mx-auto">
+                            <div className="grid lg:grid-cols-3 grid-cols-1 w-full self-center  justify-items-center justify-self-center gap-6 mt-6 mx-auto">
                                 {statisticsData.projects.map(
                                     (item: Project) => (
                                         <ProjectCard
@@ -315,19 +210,20 @@ export default function Home({
                         {translationsData?.data?.Populyar_Məhsullar}
                     </h2>
                     <div className=" lg:absolute md:absolute  static lg:right-[100px] md:right-[60px] right-[30px] flex  h-[48px] items-end">
-                        <button
-                            className="flex gap-2.5 justify-center items-center self-end text-base font-medium rounded-[35px] text-blue-600 text-opacity-90"
-                            onClick={() => router.push('/products')}
+                        <Link
+                            href={`/${language}/${ROUTES.products[language]}`}
                         >
-                            <p className="self-stretch my-auto text-nowrap ">
-                                {translationsData?.data?.Hamısına_bax}
-                            </p>
-                            <img
-                                loading="lazy"
-                                src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/b0bcb315d4534a4ad48392d7c96985a79c21ac585f3284b9a6268cac196f65a9?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
-                                className="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
-                            />
-                        </button>
+                            <button className="flex gap-2.5 justify-center items-center self-end text-base font-medium rounded-[35px] text-blue-600 text-opacity-90">
+                                <p className="self-stretch my-auto text-nowrap ">
+                                    {translationsData?.data?.Hamısına_bax}
+                                </p>
+                                <img
+                                    loading="lazy"
+                                    src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/b0bcb315d4534a4ad48392d7c96985a79c21ac585f3284b9a6268cac196f65a9?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
+                                    className="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
+                                />
+                            </button>
+                        </Link>
                     </div>
                 </div>
                 <ProductSwiper data={productsData.data} />
@@ -338,19 +234,20 @@ export default function Home({
                         {translationsData?.data?.Endirimli_məhsullar}
                     </h2>
                     <div className=" lg:absolute md:absolute  static lg:right-[100px] md:right-[60px] right-[30px] flex  h-[48px] items-end">
-                        <button
-                            className="flex gap-2.5 justify-center items-center self-end text-base font-medium rounded-[35px] text-blue-600 text-opacity-90"
-                            onClick={() => router.push('/products')}
+                        <Link
+                            href={`/${language}/${ROUTES.products[language]}`}
                         >
-                            <p className="self-stretch my-auto text-nowrap ">
-                                {translationsData?.data?.Hamısına_bax}
-                            </p>
-                            <img
-                                loading="lazy"
-                                src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/b0bcb315d4534a4ad48392d7c96985a79c21ac585f3284b9a6268cac196f65a9?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
-                                className="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
-                            />
-                        </button>
+                            <button className="flex gap-2.5 justify-center items-center self-end text-base font-medium rounded-[35px] text-blue-600 text-opacity-90">
+                                <p className="self-stretch my-auto text-nowrap ">
+                                    {translationsData?.data?.Hamısına_bax}
+                                </p>
+                                <img
+                                    loading="lazy"
+                                    src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/b0bcb315d4534a4ad48392d7c96985a79c21ac585f3284b9a6268cac196f65a9?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
+                                    className="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
+                                />
+                            </button>
+                        </Link>
                     </div>
                 </div>
                 <ProductSwiper
@@ -365,43 +262,47 @@ export default function Home({
                         {translationsData?.data?.Kateqoriyalar}
                     </h2>
                     <div className=" lg:absolute md:absolute  static lg:right-[100px] md:right-[60px] right-[30px] flex  h-[48px] items-end">
-                        <button
-                            className="flex gap-2.5 justify-center items-center self-end text-base font-medium rounded-[35px] text-blue-600 text-opacity-90"
-                            onClick={() => router.push('/products')}
+                        <Link
+                            href={`/${language}/${ROUTES.products[language]}`}
                         >
-                            <p className="self-stretch my-auto text-nowrap ">
-                                {translationsData?.data?.Hamısına_bax}
-                            </p>
-                            <img
-                                loading="lazy"
-                                src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/b0bcb315d4534a4ad48392d7c96985a79c21ac585f3284b9a6268cac196f65a9?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
-                                className="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
-                            />
-                        </button>
+                            {' '}
+                            <button className="flex gap-2.5 justify-center items-center self-end text-base font-medium rounded-[35px] text-blue-600 text-opacity-90">
+                                <p className="self-stretch my-auto text-nowrap ">
+                                    {translationsData?.data?.Hamısına_bax}
+                                </p>
+                                <img
+                                    loading="lazy"
+                                    src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/b0bcb315d4534a4ad48392d7c96985a79c21ac585f3284b9a6268cac196f65a9?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
+                                    className="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
+                                />
+                            </button>
+                        </Link>
                     </div>
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full lg:mt-[60px] mt-4">
                     {productCategoriesData.data.map(
                         (item: ProductCategory, index: number) => (
-                            <div
+                            <Link
                                 key={index}
-                                onClick={() =>
-                                    router.push(`/products?category=${item.id}`)
-                                }
-                                className=" w-full h-[336px] rounded-2xl cursor-pointer"
-                                style={{
-                                    backgroundSize: 'cover',
-                                    backgroundPosition: 'center',
-                                    backgroundImage: `url("${item.image}")`,
-                                }}
+                                href={`/${language}/${ROUTES.products[language]}?category=${item.id}`}
                             >
-                                <h6 className="text-xl font-semibold pt-[30px] pl-[30px] max-w-[340px]">
-                                    {item.title}
-                                </h6>
-                                <div className="text-base mt-4 ml-[30px]">
-                                    {item.description}
+                                <div
+                                    key={index}
+                                    className=" w-full h-[336px] rounded-2xl cursor-pointer"
+                                    style={{
+                                        backgroundSize: 'cover',
+                                        backgroundPosition: 'center',
+                                        backgroundImage: `url("${item.image}")`,
+                                    }}
+                                >
+                                    <h6 className="text-xl font-semibold pt-[30px] pl-[30px] max-w-[340px]">
+                                        {item.title}
+                                    </h6>
+                                    <div className="text-base mt-4 ml-[30px]">
+                                        {item.description}
+                                    </div>
                                 </div>
-                            </div>
+                            </Link>
                         )
                     )}
                 </div>
@@ -455,12 +356,13 @@ export default function Home({
                                 __html: bottomBannerData.data.description,
                             }}
                         ></div>
-                        <button
-                            className="gap-2.5  self-stretch py-2.5 px-[62px] leading-[20px] mt-5 text-base text-black w-fit whitespace-nowrap bg-white rounded-[35px]"
-                            onClick={() => router.push('/products')}
+                        <Link
+                            href={`/${language}/${ROUTES.products[language]}`}
                         >
-                            {bottomBannerData.data.button_text}
-                        </button>
+                            <button className="gap-2.5  self-stretch py-2.5 px-[62px] leading-[20px] mt-5 text-base text-black w-fit whitespace-nowrap bg-white rounded-[35px]">
+                                {bottomBannerData.data.button_text}
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </section>{' '}

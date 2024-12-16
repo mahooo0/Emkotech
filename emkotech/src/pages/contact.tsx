@@ -39,16 +39,11 @@ interface ContactsData {
 
 export interface TranslationsData {
     data: {
-        Əlaqə: string;
-        Bizimlə_əlaqə: string;
-        Formu_doldur_biz_əlaqə_saxlayaq: string;
-        Ad_və_soyad: string;
         [key: string]: string; // To handle dynamic translations
     };
 }
 
 interface ContactProps {
-    lang: string;
     contactsData: ContactsData;
     translationsData: TranslationsData;
 }

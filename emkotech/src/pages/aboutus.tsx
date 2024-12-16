@@ -21,7 +21,7 @@ interface AboutBunnerItem {
 }
 type TranslationData = Record<string, string>;
 
-interface Translation {
+export interface Translation {
     data: TranslationData;
 }
 interface AboutBunner {

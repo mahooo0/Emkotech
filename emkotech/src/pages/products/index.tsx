@@ -14,6 +14,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { Product } from './[id]';
+import Image from 'next/image';
+import { ROUTES } from '@/services/CONSTANTS';
 
 // interface Product {
 //     id: number;
@@ -103,17 +105,20 @@ export default function Products() {
         setSearchTerm(event.target.value);
     };
     const router = useRouter();
-    const { category, sub_category } = router.query;
+    const { category, sub_category, pagination } = router.query;
 
     useEffect(() => {
         if (category) {
             // console.log('Category from URL:', category);
             setSelectedCategory(Number(category));
         }
+        if (Number(pagination) > 0) {
+            setPage(Number(pagination));
+        }
         if (sub_category) {
             setSelectedSubCategory(Number(sub_category));
         }
-    }, [category, sub_category]);
+    }, [category, sub_category, pagination]);
     useEffect(() => {
         if (selectedCategory) {
             console.log(
@@ -129,27 +134,8 @@ export default function Products() {
             );
         }
     }, [productCategoriesData, selectedCategory]);
-    // useEffect(() => {
-    //     // console.log('selectedCategory::::::::::::::::', selectedCategory);
-    //     // let newData: Product[];
-    //     // if (selectedCategory === 0) {
-    //     //     newData = productsData?.data;
-    //     // } else {
-    //     //     newData = productsData?.data?.filter(
-    //     //         (item: Product) => item.category_id === selectedCategory
-    //     //     );
-    //     // }
+    // console.log(productsData);
 
-    //     // if (selectedSort > 0) {
-    //     //     newData = [...(newData || [])].sort((a: Product, b: Product) =>
-    //     //         selectedSort === 1
-    //     //             ? a.discounted_price - b.discounted_price
-    //     //             : b.discounted_price - a.discounted_price
-    //     //     );
-    //     // }
-
-    //     // setMappingData(newData);
-    // }, [productsData, selectedCategory, selectedSort]);
     const { data: translationsData } = useQuery({
         queryKey: ['translations', language],
         queryFn: () => getTranslations(language),
@@ -179,7 +165,7 @@ export default function Products() {
                 items={[
                     {
                         text: `${translationsData?.data?.Məhsullar}`,
-                        path: '/products',
+                        path: `/${language}/${ROUTES.products[language]}`,
                     },
                 ]}
             />
@@ -196,14 +182,17 @@ export default function Products() {
                         data-layername="filter"
                         className="flex flex-wrap lg:gap-6 md:gap-6 gap-3 items-center px-28 py-8 mt-6 w-full text-base bg-white max-md:px-5 max-md:max-w-full"
                     >
-                        <div className="flex grow  shrink gap-10 justify-between items-center self-stretch px-6 py-2.5  whitespace-nowrap rounded-2xl border border-solid border-neutral-200 min-w-[240px] w-[230px] max-md:px-5">
+                        <div className="flex grow overflow-hidden  shrink gap-10 justify-between items-center self-stretch pr-3 cursor-pointer  appearance-auto  whitespace-nowrap rounded-2xl border border-solid border-neutral-200 min-w-[240px] w-[230px] max-md:px-5">
                             <select
                                 data-layername="əsasSəhifə"
-                                className="w-full bg-white select-none outline-none border-none"
+                                className="w-full h-full bg-white select-none outline-none border-none px-6"
                                 value={selectedCategory}
-                                onChange={(e) =>
-                                    setSelectedCategory(Number(e.target.value))
-                                }
+                                onChange={(e) => {
+                                    setSelectedCategory(Number(e.target.value));
+                                    router.push(
+                                        `/${language}/${ROUTES.products[language]}?sub_category=${selectedCategory}&category=${e.target.value} &search=${debouncedSearchTerm}&sort=${selectedSort}&pagination=1`
+                                    );
+                                }}
                             >
                                 <option
                                     data-layername="kategoriyalar"
@@ -225,16 +214,19 @@ export default function Products() {
                             </select>
                         </div>
 
-                        <div className="flex grow  shrink gap-10 justify-between items-center self-stretch px-6 py-2.5  whitespace-nowrap rounded-2xl border border-solid border-neutral-200 min-w-[240px] w-[230px] max-md:px-5">
+                        <div className="flex grow  bg-none shrink gap-10 justify-between items-center self-stretch pr-3  whitespace-nowrap rounded-2xl border border-solid border-neutral-200 min-w-[240px] w-[230px] max-md:px-5">
                             <select
                                 data-layername="əsasSəhifə"
-                                className="w-full bg-white select-none outline-none border-none"
+                                className="w-full h-full bg-white select-none outline-none border-none px-6"
                                 value={selectedSubCategory}
-                                onChange={(e) =>
-                                    setSelectedSubCategory(
-                                        Number(e.target.value)
-                                    )
-                                }
+                                onChange={(e) => {
+                                    // setSelectedSubCategory(
+                                    //     Number(e.target.value)
+                                    // )
+                                    router.push(
+                                        `/${language}/${ROUTES.products[language]}?sub_category=${e.target.value}&category=${selectedCategory} &search=${debouncedSearchTerm}&sort=${selectedSort}&pagination=1`
+                                    );
+                                }}
                             >
                                 <option
                                     data-layername="kategoriyalar"
@@ -284,14 +276,17 @@ export default function Products() {
                                 }
                             </select>
                         </div>
-                        <div className="flex grow  shrink gap-10 justify-between items-center self-stretch px-6 py-2.5  whitespace-nowrap rounded-2xl border border-solid border-neutral-200 min-w-[240px] w-[230px] max-md:px-5">
+                        <div className="flex grow overflow-hidden  shrink gap-10 justify-between items-center self-stretch pr-3 cursor-pointer  appearance-auto  whitespace-nowrap rounded-2xl border border-solid border-neutral-200 min-w-[240px] w-[230px] max-md:px-5">
                             <select
                                 data-layername="əsasSəhifə"
-                                className="w-full bg-white select-none outline-none border-none"
+                                className="w-full h-full bg-white select-none outline-none border-none px-6"
                                 value={selectedSort}
-                                onChange={(e) =>
-                                    setSelectedSort(e.target.value)
-                                }
+                                onChange={(e) => {
+                                    setSelectedSort(e.target.value);
+                                    router.push(
+                                        `/${language}/${ROUTES.products[language]}?sub_category=${selectedSubCategory}&category=${selectedCategory} &search=${e.target.value}&sort=${selectedSort}&pagination=1`
+                                    );
+                                }}
                             >
                                 <option
                                     key={0}
@@ -338,42 +333,54 @@ export default function Products() {
                         </div>
                     </section>
                 </section>
-                <div className="flex justify-center">
-                    <section className="grid w-fit   mt-[30px] flex-row lg:grid-cols-4 md:grid-cols-3 items-center justify-self-center sm:grid-cols-2 grid-cols-1 lg:px-[100px] md:px-[60px] px-[30px] justify-center gap-x-4 lg:gap-y-[52px] gap-y-4">
-                        {productsLoading ? (
-                            Array(8)
-                                .fill(0)
-                                .map((_, index) => (
-                                    <div
-                                        key={index}
-                                        className="w-[280px] h-[400px] bg-gray-200 rounded-lg animate-pulse"
-                                    >
-                                        <div className="w-full h-[200px] bg-gray-300 rounded-t-lg" />
-                                        <div className="p-4 space-y-3">
-                                            <div className="h-4 bg-gray-300 rounded w-3/4" />
-                                            <div className="h-4 bg-gray-300 rounded w-1/2" />
-                                            <div className="h-4 bg-gray-300 rounded w-1/4" />
-                                        </div>
-                                    </div>
-                                ))
-                        ) : productsData?.data?.length > 0 ? (
-                            productsData.data.map((item: Product) => (
-                                <ProductCard key={item.id} data={item} />
-                            ))
-                        ) : (
-                            <>
-                                <div></div> <div></div>
-                                <p className="ml-[-11%]">
-                                    {translationsData?.data?.Tapılmadı}
-                                </p>
-                            </>
-                        )}
-                    </section>
-                </div>
+                {productsData?.data?.length > 0 ? (
+                    <div className="flex justify-center">
+                        <section className="grid w-fit   mt-[30px] flex-row lg:grid-cols-4 md:grid-cols-3 items-center justify-self-center sm:grid-cols-2 grid-cols-1 lg:px-[100px] md:px-[60px] px-[30px] justify-center gap-x-4 lg:gap-y-[52px] gap-y-4">
+                            {productsLoading
+                                ? Array(8)
+                                      .fill(0)
+                                      .map((_, index) => (
+                                          <div
+                                              key={index}
+                                              className="w-[280px] h-[400px] bg-gray-200 rounded-lg animate-pulse"
+                                          >
+                                              <div className="w-full h-[200px] bg-gray-300 rounded-t-lg" />
+                                              <div className="p-4 space-y-3">
+                                                  <div className="h-4 bg-gray-300 rounded w-3/4" />
+                                                  <div className="h-4 bg-gray-300 rounded w-1/2" />
+                                                  <div className="h-4 bg-gray-300 rounded w-1/4" />
+                                              </div>
+                                          </div>
+                                      ))
+                                : productsData.data.map((item: Product) => (
+                                      <ProductCard key={item.id} data={item} />
+                                  ))}
+                        </section>
+                    </div>
+                ) : (
+                    <div className=" flex flex-col justify-center items-center lg:mt-[120px] mt-[40px]">
+                        <Image
+                            src={'/images/empty.png'}
+                            alt="empty"
+                            width={10000}
+                            height={10000}
+                            className="lg:w-[30%] w-[40%] h-auto"
+                        />
+                        <h5 className="text-[#667085] text-[24px] mt-6 font-semibold">
+                            {translationsData?.data?.Tapılmadı}{' '}
+                        </h5>
+                    </div>
+                )}
+
                 <PaginationComponent
                     totalPages={productsData?.total_page}
                     currentPage={page}
-                    onPageChange={(page) => setPage(page)}
+                    onPageChange={(page) => {
+                        // setPage(page);
+                        router.push(
+                            `/${language}/${ROUTES.products[language]}?sub_category=${selectedCategory}&category=${selectedCategory} &search=${debouncedSearchTerm}&sort=${selectedSort}&pagination=${page}`
+                        );
+                    }}
                 />
             </main>
             {/* <Footer /> */}

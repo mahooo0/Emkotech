@@ -3,7 +3,8 @@ import { useLanguage } from '../Hoc/LanguageContext';
 import { useQuery } from '@tanstack/react-query';
 import { getTranslations } from '@/services/Request';
 import { Product, SlideImage } from '@/pages/products/[id]';
-
+import '@fancyapps/ui/dist/fancybox/fancybox.css';
+import FancyboxExample from '../Fancybox';
 // interface SlideImage {
 //     id: string;
 //     image: string;
@@ -11,6 +12,7 @@ import { Product, SlideImage } from '@/pages/products/[id]';
 
 const EssentialCamera: React.FC<{ data: Product | undefined }> = ({ data }) => {
     const [selectedImage, setSelectedImage] = useState<number>(0);
+    const [isopen, setisopen] = useState<boolean>(false);
     const { language } = useLanguage();
     useQuery({
         queryKey: ['translations', language],
@@ -25,7 +27,7 @@ const EssentialCamera: React.FC<{ data: Product | undefined }> = ({ data }) => {
     const handleReserve = () => {
         console.log('Reserve button clicked');
     };
-
+    const images = data?.slide_images.map((item: SlideImage) => item.image);
     return (
         <div className="rounded-none mt-6">
             <div className="flex gap-5 max-md:flex-col">
@@ -42,10 +44,11 @@ const EssentialCamera: React.FC<{ data: Product | undefined }> = ({ data }) => {
                         <img
                             src={data?.slide_images[selectedImage].image}
                             alt=""
-                            className="w-full lg:h-full md:h-full max-h-[700px] h-[300px] object-cover lg:absolute md:absolute  block z-[-1] top-0 right-0  "
+                            onClick={() => setisopen(true)}
+                            className="w-full  md:h-full lg:h-[700px] h-[300px] object-cover  top-0 right-0  "
                         />
                         <div
-                            className="max-h-[400px] pr-2 flex flex-row lg:flex-col md:flex-col gap-5 overflow-x-scroll lg:overflow-y-scroll md:overflow-y-scroll 
+                            className="max-h-[400px] lg:absolute md:absolute  w-fit z-[1]  pr-2 flex flex-row lg:flex-col md:flex-col gap-5 overflow-x-scroll lg:overflow-y-scroll md:overflow-y-scroll 
   [&::-webkit-scrollbar]:h-[3px] 
   lg:[&::-webkit-scrollbar]:w-[3px] 
   [&::-webkit-scrollbar-thumb]:bg-gray-300 
@@ -116,6 +119,13 @@ const EssentialCamera: React.FC<{ data: Product | undefined }> = ({ data }) => {
                         Reserve
                     </button>
                 </section>
+
+                <FancyboxExample
+                    setisopen={setisopen}
+                    images={images}
+                    isOpen={isopen}
+                    currentImageIndex={selectedImage}
+                />
             </div>
         </div>
     );

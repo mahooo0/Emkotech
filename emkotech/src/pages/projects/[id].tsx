@@ -8,6 +8,8 @@ import {
 } from '@/services/Request';
 import { ProjectSwiper } from '@/components/ProjectSwipper';
 import { GetServerSidePropsContext } from 'next';
+import { useRouter } from 'next/router';
+import { ROUTES } from '@/services/CONSTANTS';
 
 export interface Project {
     id: number;
@@ -17,7 +19,7 @@ export interface Project {
 }
 type TranslationData = Record<string, string>;
 
-interface Translation {
+export interface Translation {
     Layihələr: string;
     Digər_Layihələr: string;
     data: TranslationData;
@@ -31,10 +33,12 @@ export default function ProjectsId({
     translations: Translation;
     relatedProjects: Project[];
 }) {
+    const router = useRouter();
+    const { lang } = router.query;
+    const language = lang ? lang?.toString() : 'az';
     if (!project) {
         return <div>Error: Project not found</div>;
     }
-
     return (
         <div>
             {/* <Header activeindex={3} /> */}
@@ -43,11 +47,11 @@ export default function ProjectsId({
                     items={[
                         {
                             text: `${translations?.Layihələr}`,
-                            path: '/projects',
+                            path: `/${language}/${ROUTES.project[language]}`,
                         },
                         {
                             text: project.title,
-                            path: `/projects/${project.id}`,
+                            path: `/${language}/${ROUTES.project[language]}/${project.id}`,
                         },
                     ]}
                 />

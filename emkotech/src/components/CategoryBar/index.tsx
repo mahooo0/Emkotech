@@ -1,3 +1,5 @@
+import { ROUTES } from '@/services/CONSTANTS';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
@@ -30,27 +32,23 @@ interface CategoryBarProps {
     productsLoading: boolean;
 }
 
-const CategoryBAr = ({
-    categories,
-    products,
-    isopen,
-    isLoading,
-    productsLoading,
-}: CategoryBarProps) => {
+const CategoryBAr = ({ categories, isopen, isLoading }: CategoryBarProps) => {
     const [selectedCategory, setSelectedCategory] = useState<string>(
         categories?.data[0].id
     );
-
     useEffect(() => {
         if (categories?.data?.length > 0) {
             setSelectedCategory(categories.data[0].id); // Correctly set the state
         }
     }, [categories]); // This effect will run when the 'categories' data changes
 
-    console.log(productsLoading);
-    console.log(products);
+    // console.log(productsLoading);
+    // console.log(products);
 
     const router = useRouter();
+    const { lang } = router.query;
+
+    const language = lang?.toString() || '';
 
     return (
         <section
@@ -115,37 +113,41 @@ const CategoryBAr = ({
                                         </>
                                     ) : (
                                         categories.data.map(
-                                            (category: Category) => (
-                                                <button
-                                                    key={category.id}
-                                                    onMouseEnter={() =>
-                                                        setSelectedCategory(
-                                                            category.id
-                                                        )
-                                                    }
-                                                    onClick={() =>
-                                                        router.push(
-                                                            `/products?category=${category.id}`
-                                                        )
-                                                    }
-                                                    data-layername={category.title
-                                                        .toLowerCase()
-                                                        .replace(/\s+/g, '-')}
-                                                    className={`flex-1 shrink gap-2.5 self-stretch py-2.5 w-full text-[16px] font-medium text-left ${
-                                                        category.id ===
-                                                        selectedCategory
-                                                            ? 'text-[#186FE0F0] '
-                                                            : ''
-                                                    } ${
-                                                        categories.data.indexOf(
-                                                            category
-                                                        ) > 0
-                                                            ? ''
-                                                            : ''
-                                                    }`}
+                                            (category: Category, i: number) => (
+                                                <Link
+                                                    key={i}
+                                                    href={`/${language}/${ROUTES.products[language]}?category=${category.id}`}
                                                 >
-                                                    {category.title}
-                                                </button>
+                                                    {' '}
+                                                    <button
+                                                        key={category.id}
+                                                        onMouseEnter={() =>
+                                                            setSelectedCategory(
+                                                                category.id
+                                                            )
+                                                        }
+                                                        data-layername={category.title
+                                                            .toLowerCase()
+                                                            .replace(
+                                                                /\s+/g,
+                                                                '-'
+                                                            )}
+                                                        className={`flex-1 shrink gap-2.5 self-stretch py-2.5 w-full text-[16px] font-medium text-left ${
+                                                            category.id ===
+                                                            selectedCategory
+                                                                ? 'text-[#186FE0F0] '
+                                                                : ''
+                                                        } ${
+                                                            categories.data.indexOf(
+                                                                category
+                                                            ) > 0
+                                                                ? ''
+                                                                : ''
+                                                        }`}
+                                                    >
+                                                        {category.title}
+                                                    </button>
+                                                </Link>
                                             )
                                         )
                                     )}
@@ -184,30 +186,39 @@ const CategoryBAr = ({
                                                     item.id === selectedCategory
                                             )
                                             ?.subcategories?.map(
-                                                (product: subcategories) => (
-                                                    <article
-                                                        key={product.id}
-                                                        data-layername="modalContent"
+                                                (
+                                                    product: subcategories,
+                                                    i: number
+                                                ) => (
+                                                    <Link
+                                                        key={i}
                                                         className="flex flex-auto gap-6 items-center p-3 rounded-2xl bg-slate-50 lg:w-[45%] md:w-[45%] w-full max-w-[390px] max-h-[83px] cursor-pointer hover:bg-slate-100 transition-colors"
-                                                        onClick={() =>
-                                                            router.push(
-                                                                `/products?category=${product.category_id}&sub_category=${product.id}`
-                                                            )
-                                                        }
+                                                        href={`/${language}/${ROUTES.products[language]}?category=${product.category_id}&sub_category=${product.id}`}
                                                     >
-                                                        <img
-                                                            loading="lazy"
-                                                            src={product.image}
-                                                            alt={product.name}
-                                                            className="object-contain shrink-0 self-stretch my-auto rounded-xl aspect-square w-[60px] max-w-[60px] max-h-[60px]"
-                                                        />
-                                                        <h3
-                                                            data-layername="təhlukəsizlikKameralari"
-                                                            className="self-stretch my-auto"
+                                                        {' '}
+                                                        <article
+                                                            key={product.id}
+                                                            data-layername="modalContent"
+                                                            className="flex flex-auto gap-6 items-center p-3 rounded-2xl bg-slate-50 lg:w-[45%] md:w-[45%] w-full max-w-[390px] max-h-[83px] cursor-pointer hover:bg-slate-100 transition-colors"
                                                         >
-                                                            {product.name}
-                                                        </h3>
-                                                    </article>
+                                                            <img
+                                                                loading="lazy"
+                                                                src={
+                                                                    product.image
+                                                                }
+                                                                alt={
+                                                                    product.name
+                                                                }
+                                                                className="object-contain shrink-0 self-stretch my-auto rounded-xl aspect-square w-[60px] max-w-[60px] max-h-[60px]"
+                                                            />
+                                                            <h3
+                                                                data-layername="təhlukəsizlikKameralari"
+                                                                className="self-stretch my-auto"
+                                                            >
+                                                                {product.name}
+                                                            </h3>
+                                                        </article>
+                                                    </Link>
                                                 )
                                             )
                                     )}

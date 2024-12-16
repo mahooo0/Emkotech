@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React from 'react';
 
 interface BreadcrumbItem {
@@ -13,12 +14,15 @@ interface BreadcrumbNavigationProps {
 const BreadcrumbNavigation: React.FC<BreadcrumbNavigationProps> = ({
     items,
 }) => {
+    const router = useRouter();
+    const { lang } = router.query;
+    const language = lang ? lang?.toString() : 'az';
     return (
         <nav
             aria-label="Breadcrumb"
             className="flex gap-1 items-center text-xs font-semibold text-zinc-700 mt-[24px] lg:px-[100px] md:px-[60px] px-[30px]"
         >
-            <Link href={'/'}>
+            <Link href={`/${language}`}>
                 <img
                     loading="lazy"
                     src={'/svg/homeIcon.svg'}

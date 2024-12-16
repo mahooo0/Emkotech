@@ -1,23 +1,28 @@
 import * as React from 'react';
 import { useRouter } from 'next/router';
-import { useLanguage } from '../Hoc/LanguageContext';
 import { Product } from '@/pages/products/[id]';
 import Link from 'next/link';
+import { ROUTES } from '@/services/CONSTANTS';
 
 const ProductCard = ({ data }: { data: Product }) => {
     const router = useRouter();
-    const { language } = useLanguage();
+    // const { language } = useLanguage();
+    const { lang } = router.query;
+    const language = lang ? lang?.toString() : 'az';
     return (
         <div
             className="flex flex-col h-full justify-around grow pb-7 w-full hover:border-[#186FE0] border duration-300 bg-white rounded-2xl shadow-[0px_0px_11px_rgba(167,167,167,0.12)] max-md:mt-6 relative "
             key={data.id}
         >
-            <img
-                onClick={() => router.push(`/products/${data.id}`)}
-                loading="lazy"
-                src={data.image}
-                className="object-cover cursor-pointer w-full rounded-2xl aspect-[1.05]"
-            />
+            <Link href={`/${language}/${ROUTES.products[language]}/${data.id}`}>
+                {' '}
+                <img
+                    loading="lazy"
+                    src={data.image}
+                    className="object-cover cursor-pointer w-full rounded-2xl aspect-[1.05]"
+                />
+            </Link>
+
             <div className="flex flex-col h-full  justify-between px-3.5 mt-8 w-full">
                 <div className="min-h-[56px]">
                     <p className="text-lg font-medium text-black line-clamp-2  ">
@@ -33,7 +38,9 @@ const ProductCard = ({ data }: { data: Product }) => {
                         </p>
                         <p className="self-stretch line-through my-auto text-lg font-medium text-stone-300">
                             {' '}
-                            {data.price}$
+                            {data.discounted_price === data.price
+                                ? ''
+                                : `${data.price}$`}
                         </p>
                     </div>
                     <Link href={'/contact'}>
@@ -45,16 +52,18 @@ const ProductCard = ({ data }: { data: Product }) => {
                                 : 'Купить сейчас'}
                         </button>
                     </Link>
-                    <button
-                        className="gap-2.5 w-full flex justify-center self-stretch p-2.5 mt-3.5 text-base text-blue-600 rounded-[18px] hover:bg-[#186FE0F0] hover:text-white duration-300 border border-indigo-500 border-solid max-md:mr-1"
-                        onClick={() => router.push(`/products/${data.id}`)}
+                    <Link
+                        href={`/${language}/${ROUTES.products[language]}/${data.id}`}
                     >
-                        {language === 'az'
-                            ? 'Ətraflı bax'
-                            : language === 'en'
-                            ? 'View Details'
-                            : 'Подробнее'}
-                    </button>
+                        {' '}
+                        <button className="gap-2.5 w-full flex justify-center self-stretch p-2.5 mt-3.5 text-base text-blue-600 rounded-[18px] hover:bg-[#186FE0F0] hover:text-white duration-300 border border-indigo-500 border-solid max-md:mr-1">
+                            {language === 'az'
+                                ? 'Ətraflı bax'
+                                : language === 'en'
+                                ? 'View Details'
+                                : 'Подробнее'}
+                        </button>
+                    </Link>
                 </div>
             </div>
             {data.discount ? (

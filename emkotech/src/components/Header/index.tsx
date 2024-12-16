@@ -10,6 +10,9 @@ import {
     getProjects,
     getTranslations,
 } from '@/services/Request';
+import { updateLangAndRoute } from '@/services/helpers';
+import { ROUTES } from '@/services/CONSTANTS';
+import { useRouter } from 'next/router';
 
 interface NavItemProps {
     label: string;
@@ -52,9 +55,11 @@ const NavItem: React.FC<NavItemProps> = ({
 };
 
 const NavLogo: React.FC = () => {
+    const router = useRouter();
+    const { lang } = router.query;
     return (
         <div className="flex pb-2 flex-wrap gap-10 items-end self-stretch my-auto text-base text-black  max-md:max-w-full">
-            <Link href={'/'}>
+            <Link href={`/${lang}`}>
                 <img
                     loading="lazy"
                     src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/abb16285b3506646182d892ed29e09d03528a73b813f583ab565493b4f934b39?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
@@ -74,7 +79,10 @@ const NavContent = ({
     setIsBarOpen: (par: boolean) => void;
 }) => {
     const [isProjectsBarOpen, setIsProjectsBarOpen] = useState(false);
-    const { language } = useLanguage();
+    const router = useRouter();
+    const { lang } = router.query;
+    const language = lang ? lang?.toString() : 'az';
+    // const { language } = useLanguage();
     const { data: projectsData } = useQuery({
         queryKey: ['projects', language],
         queryFn: () => getProjects(language),
@@ -92,7 +100,7 @@ const NavContent = ({
     return (
         <nav className="flex flex-wrap  items-center min-w-[240px] max-md:max-w-full h-[55px]">
             <div className="h-full">
-                <Link href={'/'}>
+                <Link href={`/${language}`}>
                     <NavItem
                         label={translationsData?.data?.Əsas_səhifə}
                         isActive={activeindex === 0}
@@ -101,10 +109,14 @@ const NavContent = ({
             </div>
             <div
                 className="h-full"
-                onMouseLeave={() => setIsBarOpen(false)}
+                onMouseLeave={() =>
+                    setTimeout(() => {
+                        setIsBarOpen(false);
+                    }, 500)
+                }
                 onMouseEnter={() => setIsBarOpen(true)}
             >
-                <Link href={'/products'}>
+                <Link href={`/${language}/${ROUTES.products[language]}`}>
                     <NavItem
                         label={translationsData?.data?.Məhsullar}
                         hasDropdown
@@ -113,7 +125,7 @@ const NavContent = ({
                 </Link>
             </div>
             <div className="h-full">
-                <Link href={'/aboutus'}>
+                <Link href={`/${language}/${ROUTES.about[language]}`}>
                     <NavItem
                         label={translationsData?.data?.Haqqımızda}
                         isActive={activeindex === 2}
@@ -122,7 +134,7 @@ const NavContent = ({
             </div>
             <div className="h-full relative">
                 <Link
-                    href={'/projects'}
+                    href={`/${language}/${ROUTES.project[language]}`}
                     onMouseLeave={() => setIsProjectsBarOpen(false)}
                     onMouseEnter={() => setIsProjectsBarOpen(true)}
                 >
@@ -140,7 +152,10 @@ const NavContent = ({
                     }  bg-white  h-[200px] absolute top-[80%] w-[200px] rounded-b-lg z-50 overflow-y-auto overflow-x-hidden flex flex-col gap-2  [&::-webkit-scrollbar]:w-[3px] [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-transparent`}
                 >
                     {projectsData?.data.map((item: Project) => (
-                        <Link href={`/projects/${item.id}`} key={item.id}>
+                        <Link
+                            href={`/${language}/${ROUTES.project[language]}/${item.id}`}
+                            key={item.id}
+                        >
                             <p className="hover:bg-gray-100 rounded-md px-2 py-1">
                                 {item.title.slice(0, 30)}
                             </p>
@@ -149,7 +164,7 @@ const NavContent = ({
                 </div>
             </div>
             <div className="h-full">
-                <Link href={'/news'}>
+                <Link href={`/${language}/${ROUTES.news[language]}`}>
                     <NavItem
                         label={translationsData?.data?.Xəbərlər}
                         isActive={activeindex === 4}
@@ -157,7 +172,7 @@ const NavContent = ({
                 </Link>
             </div>
             <div className="h-full">
-                <Link href={'/contact'}>
+                <Link href={`/${language}/${ROUTES.contact[language]}`}>
                     <NavItem
                         label={translationsData?.data?.Əlaqə}
                         isActive={activeindex === 5}
@@ -170,7 +185,7 @@ const NavContent = ({
 
 const FlagDropdown: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const { language, setLanguage } = useLanguage();
+    const { setLanguage } = useLanguage();
     const dropdownref = useRef<HTMLDivElement | null>(null);
     const buttonRef = useRef<HTMLDivElement | null>(null);
     const toggleDropdown = () => {
@@ -191,18 +206,39 @@ const FlagDropdown: React.FC = () => {
         return () =>
             document.removeEventListener('mousedown', handleOutsideClick);
     }, []);
-    const handleLanguageChange = (lang: string) => {
-        console.log('lang', lang);
-        setLanguage(lang);
-        localStorage.setItem('accept-language', lang); // Persist language selection
-        setIsOpen(false);
-        document.cookie = `accept-language=${lang}; path=/`;
+    const router = useRouter();
+    const { lang, page, id } = router.query;
+    const handleLanguageChange = (Lang: 'az' | 'en' | 'ru') => {
+        if (lang === undefined || page === undefined) {
+            router.push(`/${Lang}`);
+            setLanguage(Lang);
+            return;
+        }
+
+        let path = `/${lang}/${page}`;
+        if (id) {
+            path += `/${id}`;
+        }
+        const RoutePath = updateLangAndRoute(path, Lang);
+
+        console.log('path:', RoutePath);
+
+        // const RoutePath = updateLangAndRoute(path, lang);
+        router.push(RoutePath);
+        // console.log('RoutePath', RoutePath);
+
+        // console.log('lang', lang);
+        setLanguage(Lang);
+        // localStorage.setItem('accept-language', lang); // Persist language selection
+        // setIsOpen(false);
+        // document.cookie = `accept-language=${lang}; path=/`;
 
         // Optionally reload the page or fetch new translations
-        window.location.reload(); // Reload for server-side rendering changes
+        // window.location.reload(); // Reload for server-side rendering changes
     };
 
-    const getFlagSrc = (lang: string) => `/svg/flag${lang}.svg`;
+    const getFlagSrc = (lang: string) =>
+        `/svg/flag${lang === undefined ? 'az' : lang}.svg`;
 
     return (
         <div className="relative flex flex-col leading-none text-black whitespace-nowrap w-[70px]">
@@ -215,8 +251,8 @@ const FlagDropdown: React.FC = () => {
             >
                 <img
                     loading="lazy"
-                    src={getFlagSrc(language)}
-                    alt={`${language} flag`}
+                    src={getFlagSrc(lang as string)}
+                    alt={`${lang} flag`}
                     className="self-stretch my-auto w-5 aspect-square"
                 />
                 <img
@@ -231,17 +267,21 @@ const FlagDropdown: React.FC = () => {
                     className="absolute top-full left-[0px] z-50 mt-1 bg-white border list-none border-gray-200 rounded-md shadow-lg  w-fit"
                     role="listbox"
                 >
-                    {['az', 'ru', 'en'].map((lang) => (
-                        <li key={lang}>
+                    {['az', 'ru', 'en'].map((Lang) => (
+                        <li key={Lang}>
                             <button
                                 className="w-full text-left px-4 py-2 hover:bg-gray-100 flex items-center gap-2"
-                                onClick={() => handleLanguageChange(lang)}
+                                onClick={() =>
+                                    handleLanguageChange(
+                                        Lang as 'az' | 'en' | 'ru'
+                                    )
+                                }
                                 role="option"
-                                aria-selected={language === lang}
+                                aria-selected={lang === Lang}
                             >
                                 <img
-                                    src={getFlagSrc(lang)}
-                                    alt={`${lang} flag`}
+                                    src={getFlagSrc(Lang)}
+                                    alt={`${Lang} flag`}
                                     className="w-[24px]"
                                 />
                             </button>
@@ -256,7 +296,15 @@ const FlagDropdown: React.FC = () => {
 const Header = ({ activeindex }: { activeindex: number }) => {
     const [IsBarOpen, setIsBarOpen] = useState<boolean>(false);
     const [sohowAside, setsohowAside] = useState<boolean>(false);
-    const { language } = useLanguage();
+
+    const { language, setLanguage } = useLanguage();
+    const router = useRouter();
+    const { lang } = router.query;
+    useEffect(() => {
+        if (lang && lang == '') {
+            setLanguage(lang);
+        }
+    }, [lang]);
     const { data: productCategoriesData, isLoading: productCategoriesLoading } =
         useQuery({
             queryKey: ['productCategories', language],
@@ -350,7 +398,7 @@ const Header = ({ activeindex }: { activeindex: number }) => {
                             className="block px-4 py-2 text-sm text-gray-700"
                             onClick={() => setsohowAside(false)}
                         >
-                            <Link href="/" className="w-full">
+                            <Link href={`/${language}`} className="w-full">
                                 {translationsData?.data?.Əsas_səhifə}
                             </Link>
                         </div>
@@ -358,7 +406,9 @@ const Header = ({ activeindex }: { activeindex: number }) => {
                             className="block px-4 py-2 text-sm text-gray-700"
                             onClick={() => setsohowAside(false)}
                         >
-                            <Link href="/aboutus">
+                            <Link
+                                href={`/${language}/${ROUTES.about[language]}`}
+                            >
                                 {translationsData?.data?.Haqqımızda}
                             </Link>
                         </div>
@@ -366,7 +416,9 @@ const Header = ({ activeindex }: { activeindex: number }) => {
                             className="block px-4 py-2 text-sm text-gray-700"
                             onClick={() => setsohowAside(false)}
                         >
-                            <Link href="/projects">
+                            <Link
+                                href={`/${language}/${ROUTES.project[language]}`}
+                            >
                                 {translationsData?.data?.Layihələr}
                             </Link>
                         </div>
@@ -374,7 +426,9 @@ const Header = ({ activeindex }: { activeindex: number }) => {
                             className="block px-4 py-2 text-sm text-gray-700"
                             onClick={() => setsohowAside(false)}
                         >
-                            <Link href="/products">
+                            <Link
+                                href={`/${language}/${ROUTES.products[language]}`}
+                            >
                                 {translationsData?.data?.Məhsullar}
                             </Link>
                         </div>
@@ -382,7 +436,9 @@ const Header = ({ activeindex }: { activeindex: number }) => {
                             className="block px-4 py-2 text-sm text-gray-700"
                             onClick={() => setsohowAside(false)}
                         >
-                            <Link href="/news">
+                            <Link
+                                href={`/${language}/${ROUTES.news[language]}`}
+                            >
                                 {translationsData?.data?.Xəbərlər}
                             </Link>
                         </div>
@@ -390,7 +446,9 @@ const Header = ({ activeindex }: { activeindex: number }) => {
                             className="block px-4 py-2 text-sm text-gray-700"
                             onClick={() => setsohowAside(false)}
                         >
-                            <Link href="/contact">
+                            <Link
+                                href={`/${language}/${ROUTES.contact[language]}`}
+                            >
                                 {translationsData?.data?.Əlaqə}
                             </Link>
                         </div>

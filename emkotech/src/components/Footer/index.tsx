@@ -2,7 +2,8 @@ import * as React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useLanguage } from '@/components/Hoc/LanguageContext';
 import { getFooter, getPages, getTranslations } from '@/services/Request';
-import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { ROUTES } from '@/services/CONSTANTS';
 
 interface SocialMediaItem {
     url: string;
@@ -29,8 +30,7 @@ export function Footer() {
         queryKey: ['pages', language],
         queryFn: () => getPages(language),
     });
-    const router = useRouter();
-    console.log(data);
+    // console.log(data);
     return (
         <footer className="flex flex-col text-sm text-white lg:mt-[120px] mt-[60px]">
             <div className="flex flex-col items-start pt-12 pb-4 w-full bg-slate-900 max-md:max-w-full">
@@ -47,48 +47,54 @@ export function Footer() {
                         <div className="flex flex-col items-start text-white opacity-50 gap-4">
                             {/* {data.data} */}
                             {pagesData?.data?.map((item: Document) => (
-                                <a key={item.id} href={item.file_url}>
+                                <Link key={item.id} href={item.file_url}>
                                     <div>{item.title}</div>
-                                </a>
+                                </Link>
                             ))}
                         </div>
                         <div className="flex flex-col items-start text-white opacity-50">
-                            <div
-                                className="cursor-pointer"
-                                onClick={() => router.push('/')}
+                            <Link href={`/${language}`}>
+                                <div className="cursor-pointer">
+                                    {translationsData?.data?.Əsas_səhifə}
+                                </div>
+                            </Link>
+                            <Link
+                                href={`/${language}/${ROUTES.about[language]}`}
                             >
-                                {translationsData?.data?.Əsas_səhifə}
-                            </div>
-                            <div
-                                className="self-stretch mt-4 cursor-pointer "
-                                onClick={() => router.push('/aboutus')}
+                                {' '}
+                                <div className="self-stretch mt-4 cursor-pointer ">
+                                    {translationsData?.data?.Haqqımızda}
+                                </div>
+                            </Link>
+                            <Link
+                                href={`/${language}/${ROUTES.products[language]}`}
                             >
-                                {translationsData?.data?.Haqqımızda}
-                            </div>
-                            <div
-                                className="self-stretch mt-4 cursor-pointer"
-                                onClick={() => router.push('/products')}
+                                <div className="self-stretch mt-4 cursor-pointer">
+                                    {translationsData?.data?.Məhsullar}
+                                </div>{' '}
+                            </Link>
+                            <Link
+                                href={`/${language}/${ROUTES.project[language]}`}
                             >
-                                {translationsData?.data?.Məhsullar}
-                            </div>
-                            <div
-                                className="self-stretch mt-4 cursor-pointer"
-                                onClick={() => router.push('/projects')}
+                                {' '}
+                                <div className="self-stretch mt-4 cursor-pointer">
+                                    {translationsData?.data?.Layihələr}
+                                </div>
+                            </Link>
+                            <Link
+                                href={`/${language}/${ROUTES.news[language]}`}
                             >
-                                {translationsData?.data?.Layihələr}
-                            </div>
-                            <div
-                                className="mt-4 cursor-pointer"
-                                onClick={() => router.push('/news')}
+                                <div className="mt-4 cursor-pointer">
+                                    {translationsData?.data?.Xəbərlər}
+                                </div>
+                            </Link>
+                            <Link
+                                href={`/${language}/${ROUTES.contact[language]}`}
                             >
-                                {translationsData?.data?.Xəbərlər}
-                            </div>
-                            <div
-                                className="mt-4 cursor-pointer"
-                                onClick={() => router.push('/contact')}
-                            >
-                                {translationsData?.data?.Əlaqə}
-                            </div>
+                                <div className="mt-4 cursor-pointer">
+                                    {translationsData?.data?.Əlaqə}
+                                </div>
+                            </Link>
                         </div>
                     </div>
                     <div className="mt-6 opacity-50">
@@ -96,13 +102,13 @@ export function Footer() {
                     </div>
                     <div className="flex gap-4 flex-row">
                         {data?.data?.map((item: SocialMediaItem) => (
-                            <a key={item.id} href={item.url}>
+                            <Link key={item.id} href={item.url}>
                                 <img
                                     loading="lazy"
                                     src={item.icon}
                                     className="object-contain mt-6 w-[16px] h-[16px] "
                                 />
-                            </a>
+                            </Link>
                         ))}
                     </div>
                     {/* <img

@@ -12,8 +12,10 @@ import {
 } from '@/services/Request';
 import React from 'react';
 import { useRouter } from 'next/router';
+import { ROUTES } from '@/services/CONSTANTS';
+import Link from 'next/link';
 
-interface NewsIdProps {
+export interface NewsIdProps {
     newsData: {
         title: string;
         date: string;
@@ -38,7 +40,6 @@ export default function NewsId({
     newsList,
     popularData,
     translationsData,
-    id,
     nodata,
     error,
 }: NewsIdProps) {
@@ -64,7 +65,8 @@ export default function NewsId({
             </div>
         );
     }
-
+    const { lang } = router.query;
+    const language = lang ? lang?.toString() : 'az';
     return (
         <div className="mt-[94px]">
             {/* Breadcrumb Navigation */}
@@ -73,11 +75,11 @@ export default function NewsId({
                     items={[
                         {
                             text: translationsData.Xəbərlər,
-                            path: '/news',
+                            path: `/${language}/${ROUTES.news[language]}/`,
                         },
                         {
                             text: newsData.title,
-                            path: `/news/${id}`,
+                            path: ``,
                         },
                     ]}
                 />
@@ -126,10 +128,10 @@ export default function NewsId({
                             {translationsData?.Populyar_Məhsullar}
                         </h2>
                         <div className="lg:absolute md:absolute static lg:right-[100px] md:right-[60px] right-[30px]">
-                            <button
-                                className="flex gap-2.5 items-center text-base font-medium text-blue-600"
-                                onClick={() => router.push('/news')}
-                            >
+                            <Link
+                                href={`/${language}/${ROUTES.news[language]}`}
+                            ></Link>
+                            <button className="flex gap-2.5 items-center text-base font-medium text-blue-600">
                                 <p>{translationsData?.Hamısına_bax}</p>
                                 <img
                                     loading="lazy"

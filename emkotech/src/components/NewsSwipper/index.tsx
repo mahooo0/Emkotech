@@ -4,10 +4,14 @@ import 'swiper/swiper-bundle.css';
 import { NewsData } from '../NewsCard';
 import { Swiper as SwiperType } from 'swiper';
 import { useRouter } from 'next/router';
+import { ROUTES } from '@/services/CONSTANTS';
+import Link from 'next/link';
 
 export const NewsSwiper = ({ data }: { data: NewsData[] }) => {
     const swiperRef = useRef<SwiperType | null>(null);
     const router = useRouter();
+    const { lang } = router.query;
+    const language = lang ? lang?.toString() : 'az';
     return (
         <div>
             <Swiper
@@ -22,6 +26,9 @@ export const NewsSwiper = ({ data }: { data: NewsData[] }) => {
                         slidesPerView: 2,
                     },
                     768: {
+                        slidesPerView: 3,
+                    },
+                    1240: {
                         slidesPerView: 4,
                     },
                 }}
@@ -31,56 +38,65 @@ export const NewsSwiper = ({ data }: { data: NewsData[] }) => {
                         className="!py-[10px] !flex !justify-center"
                         key={i}
                     >
-                        <div
-                            key={i}
-                            className="flex cursor-pointer overflow-hidden flex-col justify-center bg-white rounded-2xl max-w-[288px]"
-                            onClick={() => router.push(`/news/${item.id}`)}
+                        <Link
+                            href={`/${language}/${ROUTES.news[language]}/${item.id}`}
                         >
-                            <div className="flex overflow-hidden flex-col w-full">
-                                <img
-                                    loading="lazy"
-                                    className="object-cover w-full aspect-[1.38]"
-                                    src={item.image}
-                                />
-                            </div>
-                            <div className="flex flex-col justify-center p-6 w-full bg-white text-zinc-800">
-                                <div className="flex flex-col w-full">
-                                    <div className="flex flex-col w-full">
-                                        <div className="text-xl font-medium leading-snug h-[2.5em] overflow-hidden">
-                                            {item.title}
-                                        </div>
-                                        <div
-                                            className="mt-2 text-sm tracking-wide leading-5"
-                                            dangerouslySetInnerHTML={{
-                                                __html: item.short_description,
-                                            }}
-                                        ></div>
-                                    </div>
-                                </div>
-                                <div className="flex flex-col mt-8 w-full text-xs tracking-normal leading-snug">
+                            {' '}
+                            <div
+                                key={i}
+                                className="flex cursor-pointer overflow-hidden flex-col justify-center bg-white rounded-2xl "
+                                onClick={() =>
+                                    router.push(
+                                        `/${language}/${ROUTES.news[language]}/${item.id}`
+                                    )
+                                }
+                            >
+                                <div className="flex overflow-hidden flex-col w-full">
                                     <img
                                         loading="lazy"
-                                        src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/fc4fa5e45336e80ee82c9e821d94df4e3e27afda654d7ada6355603f32e5f7b5?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
-                                        className="object-contain w-full aspect-[250]"
+                                        className="object-cover w-full aspect-[1.38]"
+                                        src={item.image}
                                     />
-                                    <div className="flex gap-10 justify-between items-center mt-4 w-full">
-                                        <div className="gap-2 self-stretch my-auto">
-                                            {item.date}
+                                </div>
+                                <div className="flex flex-col justify-center p-6 w-full bg-white text-zinc-800">
+                                    <div className="flex flex-col w-full">
+                                        <div className="flex flex-col w-full">
+                                            <div className="text-xl font-medium leading-snug h-[2.5em] overflow-hidden">
+                                                {item.title}
+                                            </div>
+                                            <div
+                                                className="mt-2 text-sm tracking-wide leading-5"
+                                                dangerouslySetInnerHTML={{
+                                                    __html: item.short_description,
+                                                }}
+                                            ></div>
                                         </div>
-                                        <div className="flex gap-2 justify-center items-center self-stretch my-auto whitespace-nowrap">
-                                            <img
-                                                loading="lazy"
-                                                src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/773a2b2554008121fab7182cf9957a2babbd8eb738963406bc2d4d2955deddfe?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
-                                                className="object-contain shrink-0 self-stretch my-auto w-3.5 aspect-square"
-                                            />
-                                            <div className="self-stretch my-auto">
-                                                {item.views}
+                                    </div>
+                                    <div className="flex flex-col mt-8 w-full text-xs tracking-normal leading-snug">
+                                        <img
+                                            loading="lazy"
+                                            src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/fc4fa5e45336e80ee82c9e821d94df4e3e27afda654d7ada6355603f32e5f7b5?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
+                                            className="object-contain w-full aspect-[250]"
+                                        />
+                                        <div className="flex gap-10 justify-between items-center mt-4 w-full">
+                                            <div className="gap-2 self-stretch my-auto">
+                                                {item.date}
+                                            </div>
+                                            <div className="flex gap-2 justify-center items-center self-stretch my-auto whitespace-nowrap">
+                                                <img
+                                                    loading="lazy"
+                                                    src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/773a2b2554008121fab7182cf9957a2babbd8eb738963406bc2d4d2955deddfe?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
+                                                    className="object-contain shrink-0 self-stretch my-auto w-3.5 aspect-square"
+                                                />
+                                                <div className="self-stretch my-auto">
+                                                    {item.views}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     </SwiperSlide>
                 ))}
             </Swiper>
