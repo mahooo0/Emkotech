@@ -62,15 +62,15 @@ export default function AboutUs({
                         },
                     ]}
                 />
-                <section className="flex flex-col rounded-2xl lg:px-[100px] md:px-[60px] px-[30px] mt-6">
+                <section className="flex flex-row-reverse max-sm:flex-col rounded-2xl lg:px-[100px] md:px-[60px] px-[30px] gap-6 mt-6">
                     <div className="z-10 mt-0 max-md:-mr-2 max-md:max-w-full">
-                        <div className="flex lg:gap-[0] gap-5 max-md:flex-col items-center">
-                            <div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full ">
-                                <h1 className="lg:text-5xl text-[2rem] text-black lg:mt-10 mt-0 max-md:max-w-full  lg:leading-[56px] leading-[42px]">
+                        <div className="flex lg:gap-[0] gap-5 flex-col items-center">
+                            <div className="flex flex-col w-full max-md:ml-0 max-md:w-full ">
+                                <h1 className="lg:text-5xl leading-[64px] max-md:leading-10 text-[2rem] text-black lg:mt-10 mt-0 max-md:max-w-full  lg:leading-[56px] ">
                                     {aboutData?.data[0].title}
                                 </h1>
                             </div>
-                            <div className="flex flex-col ml-10 w-6/12 max-md:ml-0 max-md:w-full">
+                            <div className="flex flex-col w-full max-md:ml-0 max-md:w-full">
                                 <div
                                     dangerouslySetInnerHTML={{
                                         __html: aboutData?.data[0].description,
@@ -82,7 +82,7 @@ export default function AboutUs({
                     </div>
                     <div className="lg:mt-5 mt-0 w-full max-md:max-w-full">
                         <div className="flex gap-5 max-md:flex-col lg:mt-4 mt-0">
-                            <div className="flex flex-col w-6/12 max-md:ml-0 max-md:w-full">
+                            <div className="flex flex-col w-full max-md:ml-0 max-md:w-full">
                                 <Image
                                     loading="lazy"
                                     src={aboutData?.data[0].image}
@@ -92,35 +92,12 @@ export default function AboutUs({
                                     className="object-cover object-center w-full rounded-2xl aspect-square max-md:mt-6 max-md:max-w-full"
                                 />
                             </div>
-                            <div className="flex flex-col ml-5 w-6/12 max-md:ml-0 max-md:w-full">
-                                <div className="flex flex-col  max-md:max-w-full">
-                                    <Image
-                                        loading="lazy"
-                                        src={aboutData?.data[0].image2}
-                                        alt="About Image 2"
-                                        width={800}
-                                        height={600}
-                                        style={{
-                                            backgroundPosition: 'center',
-                                        }}
-                                        className="object-cover w-full rounded-2xl aspect-[2.08] max-md:max-w-full"
-                                    />
-                                    <Image
-                                        loading="lazy"
-                                        src={aboutData?.data[0].image3}
-                                        alt="About Image 3"
-                                        width={800}
-                                        height={600}
-                                        className="object-cover object-center mt-6 w-full rounded-2xl aspect-[2.08] max-md:max-w-full"
-                                    />
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </section>
                 <section className="flex flex-col rounded-2xl lg:px-[100px] md:px-[60px] px-[30px] lg:mt-[120px] mt-[60px]">
                     <h2 className="self-center text-5xl font-medium text-black max-md:max-w-full max-md:text-4xl">
-                        <span className="text-[#D2D641] ">
+                        <span className="text-[#EA9B12] ">
                             {translationsData?.data?.Yekunlaşdırma}{' '}
                         </span>
                         <span className="">

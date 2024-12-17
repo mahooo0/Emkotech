@@ -9,7 +9,9 @@ export default function ProjectCard({ data }: { data: Project | undefined }) {
     const { lang } = router.query;
     const language = lang ? lang?.toString() : 'az';
     return (
-        <Link href={`/${language}/${ROUTES.project[language]}/${data?.id}`}>
+        <Link
+            href={`/${language}/${ROUTES.project[language]}/${data?.slug}?id=${data?.id}`}
+        >
             {' '}
             <div
                 key={data?.id}

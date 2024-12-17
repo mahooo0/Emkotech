@@ -93,6 +93,7 @@ const NavContent = ({
     });
 
     interface Project {
+        slug: string;
         id: string;
         title: string;
     }
@@ -153,7 +154,7 @@ const NavContent = ({
                 >
                     {projectsData?.data.map((item: Project) => (
                         <Link
-                            href={`/${language}/${ROUTES.project[language]}/${item.id}`}
+                            href={`/${language}/${ROUTES.project[language]}/${item.slug}?id=${item.id}`}
                             key={item.id}
                         >
                             <p className="hover:bg-gray-100 rounded-md px-2 py-1">
@@ -207,34 +208,30 @@ const FlagDropdown: React.FC = () => {
             document.removeEventListener('mousedown', handleOutsideClick);
     }, []);
     const router = useRouter();
-    const { lang, page, id } = router.query;
+    const { lang, page, slug } = router.query;
     const handleLanguageChange = (Lang: 'az' | 'en' | 'ru') => {
         if (lang === undefined || page === undefined) {
-            router.push(`/${Lang}`);
+            router.push(`/${Lang}${window.location.search}`);
             setLanguage(Lang);
             return;
         }
 
         let path = `/${lang}/${page}`;
-        if (id) {
-            path += `/${id}`;
+        if (slug) {
+            path += `/${slug}`;
         }
-        const RoutePath = updateLangAndRoute(path, Lang);
+
+        // Preserve the query parameters
+        const queryParams = window.location.search; // Get the current query string
+        const RoutePath = updateLangAndRoute(path, Lang) + queryParams;
 
         console.log('path:', RoutePath);
 
-        // const RoutePath = updateLangAndRoute(path, lang);
-        router.push(RoutePath);
-        // console.log('RoutePath', RoutePath);
-
-        // console.log('lang', lang);
+        router.push(RoutePath); // Navigate to the new path
         setLanguage(Lang);
-        // localStorage.setItem('accept-language', lang); // Persist language selection
-        // setIsOpen(false);
-        // document.cookie = `accept-language=${lang}; path=/`;
 
-        // Optionally reload the page or fetch new translations
-        // window.location.reload(); // Reload for server-side rendering changes
+        // Optionally, persist language selection
+        // document.cookie = `accept-language=${Lang}; path=/`;
     };
 
     const getFlagSrc = (lang: string) =>

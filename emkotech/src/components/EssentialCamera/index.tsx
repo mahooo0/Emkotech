@@ -45,10 +45,10 @@ const EssentialCamera: React.FC<{ data: Product | undefined }> = ({ data }) => {
                             src={data?.slide_images[selectedImage].image}
                             alt=""
                             onClick={() => setisopen(true)}
-                            className="w-full  md:h-full lg:h-[700px] h-[300px] object-cover  top-0 right-0  "
+                            className="w-full  md:h-full lg:h-[700px] h-[300px] object-cover rounded-[18px]  top-0 right-0  "
                         />
                         <div
-                            className="max-h-[400px] lg:absolute md:absolute  w-fit z-[1]  pr-2 flex flex-row lg:flex-col md:flex-col gap-5 overflow-x-scroll lg:overflow-y-scroll md:overflow-y-scroll 
+                            className="max-h-[400px] pl-4 lg:absolute md:absolute  w-fit z-[1]  pr-2 flex flex-row lg:flex-col md:flex-col gap-5 overflow-x-scroll lg:overflow-y-scroll md:overflow-y-scroll 
   [&::-webkit-scrollbar]:h-[3px] 
   lg:[&::-webkit-scrollbar]:w-[3px] 
   [&::-webkit-scrollbar-thumb]:bg-gray-300 
@@ -85,7 +85,7 @@ const EssentialCamera: React.FC<{ data: Product | undefined }> = ({ data }) => {
                             {data?.subcategory_name}
                         </p>
                         {data?.discount ? (
-                            <span className="gap-2.5 self-stretch py-1 pr-2 pl-2 mt-5 text-xs text-white bg-[#D2D641] min-h-[22px] rounded-[41px] w-fit">
+                            <span className="gap-2.5 self-stretch py-1 pr-2 pl-2 mt-5 text-xs text-white bg-[#EA9B12] min-h-[22px] rounded-[41px] w-fit">
                                 sale{' '}
                                 {Math.floor(
                                     ((data.price - data.discounted_price) /
@@ -99,10 +99,12 @@ const EssentialCamera: React.FC<{ data: Product | undefined }> = ({ data }) => {
                         )}
                         <div className="flex gap-1.5 mt-1.5 whitespace-nowrap items-end justify-end">
                             <span className="grow text-3xl text-blue-600">
-                                {data?.price}
+                                {data?.price}$
                             </span>
                             <span className="  text-base text-neutral-400 line-through">
-                                {data?.discounted_price}
+                                {data?.discounted_price === data?.price
+                                    ? ''
+                                    : data?.discounted_price}
                             </span>
                         </div>
                         <div

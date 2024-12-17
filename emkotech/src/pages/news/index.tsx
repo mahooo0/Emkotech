@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 interface NewsItem {
+    slug: string;
     id: number;
     image: string;
     title: string;
@@ -58,7 +59,7 @@ export default function Nevs({ news, translations, currentPage }: NevsProps) {
                         {news?.data.map((item: NewsItem, i: number) => (
                             <Link
                                 key={i}
-                                href={`/${language}/${ROUTES.news[language]}/${item.id}`}
+                                href={`/${language}/${ROUTES.news[language]}/${item.slug}/?id=${item.id}`}
                             >
                                 {' '}
                                 <div

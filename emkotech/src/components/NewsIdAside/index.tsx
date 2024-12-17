@@ -6,6 +6,7 @@ import { getTranslations } from '@/services/Request';
 import { ROUTES } from '@/services/CONSTANTS';
 
 export interface NewsItem {
+    slug: string;
     id: string;
     title: string;
     image: string;
@@ -42,7 +43,7 @@ export function Aside({ data }: { data: NewsItem[] }) {
                 {filteredData.length > 0 && search ? (
                     filteredData.map((item: NewsItem, i: number) => (
                         <Link
-                            href={`/${language}/${ROUTES.news[language]}/${item.id}`}
+                            href={`/${language}/${ROUTES.news[language]}/${item.slug}?id=${item.id}`}
                             key={i}
                         >
                             <p
@@ -69,7 +70,7 @@ export function Aside({ data }: { data: NewsItem[] }) {
                 </div>
                 {data?.map((item: NewsItem, i: number) => (
                     <Link
-                        href={`/${language}/${ROUTES.news[language]}/${item.id}`}
+                        href={`/${language}/${ROUTES.news[language]}/${item.slug}?id=${item.id}`}
                         key={i}
                     >
                         <div className="flex gap-5  mt-3" key={i}>

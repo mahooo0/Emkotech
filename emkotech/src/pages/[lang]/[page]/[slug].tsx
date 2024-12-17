@@ -11,6 +11,7 @@ import React from 'react';
 import NewsId, { NewsIdProps } from '@/pages/news/[id]';
 export type Product = {
     id: number;
+    slug: string;
     subcategory_id: number;
     subcategory_name: string;
     category_id: number;
@@ -86,7 +87,8 @@ export default function ID(props: Props) {
 }
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     const { page, lang } = context.params as { page: string; lang: string };
-    const id = context?.params?.id; // Get product ID from URL
+    // const id = context?.query?.id; // Get product ID from URL
+    const { id } = context.query; // Get the query parameter ?id=10
 
     if (page === ROUTES.products[lang]) {
         try {

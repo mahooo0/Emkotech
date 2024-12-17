@@ -28,6 +28,7 @@ interface Statistic {
 }
 
 interface Project {
+    slug: string;
     id: number;
     title: string;
     description: string;
@@ -160,7 +161,7 @@ export default function Home({
                         {translationsData?.data?.statisciksTitle}
                     </h2>
                     <div className="flex overflow-hidden flex-col justify-center items-center px-16 py-14 mt-12 w-full rounded-2xl bg-zinc-100 max-md:px-5 max-md:mt-10 max-md:max-w-full">
-                        <div className="flex flex-wrap w-full gap-10 justify-center items-center text-2xl text-center text-[#D2D641] border-b border-[#D2D641] max-md:max-w-full">
+                        <div className="flex flex-wrap w-full gap-10 justify-center items-center text-2xl text-center text-[#EA9B12] border-b border-[#EA9B12] max-md:max-w-full">
                             {statisticsData.data.map(
                                 (item: Statistic, index: number) => (
                                     <div
@@ -184,7 +185,7 @@ export default function Home({
                             <Link
                                 href={`/${language}/${ROUTES.products[language]}`}
                             >
-                                <button className="gap-2.5  text-nowrap leading-[20px] self-start p-2.5 mt-1.5 px-[20px] py-[10px]  text-base font-medium text-[#D2D641] border border-[#D2D641] border-solid rounded-[35px]">
+                                <button className="gap-2.5  text-nowrap leading-[20px] self-start p-2.5 mt-1.5 px-[20px] py-[10px]  text-base font-medium text-[#EA9B12] border border-[#EA9B12] border-solid rounded-[35px]">
                                     {translationsData?.data?.layihelerebax}
                                 </button>
                             </Link>
@@ -288,18 +289,21 @@ export default function Home({
                             >
                                 <div
                                     key={index}
-                                    className=" w-full h-[336px] rounded-2xl cursor-pointer"
+                                    className=" w-full h-[336px] rounded-2xl cursor-pointer overflow-hidden"
                                     style={{
                                         backgroundSize: 'cover',
                                         backgroundPosition: 'center',
                                         backgroundImage: `url("${item.image}")`,
                                     }}
                                 >
-                                    <h6 className="text-xl font-semibold pt-[30px] pl-[30px] max-w-[340px]">
-                                        {item.title}
-                                    </h6>
-                                    <div className="text-base mt-4 ml-[30px]">
-                                        {item.description}
+                                    <div className=" bg-black  text-white bg-opacity-30 w-full h-full">
+                                        {' '}
+                                        <h6 className="text-xl font-semibold pt-[30px] pl-[30px] max-w-[340px]">
+                                            {item.title}
+                                        </h6>
+                                        <div className="text-base mt-4 ml-[30px]">
+                                            {item.description}
+                                        </div>
                                     </div>
                                 </div>
                             </Link>

@@ -39,17 +39,12 @@ export const NewsSwiper = ({ data }: { data: NewsData[] }) => {
                         key={i}
                     >
                         <Link
-                            href={`/${language}/${ROUTES.news[language]}/${item.id}`}
+                            href={`/${language}/${ROUTES.news[language]}/${item.slug}?id=${item.id}`}
                         >
                             {' '}
                             <div
                                 key={i}
                                 className="flex cursor-pointer overflow-hidden flex-col justify-center bg-white rounded-2xl "
-                                onClick={() =>
-                                    router.push(
-                                        `/${language}/${ROUTES.news[language]}/${item.id}`
-                                    )
-                                }
                             >
                                 <div className="flex overflow-hidden flex-col w-full">
                                     <img

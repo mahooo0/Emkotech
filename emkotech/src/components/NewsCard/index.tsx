@@ -10,6 +10,7 @@ export interface NewsData {
     short_description: string;
     date: string;
     views: number;
+    slug: string;
 }
 
 export default function NewsCard({ data, i }: { data: NewsData; i: number }) {
@@ -17,7 +18,9 @@ export default function NewsCard({ data, i }: { data: NewsData; i: number }) {
     const { lang } = router.query;
     const language = lang ? lang?.toString() : 'az';
     return (
-        <Link href={`/${language}/${ROUTES.news[language]}/${data.id}`}>
+        <Link
+            href={`/${language}/${ROUTES.news[language]}/${data.slug}/?id=${data.id}`}
+        >
             {' '}
             <div
                 key={i}
