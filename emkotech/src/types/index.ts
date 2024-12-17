@@ -40,12 +40,14 @@ export interface AboutUsProps {
     translationsData: Translation;
 }
 export interface Project {
+    slug: string;
     id: number;
     title: string;
     description: string;
     image: string;
 }
 interface NewsItem {
+    slug: string;
     id: number;
     image: string;
     title: string;
