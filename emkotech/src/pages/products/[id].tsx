@@ -16,7 +16,7 @@ export type SlideImage = {
 };
 
 export type Product = {
-    slug: string;
+    slug: { az: string; en: string; ru: string };
     id: number;
     subcategory_id: number;
     subcategory_name: string;

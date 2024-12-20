@@ -84,6 +84,18 @@ export const getProductCategories = async (language) => {
         throw error;
     }
 };
+export const getProductCategoriesHOME = async (language) => {
+    try {
+        const response = await axios.get(
+            'https://emkotech.epart.az/api/home/product-categories',
+            { headers: { 'Accept-Language': language } }
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching product categories:', error);
+        throw error;
+    }
+};
 export const getAbout = async (language) => {
     try {
         const response = await axios.get(

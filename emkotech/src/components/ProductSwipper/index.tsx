@@ -9,9 +9,9 @@ export const ProductSwiper = ({ data }: { data: Product[] }) => {
     const swiperRef = useRef<SwiperType | null>(null);
 
     return (
-        <div className=" relative flex items-center ">
+        <div className=" relative flex items-center  w-full">
             <Swiper
-                className="lg:!mt-[60px] !mt-[0px] lg:!mx-[90px] md:!mx-[60px] !mx-[30px] !px-[10px] !flex !justify-center"
+                className="lg:!mt-[60px] !w-full !mt-[0px] lg:!mx-[90px] md:!mx-[60px] !mx-[30px] !px-[10px] !flex !justify-center"
                 onSwiper={(swiper) => (swiperRef.current = swiper)}
                 spaceBetween={24}
                 breakpoints={{

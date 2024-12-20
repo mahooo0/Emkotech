@@ -6,7 +6,7 @@ import {
     getBottomBanner,
     getCustomers,
     getPartners,
-    getProductCategories,
+    getProductCategoriesHOME,
     getProducts,
     getStatistics,
     getTopBanner,
@@ -401,7 +401,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             getCustomers(lang),
             getBottomBanner(lang),
             getPartners(lang),
-            getProductCategories(lang),
+            getProductCategoriesHOME(lang),
             getTranslations(lang),
         ]);
 

@@ -33,11 +33,19 @@ export function updateLangAndRoute(
 
     // If there's an ID segment, it should remain untouched
     if (urlParts.length > 2) {
-        const potentialId = urlParts[2];
-        if (!isNaN(Number(potentialId)) || /^[a-f0-9]{24}$/.test(potentialId)) {
-            console.log('Detected ID:', potentialId);
-            // IDs are retained automatically since we're not modifying urlParts[2]
+        // const potentialId = urlParts[2];
+        // console.log('potentialId', potentialId);
+        const slug = localStorage.getItem('slug');
+        if (!slug) {
+            return `/${urlParts.join('/')}`;
         }
+        const newSlug = JSON.parse(slug);
+        console.log('newSlug', newSlug[newLang]);
+        urlParts[2] = newSlug[newLang];
+        // if (!isNaN(Number(potentialId)) || /^[a-f0-9]{24}$/.test(potentialId)) {
+        //     console.log('Detected ID:', potentialId);
+        //     // IDs are retained automatically since we're not modifying urlParts[2]
+        // }
     }
 
     return `/${urlParts.join('/')}`;

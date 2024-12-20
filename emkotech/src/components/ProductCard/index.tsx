@@ -9,15 +9,21 @@ const ProductCard = ({ data }: { data: Product }) => {
     // const { language } = useLanguage();
     const { lang } = router.query;
     const language = lang ? lang?.toString() : 'az';
+    console.log('data:', data);
+
     return (
         <div
             className="flex flex-col h-full justify-around grow pb-7 w-full hover:border-[#186FE0] border duration-300 bg-white rounded-2xl shadow-[0px_0px_11px_rgba(167,167,167,0.12)] max-md:mt-6 relative "
             key={data.id}
         >
             <Link
-                href={`/${language}/${ROUTES.products[language]}/${data?.slug}?id=${data?.id}`}
+                onClick={() => {
+                    localStorage.setItem('slug', JSON.stringify(data.slug));
+                }}
+                href={`/${language}/${
+                    ROUTES.products[language as keyof typeof ROUTES.products]
+                }/${data?.slug[lang as 'az' | 'en' | 'ru']}?id=${data?.id}`}
             >
-                {' '}
                 <img
                     loading="lazy"
                     src={data.image}
@@ -55,10 +61,24 @@ const ProductCard = ({ data }: { data: Product }) => {
                         </button>
                     </Link>
                     <Link
-                        href={`/${language}/${ROUTES.products[language]}/${data?.slug}?id=${data?.id}`}
+                        href={`/${language}/${
+                            ROUTES.products[
+                                language as keyof typeof ROUTES.products
+                            ]
+                        }/${data?.slug[lang as 'az' | 'en' | 'ru']}?id=${
+                            data?.id
+                        }`}
                     >
                         {' '}
-                        <button className="gap-2.5 w-full flex justify-center self-stretch p-2.5 mt-3.5 text-base text-blue-600 rounded-[18px] hover:bg-[#186FE0F0] hover:text-white duration-300 border border-indigo-500 border-solid max-md:mr-1">
+                        <button
+                            className="gap-2.5 w-full flex justify-center self-stretch p-2.5 mt-3.5 text-base text-blue-600 rounded-[18px] hover:bg-[#186FE0F0] hover:text-white duration-300 border border-indigo-500 border-solid max-md:mr-1"
+                            onClick={() => {
+                                localStorage.setItem(
+                                    'slug',
+                                    JSON.stringify(data.slug)
+                                );
+                            }}
+                        >
                             {language === 'az'
                                 ? 'Ətraflı bax'
                                 : language === 'en'
