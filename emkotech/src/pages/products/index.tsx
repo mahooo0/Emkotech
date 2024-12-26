@@ -249,7 +249,7 @@ export default function Products() {
                                             Number(e.target.value)
                                         );
                                         router.push(
-                                            `/${language}/${ROUTES.products[language]}?sub_category=${selectedCategory}&category=${e.target.value} &search=${debouncedSearchTerm}&sort=${selectedSort}&pagination=1`
+                                            `/${language}/${ROUTES.products[language]}?category=${e.target.value}&search=${debouncedSearchTerm}&sort=${selectedSort}&pagination=1`
                                         );
                                     }}
                                 >
