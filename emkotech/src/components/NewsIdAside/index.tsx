@@ -6,7 +6,7 @@ import { getTranslations } from '@/services/Request';
 import { ROUTES } from '@/services/CONSTANTS';
 
 export interface NewsItem {
-    slug: string;
+    slug: { az: string; en: string; ru: string };
     id: string;
     title: string;
     image: string;

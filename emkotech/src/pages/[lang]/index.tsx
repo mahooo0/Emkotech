@@ -1,4 +1,4 @@
-import { getStatistics, getTranslations } from '@/services/Request';
+import { getStatistics, getTopMeta, getTranslations } from '@/services/Request';
 import { getProductCategoriesHOME } from '@/services/Request';
 import { getPartners } from '@/services/Request';
 import { getBottomBanner } from '@/services/Request';
@@ -11,6 +11,7 @@ import { Product } from '../products/[id]';
 import { TranslationsData } from '../contact';
 
 import Home from '..';
+import { MetaItem } from '@/types';
 interface Statistic {
     statistic: string;
     value: string;
@@ -64,6 +65,7 @@ interface HomePageProps {
     partnersData: PartnerData;
     productCategoriesData: { data: ProductCategory[] };
     translationsData: TranslationsData;
+    Meta: MetaItem[];
 }
 export default function HomebyLang(props: HomePageProps) {
     // const router = useRouter();
@@ -84,6 +86,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             partnersData,
             productCategoriesData,
             translationsData,
+            Meta,
         ] = await Promise.all([
             getTopBanner(lang),
             getStatistics(lang),
@@ -93,6 +96,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             getPartners(lang),
             getProductCategoriesHOME(lang),
             getTranslations(lang),
+            getTopMeta(lang),
         ]);
 
         return {
@@ -105,6 +109,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                 partnersData,
                 productCategoriesData,
                 translationsData,
+                Meta,
             },
         };
     } catch (error) {
@@ -119,6 +124,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                 partnersData: null,
                 productCategoriesData: [],
                 translationsData: null,
+                Meta: [],
             },
         };
     }

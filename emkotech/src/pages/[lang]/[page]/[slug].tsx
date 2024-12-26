@@ -11,7 +11,7 @@ import React from 'react';
 import NewsId, { NewsIdProps } from '@/pages/news/[id]';
 export type Product = {
     id: number;
-    slug: string;
+    slug: { az: string; en: string; ru: string };
     subcategory_id: number;
     subcategory_name: string;
     category_id: number;

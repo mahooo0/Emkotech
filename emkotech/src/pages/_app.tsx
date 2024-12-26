@@ -8,7 +8,6 @@ import Header from '@/components/Header';
 import NextNProgress from 'nextjs-progressbar'; // Import NextNProgress
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Footer } from '@/components/Footer';
-import Head from 'next/head';
 
 export default function App({ Component, pageProps }: AppProps) {
     const [queryClient] = useState(() => new QueryClient());
@@ -44,8 +43,11 @@ export default function App({ Component, pageProps }: AppProps) {
             '/az/xəbərlər': 4,
             '/en/news': 4,
             '/ru/новости': 4,
-            '/contact': 5,
             '/продукты/[id]': 4,
+            '/contact': 5,
+            '/az/əlaqə': 5,
+            '/ru/контакт': 5,
+            '/en/contact': 5,
 
             // Add more routes as needed
         };
@@ -57,21 +59,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <LanguageProvider>
             <QueryClientProvider client={queryClient}>
                 {/* Progress bar component */}
-                <Head>
-                    <title>My Awesome Page</title>
-                    <meta property="og:title" content="Emkotech" />
-                    <meta
-                        property="og:description"
-                        content="This is an example of an Open Graph description."
-                    />
-                    <meta property="og:image" content="/path-to-image.jpg" />
-                    <meta
-                        property="og:url"
-                        content="https://www.Emkotech.com"
-                    />
-                    <meta property="og:type" content="website" />
-                    <meta name="twitter:card" content="summary_large_image" />
-                </Head>
+
                 <NextNProgress
                     color="#29d" // Customize the color
                     startPosition={0.3} // Initial starting position

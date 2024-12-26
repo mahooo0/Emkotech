@@ -12,6 +12,18 @@ export const getTopBanner = async (language) => {
         throw error;
     }
 };
+export const getTopMeta = async (language) => {
+    try {
+        const response = await axios.get(
+            'https://emkotech.epart.az/api/metas',
+            { headers: { 'Accept-Language': language } }
+        );
+        return response.data.data;
+    } catch (error) {
+        console.error('Error fetching top banner:', error);
+        throw error;
+    }
+};
 export const getStatistics = async (language) => {
     try {
         const response = await axios.get(

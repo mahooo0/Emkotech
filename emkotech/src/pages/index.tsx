@@ -10,6 +10,7 @@ import {
     getProducts,
     getStatistics,
     getTopBanner,
+    getTopMeta,
     getTranslations,
 } from '@/services/Request';
 import PartnersSlider from '@/components/PartnersSwipper';
@@ -20,6 +21,8 @@ import { TranslationsData } from './contact';
 import { GetServerSidePropsContext } from 'next';
 import { ROUTES } from '@/services/CONSTANTS';
 import Link from 'next/link';
+import { MetaItem } from '@/types';
+import Head from 'next/head';
 // import VideoBanner from '@/components/Vidio';
 
 interface Statistic {
@@ -28,7 +31,7 @@ interface Statistic {
 }
 
 interface Project {
-    slug: string;
+    slug: { az: string; en: string; ru: string };
     id: number;
     title: string;
     description: string;
@@ -82,6 +85,7 @@ interface HomePageProps {
     partnersData: PartnerData;
     productCategoriesData: { data: ProductCategory[] };
     translationsData: TranslationsData;
+    Meta: MetaItem[];
 }
 
 export default function Home({
@@ -93,14 +97,56 @@ export default function Home({
     partnersData,
     productCategoriesData,
     translationsData,
+    Meta,
 }: HomePageProps) {
     const router = useRouter();
     const { lang } = router.query;
     const language = lang ? lang?.toString() : 'az';
-
+    const pagemetas = Meta?.find((item) => item.type === 'Home');
+    console.log('pagemetas', pagemetas);
+    const baseUrl =
+        typeof window !== 'undefined'
+            ? window.location.origin
+            : 'https://emkotech.com'; // Fallback for SSR
+    const fullUrl = `${baseUrl}${router.asPath}`;
     return (
         <>
             {/* <Header activeindex={0} />{' '} */}
+            <Head>
+                <title>{pagemetas?.['meta-title']}</title>
+                <meta
+                    name="description"
+                    content={pagemetas?.['meta-description']}
+                />
+                <meta name="keywords" content={pagemetas?.['meta-keys']} />
+                <meta property="og:title" content={pagemetas?.['meta-title']} />
+                <meta
+                    property="og:description"
+                    content={pagemetas?.['meta-description']}
+                />
+                <meta property="og:image" content={pagemetas?.['meta-image']} />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content={fullUrl} />
+                <meta
+                    property="og:site_name"
+                    content={pagemetas?.['meta-title']}
+                />
+                <meta name="twitter:card" content="summary" />
+                <meta
+                    name="twitter:description"
+                    content={pagemetas?.['meta-description']}
+                />
+                <meta
+                    name="twitter:title"
+                    content={pagemetas?.['meta-title']}
+                />
+                <meta
+                    name="twitter:image"
+                    content={pagemetas?.['meta-image']}
+                />
+                <meta name="twitter:site" content="@emkotech" />
+                <meta name="twitter:creator" content="@emkotech" />
+            </Head>
             <section className=" relative max-h-[553px] mt-[70px]">
                 <video
                     className="  w-full h-[100%] z-0 object-cover max-h-[553px] "
@@ -394,6 +440,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             partnersData,
             productCategoriesData,
             translationsData,
+            Meta,
         ] = await Promise.all([
             getTopBanner(lang),
             getStatistics(lang),
@@ -403,6 +450,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             getPartners(lang),
             getProductCategoriesHOME(lang),
             getTranslations(lang),
+            getTopMeta(lang),
         ]);
 
         return {
@@ -415,6 +463,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                 partnersData,
                 productCategoriesData,
                 translationsData,
+                Meta,
             },
         };
     } catch (error) {
@@ -429,6 +478,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                 partnersData: null,
                 productCategoriesData: [],
                 translationsData: null,
+                Meta: [],
             },
         };
     }

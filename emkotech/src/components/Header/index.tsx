@@ -93,7 +93,11 @@ const NavContent = ({
     });
 
     interface Project {
-        slug: string;
+        slug: {
+            az: string;
+            en: string;
+            ru: string;
+        };
         id: string;
         title: string;
     }
@@ -154,11 +158,19 @@ const NavContent = ({
                 >
                     {projectsData?.data.map((item: Project) => (
                         <Link
-                            href={`/${language}/${ROUTES.project[language]}/${item.slug}?id=${item.id}`}
+                            href={`/${language}/${ROUTES.project[language]}/${
+                                item.slug[(language as 'az') || 'en' || 'ru']
+                            }?id=${item.id}`}
                             key={item.id}
+                            onClick={() => {
+                                localStorage.setItem(
+                                    'slug',
+                                    JSON.stringify(item.slug)
+                                );
+                            }}
                         >
                             <p className="hover:bg-gray-100 rounded-md px-2 py-1">
-                                {item.title.slice(0, 30)}
+                                {item?.title?.slice(0, 30)}
                             </p>
                         </Link>
                     ))}

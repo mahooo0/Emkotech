@@ -48,7 +48,7 @@ const CategoryBAr = ({ categories, isopen, isLoading }: CategoryBarProps) => {
     const router = useRouter();
     const { lang } = router.query;
 
-    const language = lang?.toString() || '';
+    const language = lang?.toString() || 'az';
 
     return (
         <section
@@ -126,12 +126,12 @@ const CategoryBAr = ({ categories, isopen, isLoading }: CategoryBarProps) => {
                                                                 category.id
                                                             )
                                                         }
-                                                        data-layername={category.title
-                                                            .toLowerCase()
-                                                            .replace(
-                                                                /\s+/g,
-                                                                '-'
-                                                            )}
+                                                        // data-layername={category?.title
+                                                        //     ?.toLowerCase()
+                                                        //     ?.replace(
+                                                        //         /\s+/g,
+                                                        //         '-'
+                                                        //     )}
                                                         className={`flex-1 shrink gap-2.5 self-stretch py-2.5 w-full text-[16px] font-medium text-left ${
                                                             category.id ===
                                                             selectedCategory

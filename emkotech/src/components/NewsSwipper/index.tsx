@@ -39,7 +39,15 @@ export const NewsSwiper = ({ data }: { data: NewsData[] }) => {
                         key={i}
                     >
                         <Link
-                            href={`/${language}/${ROUTES.news[language]}/${item.slug}?id=${item.id}`}
+                            onClick={() => {
+                                localStorage.setItem(
+                                    'slug',
+                                    JSON.stringify(item.slug)
+                                );
+                            }}
+                            href={`/${language}/${ROUTES.news[language]}/${
+                                item.slug[(language as 'az') || 'en' || 'ru']
+                            }?id=${item.id}`}
                         >
                             {' '}
                             <div

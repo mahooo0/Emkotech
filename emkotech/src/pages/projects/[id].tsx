@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 import { ROUTES } from '@/services/CONSTANTS';
 
 export interface Project {
-    slug: string;
+    slug: { az: string; en: string; ru: string };
     id: number;
     title: string;
     description: string;

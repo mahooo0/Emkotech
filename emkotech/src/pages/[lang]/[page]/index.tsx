@@ -2,7 +2,7 @@ import AboutUs from '@/pages/aboutus';
 import Contact from '@/pages/contact';
 import Nevs from '@/pages/news';
 import Products from '@/pages/products';
-import Projects from '@/pages/projects';
+import Projects, { Project } from '@/pages/projects';
 import { ROUTES } from '@/services/CONSTANTS';
 import {
     getTranslations,
@@ -11,13 +11,15 @@ import {
     getProjects,
     getNews,
     getContacts,
+    getTopMeta,
 } from '@/services/Request';
 import {
     AboutBunner,
     AboutData,
     ContactsData,
+    MetaItem,
     news,
-    Project,
+    // Project,
     Translation,
 } from '@/types';
 import { GetServerSidePropsContext } from 'next';
@@ -34,6 +36,7 @@ interface Props {
     news: news;
     currentPage: number;
     contactsData: ContactsData;
+    meta: MetaItem[];
 }
 
 const DinamicPagesbylanguages = (props: Props) => {
@@ -50,6 +53,7 @@ const DinamicPagesbylanguages = (props: Props) => {
     if (page === ROUTES.about[currentLang as string]) {
         return (
             <AboutUs
+                meta={props.meta}
                 aboutBannerData={props.aboutBannerData}
                 aboutData={props.aboutData}
                 translationsData={props.translationsData}
@@ -64,6 +68,7 @@ const DinamicPagesbylanguages = (props: Props) => {
             <Projects
                 translations={props.translations}
                 projects={props.projects}
+                meta={props.meta}
             />
         );
     }
@@ -73,6 +78,7 @@ const DinamicPagesbylanguages = (props: Props) => {
                 currentPage={props.currentPage}
                 news={props.news}
                 translations={props.translations}
+                meta={props.meta}
             />
         );
     }
@@ -81,6 +87,7 @@ const DinamicPagesbylanguages = (props: Props) => {
             <Contact
                 contactsData={props.contactsData}
                 translationsData={props.translationsData}
+                meta={props.meta}
             />
         );
     }
@@ -99,11 +106,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     if (page === ROUTES.about[lang]) {
         try {
-            const [aboutData, aboutBannerData, translationsData] =
+            const [aboutData, aboutBannerData, translationsData, meta] =
                 await Promise.all([
                     getAbout(lang),
                     getAboutBanner(lang),
                     getTranslations(lang),
+                    getTopMeta(lang),
                 ]);
 
             return {
@@ -111,6 +119,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                     aboutData,
                     aboutBannerData,
                     translationsData,
+                    meta,
                 },
             };
         } catch (error) {
@@ -120,6 +129,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                     aboutData: null,
                     aboutBannerData: null,
                     translationsData: null,
+                    meta: [],
                 },
             };
         }
@@ -133,11 +143,13 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         try {
             const projects = await getProjects(lang);
             const translations = await getTranslations(lang);
+            const meta = await getTopMeta(lang);
 
             return {
                 props: {
                     projects: projects.data || [],
                     translations: translations.data || {},
+                    meta,
                 },
             };
         } catch (error) {
@@ -146,6 +158,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                 props: {
                     projects: [],
                     translations: {},
+                    meta: [],
                 },
             };
         }
@@ -160,9 +173,10 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             10
         );
         try {
-            const [news, translations] = await Promise.all([
+            const [news, translations, meta] = await Promise.all([
                 getNews(lang, currentPage),
                 getTranslations(lang),
+                getTopMeta(lang),
             ]);
 
             return {
@@ -170,6 +184,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                     news,
                     translations: translations?.data || {},
                     currentPage,
+                    meta,
                 },
             };
         } catch (error) {
@@ -187,10 +202,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         try {
             const contactsData = await getContacts(lang);
             const translationsData = await getTranslations(lang);
+            const meta = await getTopMeta(lang);
+
             console.log(contactsData);
 
             // Ensure that contactsData and translationsData are valid
-            if (!contactsData || !translationsData) {
+            if (!contactsData || !translationsData || !meta) {
                 throw new Error('Missing data');
             }
 
@@ -199,6 +216,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                     lang,
                     contactsData,
                     translationsData,
+                    meta,
                 },
             };
         } catch (error) {
@@ -207,6 +225,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                 props: {
                     contactsData: null,
                     translationsData: null,
+                    meta: [],
                 },
             };
         }

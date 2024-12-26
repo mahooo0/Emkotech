@@ -1,9 +1,11 @@
+import { NewsItem } from '@/components/NewsIdAside';
+import { Project } from '@/types';
 import { GetServerSideProps } from 'next';
+import { Product } from './products/[id]';
 
 // Helper function to format date as 'YYYY-MM-DDTHH:mm:ss+04:00'
 const formatDate = (timestamp: number): string => {
     const date = new Date(timestamp);
-    const isoString = date.toISOString(); // Format as 'YYYY-MM-DDTHH:mm:ss.sssZ'
 
     // Adjust the timezone offset to +04:00 (you can change the offset as needed)
     const timezoneOffset = 4 * 60; // +04:00 offset in minutes
@@ -29,30 +31,71 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     const siteUrl = `${protocol}://${host}`; // Construct dynamic site URL
 
     // Fetch product data from the API
-    const apiUrl = 'https://emkotech.epart.az/api/products';
-    const response = await fetch(apiUrl);
+    const ProductApiUrl = 'https://emkotech.epart.az/api/products/all';
+    const response = await fetch(ProductApiUrl);
     const { data: products } = await response.json();
-
+    const newsApiUrl = 'https://emkotech.epart.az/api/news/all';
+    const responseNews = await fetch(newsApiUrl);
+    const { data: news } = await responseNews.json();
+    const projectsApiUrl = 'https://emkotech.epart.az/api/projects/all';
+    const responseProject = await fetch(projectsApiUrl);
+    const { data: projects } = await responseProject.json();
     // Check if products were returned
-    if (!Array.isArray(products)) {
+    if (
+        !Array.isArray(
+            products || !Array.isArray(news) || !Array.isArray(projects)
+        )
+    ) {
         return {
             notFound: true, // If no products or invalid data, return a 404 page
         };
     }
 
     // Generate dynamic paths for each product in different languages
-    const dynamicPaths = products.flatMap((product: any) => {
+    const dynamicPathsProjects = projects.flatMap((project: Project) => {
         return [
             {
-                url: `/az/məhsullar/${product.slug.az}`,
+                url: `/az/layihələr/${project.slug.az}?id=${project.id}`,
                 lastModified: formatDate(Date.now()),
             },
             {
-                url: `/en/products/${product.slug.en}`,
+                url: `/en/projects/${project.slug.en}?id=${project.id}`,
                 lastModified: formatDate(Date.now()),
             },
             {
-                url: `/ru/продукты/${product.slug.ru}`,
+                url: `/ru/проекты/${project.slug.ru}?id=${project.id}`,
+                lastModified: formatDate(Date.now()),
+            },
+        ];
+    });
+    const dynamicPathsNews = news.flatMap((news: NewsItem) => {
+        return [
+            {
+                url: `/az/xəbərlər/${news.slug.az}?id=${news.id}`,
+                lastModified: formatDate(Date.now()),
+            },
+            {
+                url: `/en/news/${news.slug.en}?id=${news.id}`,
+                lastModified: formatDate(Date.now()),
+            },
+            {
+                url: `/ru/новости/${news.slug.ru}?id=${news.id}`,
+                lastModified: formatDate(Date.now()),
+            },
+        ];
+    });
+    const dynamicPaths = products.flatMap((product: Product) => {
+        return [
+            {
+                url: `/az/məhsullar/${product.slug.az}?id=${product.id}`,
+                lastModified: formatDate(Date.now()),
+            },
+            {
+                url: `/en/products/${product.slug.en}?id=${product.id}`,
+                lastModified: formatDate(Date.now()),
+            },
+            {
+                url: `/ru/продукты/${product.slug.ru}?id=${product.id}`,
                 lastModified: formatDate(Date.now()),
             },
         ];
@@ -81,7 +124,12 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
         { url: '/ru/контакт', lastModified: formatDate(Date.now()) },
     ];
 
-    const allPaths = [...staticPaths, ...dynamicPaths];
+    const allPaths = [
+        ...staticPaths,
+        ...dynamicPaths,
+        ...dynamicPathsNews,
+        ...dynamicPathsProjects,
+    ];
 
     // Generate the XML
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

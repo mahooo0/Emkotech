@@ -40,14 +40,18 @@ export interface AboutUsProps {
     translationsData: Translation;
 }
 export interface Project {
-    slug: string;
+    slug: { az: string; en: string; ru: string };
     id: number;
     title: string;
     description: string;
     image: string;
 }
 interface NewsItem {
-    slug: string;
+    slug: {
+        az: string;
+        en: string;
+        ru: string;
+    };
     id: number;
     image: string;
     title: string;
@@ -70,4 +74,12 @@ export interface ContactsData {
     image: string;
     data: ContactData[];
     iframe: string;
+}
+export interface MetaItem {
+    id: number;
+    type: string;
+    'meta-title': string;
+    'meta-description': string;
+    'meta-keys': string;
+    'meta-image': string;
 }
