@@ -1,6 +1,6 @@
 import BreadcrumbNavigation from '@/components/BreadCamp';
 
-import { useLanguage } from '@/components/Hoc/LanguageContext';
+import { useRouter } from 'next/router';
 import PaginationComponent from '@/components/Pagination';
 import ProductCard from '@/components/ProductCard';
 import useDebounce from '@/hooks/useDebounce';
@@ -12,7 +12,6 @@ import {
     getTranslations,
 } from '@/services/Request';
 import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { Product } from './[id]';
 import Image from 'next/image';
@@ -40,8 +39,12 @@ import Head from 'next/head';
 //     discount: boolean;
 // }
 export default function Products() {
-    const { language } = useLanguage();
+    // const { language } = useLanguage();
     const [searchTerm, setSearchTerm] = useState<string>('');
+    const router = useRouter();
+
+    const { lang } = router.query;
+    const language = lang ? lang?.toString() : 'az';
     const debouncedSearchTerm = useDebounce(searchTerm, 300);
     const [selectedCategory, setSelectedCategory] = useState<number>(0);
     const [selectedSort, setSelectedSort] = useState<string>('no');
@@ -115,7 +118,6 @@ export default function Products() {
         // console.log(event.target.value);
         setSearchTerm(event.target.value);
     };
-    const router = useRouter();
     const { category, sub_category, pagination } = router.query;
 
     useEffect(() => {

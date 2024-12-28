@@ -42,7 +42,7 @@ const ProductCard = ({ data }: { data: Product }) => {
                 <div>
                     <div className="flex gap-1.5 items-center self-start mt-8 whitespace-nowrap">
                         <p className="self-stretch my-auto text-2xl font-semibold text-black">
-                            {data.discounted_price}$
+                            {data.discounted_price}₼
                         </p>
                         <p className="self-stretch line-through my-auto text-lg font-medium text-stone-300">
                             {' '}
