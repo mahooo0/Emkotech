@@ -311,7 +311,7 @@ const Header = ({ activeindex }: { activeindex: number }) => {
     const [search, setsearch] = useState('');
     const [debouncedSearch, setDebouncedSearch] = useState(search);
 
-    const [issearchOpen, setissearchOpen] = useState(false);
+    const [issearchOpen, setissearchOpen] = useState(true);
     const router = useRouter();
     const { lang } = router.query;
     useEffect(() => {
