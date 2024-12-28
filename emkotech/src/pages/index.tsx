@@ -232,7 +232,7 @@ export default function Home({
                                 href={`/${language}/${ROUTES.products[language]}`}
                             >
                                 <button className="gap-2.5  text-nowrap leading-[20px] self-start p-2.5 mt-1.5 px-[20px] py-[10px]  text-base font-medium text-[#EA9B12] border border-[#EA9B12] border-solid rounded-[35px]">
-                                    {translationsData?.data?.layihelerebax}
+                                    {translationsData?.data?.Hamısına_bax}
                                 </button>
                             </Link>
                         </div>
@@ -427,7 +427,7 @@ export default function Home({
 }
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     const cookies = parse(context.req.headers.cookie || '');
-    const lang = cookies['accept-language'] || 'en';
+    const lang = cookies['accept-language'] || 'az';
     console.log(lang);
 
     try {

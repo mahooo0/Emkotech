@@ -204,7 +204,7 @@ export default function AboutUs({
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     const cookies = parse(context.req.headers.cookie || '');
-    const lang = cookies['accept-language'] || 'en';
+    const lang = cookies['accept-language'] || 'az';
 
     try {
         const [aboutData, aboutBannerData, translationsData, meta] =
