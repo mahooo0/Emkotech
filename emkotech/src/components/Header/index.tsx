@@ -5,7 +5,7 @@ import { useLanguage } from '../Hoc/LanguageContext';
 import { useQuery } from '@tanstack/react-query';
 import {
     getProductCategories,
-    getProducts,
+    getProductsByParams,
     getProductSubCategories,
     getProjects,
     getTranslations,
@@ -13,6 +13,7 @@ import {
 import { updateLangAndRoute } from '@/services/helpers';
 import { ROUTES } from '@/services/CONSTANTS';
 import { useRouter } from 'next/router';
+import { Product } from '@/pages/products/[id]';
 
 interface NavItemProps {
     label: string;
@@ -307,8 +308,21 @@ const Header = ({ activeindex }: { activeindex: number }) => {
     const [sohowAside, setsohowAside] = useState<boolean>(false);
 
     const { language, setLanguage } = useLanguage();
+    const [search, setsearch] = useState('');
+    const [debouncedSearch, setDebouncedSearch] = useState(search);
+
+    const [issearchOpen, setissearchOpen] = useState(false);
     const router = useRouter();
     const { lang } = router.query;
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedSearch(search);
+        }, 300); // Adjust the debounce delay as needed
+
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [search]);
     useEffect(() => {
         if (lang && lang == '') {
             setLanguage(lang);
@@ -320,10 +334,10 @@ const Header = ({ activeindex }: { activeindex: number }) => {
             queryFn: () => getProductCategories(language),
         });
     const { data: productsData, isLoading: productsLoading } = useQuery({
-        queryKey: ['products', language],
-        queryFn: () => getProducts(language),
+        queryKey: ['products', language, debouncedSearch],
+        queryFn: () => getProductsByParams(language, 1, debouncedSearch),
     });
-    console.log(productsData);
+    console.log('productsData:', productsData);
 
     const { data: translationsData } = useQuery({
         queryKey: ['translations', language],
@@ -362,7 +376,92 @@ const Header = ({ activeindex }: { activeindex: number }) => {
                     }}
                     activeindex={activeindex}
                 />
-                <FlagDropdown />
+                <div className="flex flec-row gap-2 items-center">
+                    <div className=" relative">
+                        <div
+                            className={`flex justify-between items-center  py-2.5 w-fit text-sm font-medium leading-none rounded-2xl border  border-solid  text-stone-500 duration-300 ${
+                                issearchOpen
+                                    ? 'gap-0 px-0 bg-transparent border-transparent'
+                                    : 'gap-10 px-6 bg-neutral-100 border-gray-200'
+                            }`}
+                        >
+                            <input
+                                type="text"
+                                placeholder={`${translationsData?.data?.Axtar}`}
+                                className={`duration-300 ${
+                                    issearchOpen ? 'w-0' : 'w-[150px]'
+                                } border-none outline-none flex-1 bg-transparent text-stone-500`}
+                                value={search}
+                                onChange={(e) => setsearch(e.target.value)}
+                            />
+                            <img
+                                onClick={() => {
+                                    setissearchOpen((prew) => !prew);
+                                }}
+                                loading="lazy"
+                                src="https://cdn.builder.io/api/v1/image/assets/TEMP/2e19dc35dd213e656474aa0288d1d6968a56aec699761271179437a1d7f07a00?placeholderIfAbsent=true&apiKey=2d5d82cf417847beb8cd2fbbc5e3c099"
+                                className="object-contain cursor-pointer shrink-0 self-stretch my-auto w-6 aspect-square"
+                            />
+                        </div>{' '}
+                        {search === '' || issearchOpen || (
+                            <div className="w-full h-fit scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 max-h-[300px] overflow-y-scroll bg-white border border-opacity-40 border-[#575757] z-[999999999] absolute top-[110%] rounded-lg">
+                                {productsData?.data.length > 0 ? (
+                                    <>
+                                        {productsData.data.map(
+                                            (product: Product) => (
+                                                <Link
+                                                    key={product.id}
+                                                    href={`/${language}/${
+                                                        ROUTES.products[
+                                                            language as keyof typeof ROUTES.products
+                                                        ]
+                                                    }/${
+                                                        product.slug[
+                                                            lang as
+                                                                | 'az'
+                                                                | 'en'
+                                                                | 'ru'
+                                                        ]
+                                                    }?id=${product?.id}`}
+                                                >
+                                                    {' '}
+                                                    <div
+                                                        onClick={() => {
+                                                            localStorage.setItem(
+                                                                'slug',
+                                                                JSON.stringify(
+                                                                    product.slug
+                                                                )
+                                                            );
+                                                        }}
+                                                        className="flex flex-row gap-4 items-center bg-white hover:bg-[#a6a6a6] hover:bg-opacity-50 duration-150 px-3 py-1"
+                                                    >
+                                                        <img
+                                                            src={product.image}
+                                                            className="object-cover shrink-0 rounded-md aspect-[1.04] w-[60px] max-h-[60px]"
+                                                            alt=""
+                                                        />
+                                                        <p className="text-[#000000] text-[16px] line-clamp-1">
+                                                            {product.title}{' '}
+                                                        </p>
+                                                    </div>
+                                                </Link>
+                                            )
+                                        )}
+                                    </>
+                                ) : (
+                                    <div className="flex justify-center flex-row items-center bg-white hover:bg-[#a6a6a6] duration-150 px-3 py-2">
+                                        <p className="text-[#000000] text-center text-[16px] line-clamp-1">
+                                            {translationsData?.data?.Tapılmadı}
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                    <FlagDropdown />
+                </div>
+
                 <CategoryBAr
                     isLoading={productCategoriesLoading}
                     isopen={IsBarOpen}
