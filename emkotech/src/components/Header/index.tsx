@@ -353,10 +353,7 @@ const Header = ({ activeindex }: { activeindex: number }) => {
         queryKey: ['productSubCategories', lang],
         queryFn: () => getProductSubCategories(lang),
     });
-    const { data: Logo } = useQuery({
-        queryKey: ['Logo', lang],
-        queryFn: () => getTopImages(lang),
-    });
+
     const dropdownref = useRef<HTMLDivElement | null>(null);
     const buttonRef = useRef<HTMLDivElement | null>(null);
     useEffect(() => {

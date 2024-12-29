@@ -58,7 +58,6 @@ export default function AboutUs({
     aboutBannerData,
     translationsData,
     meta,
-    Logo,
 }: AboutUsProps) {
     const router = useRouter();
 
