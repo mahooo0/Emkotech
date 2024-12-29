@@ -83,3 +83,8 @@ export interface MetaItem {
     'meta-keys': string;
     'meta-image': string;
 }
+export type SiteAssets = {
+    header_logo: string;
+    footer_logo: string;
+    favicon: string;
+};

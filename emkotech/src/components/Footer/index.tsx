@@ -1,7 +1,12 @@
 import * as React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useLanguage } from '@/components/Hoc/LanguageContext';
-import { getFooter, getPages, getTranslations } from '@/services/Request';
+import {
+    getFooter,
+    getPages,
+    getTopImages,
+    getTranslations,
+} from '@/services/Request';
 import Link from 'next/link';
 import { ROUTES } from '@/services/CONSTANTS';
 
@@ -30,6 +35,10 @@ export function Footer() {
         queryKey: ['pages', language],
         queryFn: () => getPages(language),
     });
+    const { data: Logo } = useQuery({
+        queryKey: ['Logo', language],
+        queryFn: () => getTopImages(language),
+    });
     // console.log(data);
     return (
         <footer className="flex flex-col text-sm text-white lg:mt-[120px] mt-[60px]">
@@ -37,7 +46,7 @@ export function Footer() {
                 <div className="flex flex-col items-start lg:px-[100px] md:px-[60px] px-[30px] max-w-full w-full">
                     <img
                         loading="lazy"
-                        srcSet="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/a0959a5d1b98e64f7c559061339d04b60a1877a5316d4d951fa8456c1226ffa7?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&width=100 100w, https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/a0959a5d1b98e64f7c559061339d04b60a1877a5316d4d951fa8456c1226ffa7?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&width=200 200w, https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/a0959a5d1b98e64f7c559061339d04b60a1877a5316d4d951fa8456c1226ffa7?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&width=400 400w, https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/a0959a5d1b98e64f7c559061339d04b60a1877a5316d4d951fa8456c1226ffa7?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&width=800 800w, https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/a0959a5d1b98e64f7c559061339d04b60a1877a5316d4d951fa8456c1226ffa7?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&width=1200 1200w, https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/a0959a5d1b98e64f7c559061339d04b60a1877a5316d4d951fa8456c1226ffa7?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&width=1600 1600w, https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/a0959a5d1b98e64f7c559061339d04b60a1877a5316d4d951fa8456c1226ffa7?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&width=2000 2000w, https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/a0959a5d1b98e64f7c559061339d04b60a1877a5316d4d951fa8456c1226ffa7?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
+                        src={Logo?.footer_logo}
                         className="object-contain max-w-full aspect-[2.52] w-[141px]"
                     />
                     <div className="flex lg:flex-row md:flex-row flex-col gap-10 justify-between self-stretch mt-9 leading-none max-md:max-w-full w-full lg:pr-[25%] pr-0">

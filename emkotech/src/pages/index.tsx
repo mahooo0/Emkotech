@@ -10,6 +10,7 @@ import {
     getProducts,
     getStatistics,
     getTopBanner,
+    getTopImages,
     getTopMeta,
     getTranslations,
 } from '@/services/Request';
@@ -21,7 +22,7 @@ import { TranslationsData } from './contact';
 import { GetServerSidePropsContext } from 'next';
 import { ROUTES } from '@/services/CONSTANTS';
 import Link from 'next/link';
-import { MetaItem } from '@/types';
+import { MetaItem, SiteAssets } from '@/types';
 import Head from 'next/head';
 // import VideoBanner from '@/components/Vidio';
 
@@ -86,6 +87,7 @@ interface HomePageProps {
     productCategoriesData: { data: ProductCategory[] };
     translationsData: TranslationsData;
     Meta: MetaItem[];
+    Logo: SiteAssets;
 }
 
 export default function Home({
@@ -98,6 +100,7 @@ export default function Home({
     productCategoriesData,
     translationsData,
     Meta,
+    Logo,
 }: HomePageProps) {
     const router = useRouter();
     const { lang } = router.query;
@@ -113,11 +116,16 @@ export default function Home({
         <>
             {/* <Header activeindex={0} />{' '} */}
             <Head>
+                <link rel="icon" href={Logo.favicon} type="image/webp" />
+                {/* Optional: Add other icons for better compatibility */}
+                <link rel="apple-touch-icon" href={Logo.favicon} />
+
                 <title>{pagemetas?.['meta-title']}</title>
                 <meta
                     name="description"
                     content={pagemetas?.['meta-description']}
                 />
+
                 <meta name="keywords" content={pagemetas?.['meta-keys']} />
                 <meta property="og:title" content={pagemetas?.['meta-title']} />
                 <meta
@@ -441,6 +449,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             productCategoriesData,
             translationsData,
             Meta,
+            Logo,
         ] = await Promise.all([
             getTopBanner(lang),
             getStatistics(lang),
@@ -451,6 +460,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             getProductCategoriesHOME(lang),
             getTranslations(lang),
             getTopMeta(lang),
+            getTopImages(lang),
         ]);
 
         return {
@@ -464,6 +474,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                 productCategoriesData,
                 translationsData,
                 Meta,
+                Logo,
             },
         };
     } catch (error) {
@@ -479,6 +490,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                 productCategoriesData: [],
                 translationsData: null,
                 Meta: [],
+                Logo: {},
             },
         };
     }

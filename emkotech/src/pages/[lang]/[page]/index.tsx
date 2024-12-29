@@ -12,6 +12,7 @@ import {
     getNews,
     getContacts,
     getTopMeta,
+    getTopImages,
 } from '@/services/Request';
 import {
     AboutBunner,
@@ -19,10 +20,12 @@ import {
     ContactsData,
     MetaItem,
     news,
+    SiteAssets,
     // Project,
     Translation,
 } from '@/types';
 import { GetServerSidePropsContext } from 'next';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React from 'react';
 
@@ -37,6 +40,7 @@ interface Props {
     currentPage: number;
     contactsData: ContactsData;
     meta: MetaItem[];
+    Logo: SiteAssets;
 }
 
 const DinamicPagesbylanguages = (props: Props) => {
@@ -52,43 +56,101 @@ const DinamicPagesbylanguages = (props: Props) => {
     // Ensure page matches the expected route
     if (page === ROUTES.about[currentLang as string]) {
         return (
-            <AboutUs
-                meta={props.meta}
-                aboutBannerData={props.aboutBannerData}
-                aboutData={props.aboutData}
-                translationsData={props.translationsData}
-            />
+            <>
+                <Head>
+                    <link
+                        rel="icon"
+                        href={props.Logo.favicon}
+                        type="image/webp"
+                    />
+                    {/* Optional: Add other icons for better compatibility */}
+                    <link rel="apple-touch-icon" href={props.Logo.favicon} />
+                </Head>
+                <AboutUs
+                    meta={props.meta}
+                    aboutBannerData={props.aboutBannerData}
+                    aboutData={props.aboutData}
+                    translationsData={props.translationsData}
+                    Logo={props.Logo}
+                />
+            </>
         );
     }
     if (page === ROUTES.products[currentLang as string]) {
-        return <Products />;
+        return (
+            <>
+                <Head>
+                    <link
+                        rel="icon"
+                        href={props.Logo.favicon}
+                        type="image/webp"
+                    />
+                    {/* Optional: Add other icons for better compatibility */}
+                    <link rel="apple-touch-icon" href={props.Logo.favicon} />
+                </Head>{' '}
+                <Products />
+            </>
+        );
     }
     if (page === ROUTES.project[currentLang as string]) {
         return (
-            <Projects
-                translations={props.translations}
-                projects={props.projects}
-                meta={props.meta}
-            />
+            <>
+                <Head>
+                    <link
+                        rel="icon"
+                        href={props.Logo.favicon}
+                        type="image/webp"
+                    />
+                    {/* Optional: Add other icons for better compatibility */}
+                    <link rel="apple-touch-icon" href={props.Logo.favicon} />
+                </Head>
+                <Projects
+                    translations={props.translations}
+                    projects={props.projects}
+                    meta={props.meta}
+                />
+            </>
         );
     }
     if (page === ROUTES.news[currentLang as string]) {
         return (
-            <Nevs
-                currentPage={props.currentPage}
-                news={props.news}
-                translations={props.translations}
-                meta={props.meta}
-            />
+            <>
+                <Head>
+                    <link
+                        rel="icon"
+                        href={props.Logo.favicon}
+                        type="image/webp"
+                    />
+                    {/* Optional: Add other icons for better compatibility */}
+                    <link rel="apple-touch-icon" href={props.Logo.favicon} />
+                </Head>
+                <Nevs
+                    currentPage={props.currentPage}
+                    news={props.news}
+                    translations={props.translations}
+                    meta={props.meta}
+                />
+            </>
         );
     }
     if (page === ROUTES.contact[currentLang as string]) {
         return (
-            <Contact
-                contactsData={props.contactsData}
-                translationsData={props.translationsData}
-                meta={props.meta}
-            />
+            <>
+                <Head>
+                    <link
+                        rel="icon"
+                        href={props.Logo.favicon}
+                        type="image/webp"
+                    />
+                    {/* Optional: Add other icons for better compatibility */}
+                    <link rel="apple-touch-icon" href={props.Logo.favicon} />
+                </Head>
+                <Contact
+                    contactsData={props.contactsData}
+                    translationsData={props.translationsData}
+                    meta={props.meta}
+                />
+            </>
         );
     }
 
@@ -106,12 +168,13 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     if (page === ROUTES.about[lang]) {
         try {
-            const [aboutData, aboutBannerData, translationsData, meta] =
+            const [aboutData, aboutBannerData, translationsData, meta, Logo] =
                 await Promise.all([
                     getAbout(lang),
                     getAboutBanner(lang),
                     getTranslations(lang),
                     getTopMeta(lang),
+                    getTopImages(lang),
                 ]);
 
             return {
@@ -120,6 +183,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                     aboutBannerData,
                     translationsData,
                     meta,
+                    Logo,
                 },
             };
         } catch (error) {
@@ -130,13 +194,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                     aboutBannerData: null,
                     translationsData: null,
                     meta: [],
+                    Logo: {},
                 },
             };
         }
     }
     if (page === ROUTES.products[lang]) {
+        const Logo = await getTopImages(lang);
+
         return {
-            props: {},
+            props: { Logo },
         };
     }
     if (page === ROUTES.project[lang]) {
@@ -144,12 +211,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             const projects = await getProjects(lang);
             const translations = await getTranslations(lang);
             const meta = await getTopMeta(lang);
+            const Logo = await getTopImages(lang);
 
             return {
                 props: {
                     projects: projects.data || [],
                     translations: translations.data || {},
                     meta,
+                    Logo,
                 },
             };
         } catch (error) {
@@ -178,6 +247,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                 getTranslations(lang),
                 getTopMeta(lang),
             ]);
+            const Logo = await getTopImages(lang);
 
             return {
                 props: {
@@ -185,6 +255,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                     translations: translations?.data || {},
                     currentPage,
                     meta,
+                    Logo,
                 },
             };
         } catch (error) {
@@ -203,6 +274,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             const contactsData = await getContacts(lang);
             const translationsData = await getTranslations(lang);
             const meta = await getTopMeta(lang);
+            const Logo = await getTopImages(lang);
 
             console.log(contactsData);
 
@@ -217,6 +289,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                     contactsData,
                     translationsData,
                     meta,
+                    Logo,
                 },
             };
         } catch (error) {

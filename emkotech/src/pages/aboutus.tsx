@@ -6,7 +6,7 @@ import {
     getTopMeta,
     getTranslations,
 } from '@/services/Request';
-import { MetaItem } from '@/types';
+import { MetaItem, SiteAssets } from '@/types';
 import { parse } from 'cookie';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
@@ -50,6 +50,7 @@ interface AboutUsProps {
     aboutBannerData: AboutBunner;
     translationsData: Translation;
     meta: MetaItem[];
+    Logo: SiteAssets;
 }
 
 export default function AboutUs({
@@ -57,6 +58,7 @@ export default function AboutUs({
     aboutBannerData,
     translationsData,
     meta,
+    Logo,
 }: AboutUsProps) {
     const router = useRouter();
 

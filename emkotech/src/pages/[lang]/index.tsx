@@ -1,4 +1,9 @@
-import { getStatistics, getTopMeta, getTranslations } from '@/services/Request';
+import {
+    getStatistics,
+    getTopImages,
+    getTopMeta,
+    getTranslations,
+} from '@/services/Request';
 import { getProductCategoriesHOME } from '@/services/Request';
 import { getPartners } from '@/services/Request';
 import { getBottomBanner } from '@/services/Request';
@@ -11,7 +16,7 @@ import { Product } from '../products/[id]';
 import { TranslationsData } from '../contact';
 
 import Home from '..';
-import { MetaItem } from '@/types';
+import { MetaItem, SiteAssets } from '@/types';
 interface Statistic {
     statistic: string;
     value: string;
@@ -66,6 +71,7 @@ interface HomePageProps {
     productCategoriesData: { data: ProductCategory[] };
     translationsData: TranslationsData;
     Meta: MetaItem[];
+    Logo: SiteAssets;
 }
 export default function HomebyLang(props: HomePageProps) {
     // const router = useRouter();
@@ -87,6 +93,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             productCategoriesData,
             translationsData,
             Meta,
+            Logo,
         ] = await Promise.all([
             getTopBanner(lang),
             getStatistics(lang),
@@ -97,6 +104,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             getProductCategoriesHOME(lang),
             getTranslations(lang),
             getTopMeta(lang),
+            getTopImages(lang),
         ]);
 
         return {
@@ -110,6 +118,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                 productCategoriesData,
                 translationsData,
                 Meta,
+                Logo,
             },
         };
     } catch (error) {
@@ -125,6 +134,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                 productCategoriesData: [],
                 translationsData: null,
                 Meta: [],
+                Logo: {},
             },
         };
     }

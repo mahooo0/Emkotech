@@ -1,14 +1,20 @@
 import ProductDetails, { SlideImage } from '@/pages/products/[id]';
 import ProjectsId, { Translation } from '@/pages/projects/[id]';
-import { getNews, getNewsById, getPopularNews } from '@/services/Request';
+import {
+    getNews,
+    getNewsById,
+    getPopularNews,
+    getTopImages,
+} from '@/services/Request';
 import { ROUTES } from '@/services/CONSTANTS';
 import { getProduct, getProjectById, getProjects } from '@/services/Request';
 import { getTranslations } from '@/services/Request';
-import { Project } from '@/types';
+import { Project, SiteAssets } from '@/types';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
 import NewsId, { NewsIdProps } from '@/pages/news/[id]';
+import Head from 'next/head';
 export type Product = {
     id: number;
     slug: { az: string; en: string; ru: string };
@@ -47,6 +53,7 @@ interface Props {
     translations: Translation;
     relatedProjects: Project[];
     newsProps: NewsIdProps;
+    Logo: SiteAssets;
 }
 export default function ID(props: Props) {
     const router = useRouter();
@@ -55,32 +62,54 @@ export default function ID(props: Props) {
     const currentLang = Array.isArray(lang) ? lang[0] : lang;
     if (page === ROUTES.products[currentLang as string]) {
         return (
-            <ProductDetails
-                productData={props.productData}
-                translationsData={props.translationsData}
-            />
+            <>
+                <Head>
+                    <link
+                        rel="icon"
+                        href={props.Logo.favicon}
+                        type="image/webp"
+                    />
+                    <link rel="apple-touch-icon" href={props.Logo.favicon} />
+                </Head>
+                <ProductDetails
+                    productData={props.productData}
+                    translationsData={props.translationsData}
+                />
+            </>
         );
     }
     if (page === ROUTES.project[currentLang as string]) {
         return (
-            <ProjectsId
-                project={props.project}
-                translations={props.translations}
-                relatedProjects={props.relatedProjects}
-
-                // productData={props.productData}
-                // translationsData={props.translationsData}
-            />
+            <>
+                <Head>
+                    <link
+                        rel="icon"
+                        href={props.Logo.favicon}
+                        type="image/webp"
+                    />
+                    <link rel="apple-touch-icon" href={props.Logo.favicon} />
+                </Head>
+                <ProjectsId
+                    project={props.project}
+                    translations={props.translations}
+                    relatedProjects={props.relatedProjects}
+                />
+            </>
         );
     }
     if (page === ROUTES.news[currentLang as string]) {
         return (
-            <NewsId
-                {...props.newsProps}
-
-                // productData={props.productData}
-                // translationsData={props.translationsData}
-            />
+            <>
+                <Head>
+                    <link
+                        rel="icon"
+                        href={props.Logo?.favicon}
+                        type="image/webp"
+                    />
+                    <link rel="apple-touch-icon" href={props.Logo?.favicon} />
+                </Head>
+                <NewsId {...props.newsProps} />
+            </>
         );
     }
     return <div>ID</div>;
@@ -92,15 +121,17 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     if (page === ROUTES.products[lang]) {
         try {
-            const [productData, translationsData] = await Promise.all([
+            const [productData, translationsData, Logo] = await Promise.all([
                 getProduct(lang, id), // Fetch product details using language and id
                 getTranslations(lang), // Fetch translations using language
+                getTopImages(lang),
             ]);
 
             return {
                 props: {
                     productData,
                     translationsData,
+                    Logo,
                 },
             };
         } catch (error) {
@@ -109,6 +140,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                 props: {
                     productData: null,
                     translationsData: null,
+                    Logo: {},
                 },
             };
         }
@@ -122,6 +154,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
             // Fetch related projects if needed
             const relatedProjectsResponse = await getProjects(lang); // Assuming `getProjects` fetches all projects
+            const Logo = await getTopImages(lang);
+
             const relatedProjects = relatedProjectsResponse.data.filter(
                 (p: Project) => p.id !== Number(id)
             );
@@ -131,6 +165,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                     project: projectResponse.data || null,
                     translations: translationsResponse.data || {},
                     relatedProjects: relatedProjects || [],
+                    Logo,
                 },
             };
         } catch (error) {
@@ -140,6 +175,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                     project: null,
                     translations: {},
                     relatedProjects: [],
+                    Logo: {},
                 },
             };
         }
@@ -153,6 +189,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                     getPopularNews(lang),
                     getTranslations(lang),
                 ]);
+            const Logo = await getTopImages(lang);
 
             return {
                 props: {
@@ -164,6 +201,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                         id,
                         nodata: false,
                         error: '',
+                        Logo,
                     },
                 },
             };
@@ -180,6 +218,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                     id,
                     nodata: true,
                     error: `${error}`,
+                    Logo: {},
                 },
             };
         }

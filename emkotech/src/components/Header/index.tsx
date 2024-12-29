@@ -8,6 +8,7 @@ import {
     getProductsByParams,
     getProductSubCategories,
     getProjects,
+    getTopImages,
     getTranslations,
 } from '@/services/Request';
 import { updateLangAndRoute } from '@/services/helpers';
@@ -58,12 +59,16 @@ const NavItem: React.FC<NavItemProps> = ({
 const NavLogo: React.FC = () => {
     const router = useRouter();
     const { lang } = router.query;
+    const { data: Logo } = useQuery({
+        queryKey: ['Logo', lang],
+        queryFn: () => getTopImages(lang),
+    });
     return (
         <div className="flex pb-2 flex-wrap gap-10 items-end self-stretch my-auto text-base text-black  max-md:max-w-full">
             <Link href={`/${lang}`}>
                 <img
                     loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/abb16285b3506646182d892ed29e09d03528a73b813f583ab565493b4f934b39?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
+                    src={Logo?.header_logo}
                     alt="Company logo"
                     className="object-contain shrink-0 aspect-[2.52] w-[130px]"
                 />
@@ -343,11 +348,15 @@ const Header = ({ activeindex }: { activeindex: number }) => {
         queryKey: ['translations', language],
         queryFn: () => getTranslations(language),
     });
+
     const { data: productSubCategoriesData } = useQuery({
         queryKey: ['productSubCategories', language],
         queryFn: () => getProductSubCategories(language),
     });
-
+    const { data: Logo } = useQuery({
+        queryKey: ['Logo', language],
+        queryFn: () => getTopImages(language),
+    });
     const dropdownref = useRef<HTMLDivElement | null>(null);
     const buttonRef = useRef<HTMLDivElement | null>(null);
     useEffect(() => {
@@ -365,7 +374,21 @@ const Header = ({ activeindex }: { activeindex: number }) => {
         return () =>
             document.removeEventListener('mousedown', handleOutsideClick);
     }, []);
-
+    const serchRef = useRef<HTMLDivElement | null>(null);
+    useEffect(() => {
+        const handleOutsideClick = (e: MouseEvent) => {
+            if (
+                serchRef.current &&
+                !serchRef.current.contains(e.target as Node)
+            ) {
+                console.log('Outside click');
+                setissearchOpen(true);
+            }
+        };
+        document.addEventListener('mousedown', handleOutsideClick);
+        return () =>
+            document.removeEventListener('mousedown', handleOutsideClick);
+    }, []);
     return (
         <div className=" fixed top-0 z-[1000] w-[100vw]">
             <header className=" lg:flex hidden flex-wrap gap-5 justify-between items-center px-[100px] pt-2.5 bg-white relative shadow-[0px_0px_11px_rgba(167,167,167,0.12)] max-md:px-5 ">
@@ -377,7 +400,7 @@ const Header = ({ activeindex }: { activeindex: number }) => {
                     activeindex={activeindex}
                 />
                 <div className="flex flec-row gap-2 items-center">
-                    <div className=" relative">
+                    <div className=" relative" ref={serchRef}>
                         <div
                             className={`flex justify-between items-center  py-2.5 w-fit text-sm font-medium leading-none rounded-2xl border  border-solid  text-stone-500 duration-300 ${
                                 issearchOpen
@@ -394,6 +417,7 @@ const Header = ({ activeindex }: { activeindex: number }) => {
                                 value={search}
                                 onChange={(e) => setsearch(e.target.value)}
                             />
+
                             <img
                                 onClick={() => {
                                     setissearchOpen((prew) => !prew);
