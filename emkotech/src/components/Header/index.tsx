@@ -380,6 +380,7 @@ const Header = ({ activeindex }: { activeindex: number }) => {
             ) {
                 console.log('Outside click');
                 setissearchOpen(true);
+                setsearch('');
             }
         };
         document.addEventListener('mousedown', handleOutsideClick);
@@ -430,43 +431,43 @@ const Header = ({ activeindex }: { activeindex: number }) => {
                                     <>
                                         {productsData.data.map(
                                             (product: Product) => (
-                                                <Link
+                                                <div
                                                     key={product.id}
-                                                    href={`/${language}/${
-                                                        ROUTES.products[
-                                                            language as keyof typeof ROUTES.products
-                                                        ]
-                                                    }/${
-                                                        product.slug[
-                                                            lang as
-                                                                | 'az'
-                                                                | 'en'
-                                                                | 'ru'
-                                                        ]
-                                                    }?id=${product?.id}`}
+                                                    onClick={() => {
+                                                        localStorage.setItem(
+                                                            'slug',
+                                                            JSON.stringify(
+                                                                product.slug
+                                                            )
+                                                        );
+                                                        setissearchOpen(true);
+                                                        setsearch('');
+                                                        router.push(
+                                                            `/${language}/${
+                                                                ROUTES.products[
+                                                                    language as keyof typeof ROUTES.products
+                                                                ]
+                                                            }/${
+                                                                product.slug[
+                                                                    lang as
+                                                                        | 'az'
+                                                                        | 'en'
+                                                                        | 'ru'
+                                                                ]
+                                                            }?id=${product?.id}`
+                                                        );
+                                                    }}
+                                                    className="flex flex-row gap-4 items-center bg-white hover:bg-[#a6a6a6] hover:bg-opacity-50 duration-150 px-3 py-1"
                                                 >
-                                                    {' '}
-                                                    <div
-                                                        onClick={() => {
-                                                            localStorage.setItem(
-                                                                'slug',
-                                                                JSON.stringify(
-                                                                    product.slug
-                                                                )
-                                                            );
-                                                        }}
-                                                        className="flex flex-row gap-4 items-center bg-white hover:bg-[#a6a6a6] hover:bg-opacity-50 duration-150 px-3 py-1"
-                                                    >
-                                                        <img
-                                                            src={product.image}
-                                                            className="object-cover shrink-0 rounded-md aspect-[1.04] w-[60px] max-h-[60px]"
-                                                            alt=""
-                                                        />
-                                                        <p className="text-[#000000] text-[16px] line-clamp-1">
-                                                            {product.title}{' '}
-                                                        </p>
-                                                    </div>
-                                                </Link>
+                                                    <img
+                                                        src={product.image}
+                                                        className="object-cover shrink-0 rounded-md aspect-[1.04] w-[60px] max-h-[60px]"
+                                                        alt=""
+                                                    />
+                                                    <p className="text-[#000000] text-[16px] line-clamp-1">
+                                                        {product.title}{' '}
+                                                    </p>
+                                                </div>
                                             )
                                         )}
                                     </>
