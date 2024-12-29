@@ -99,7 +99,7 @@ const EssentialCamera: React.FC<{ data: Product | undefined }> = ({ data }) => {
                         )}
                         <div className="flex gap-1.5 mt-1.5 whitespace-nowrap items-end justify-end">
                             <span className="grow text-3xl text-blue-600">
-                                {data?.price}
+                                {data?.price}₼
                             </span>
                             <span className="  text-base text-neutral-400 line-through">
                                 {data?.discounted_price === data?.price
