@@ -318,7 +318,7 @@ const Header = ({ activeindex }: { activeindex: number }) => {
 
     const [issearchOpen, setissearchOpen] = useState(true);
     const router = useRouter();
-    const { lang } = router.query;
+    const { lang = 'az' } = router.query;
     useEffect(() => {
         const handler = setTimeout(() => {
             setDebouncedSearch(search);
@@ -345,17 +345,17 @@ const Header = ({ activeindex }: { activeindex: number }) => {
     console.log('productsData:', productsData);
 
     const { data: translationsData } = useQuery({
-        queryKey: ['translations', language],
-        queryFn: () => getTranslations(language),
+        queryKey: ['translations', lang],
+        queryFn: () => getTranslations(lang),
     });
 
     const { data: productSubCategoriesData } = useQuery({
-        queryKey: ['productSubCategories', language],
-        queryFn: () => getProductSubCategories(language),
+        queryKey: ['productSubCategories', lang],
+        queryFn: () => getProductSubCategories(lang),
     });
     const { data: Logo } = useQuery({
-        queryKey: ['Logo', language],
-        queryFn: () => getTopImages(language),
+        queryKey: ['Logo', lang],
+        queryFn: () => getTopImages(lang),
     });
     const dropdownref = useRef<HTMLDivElement | null>(null);
     const buttonRef = useRef<HTMLDivElement | null>(null);
