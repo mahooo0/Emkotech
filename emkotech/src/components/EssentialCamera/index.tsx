@@ -27,7 +27,7 @@ const EssentialCamera: React.FC<{ data: Product | undefined }> = ({ data }) => {
     const handleReserve = () => {
         console.log('Reserve button clicked');
     };
-    const images = data?.slide_images.map((item: SlideImage) => item.image);
+    const images = data?.slide_images?.map((item: SlideImage) => item?.image);
     return (
         <div className="rounded-none mt-6">
             <div className="flex gap-5 max-md:flex-col">
@@ -42,7 +42,7 @@ const EssentialCamera: React.FC<{ data: Product | undefined }> = ({ data }) => {
                         // }}
                     >
                         <img
-                            src={data?.slide_images[selectedImage].image}
+                            src={data?.slide_images[selectedImage]?.image}
                             alt=""
                             onClick={() => setisopen(true)}
                             className="w-full  md:h-full lg:h-[700px] h-[300px] object-cover rounded-[18px]  top-0 right-0  "
@@ -55,7 +55,7 @@ const EssentialCamera: React.FC<{ data: Product | undefined }> = ({ data }) => {
   [&::-webkit-scrollbar-track]:bg-transparent"
                         >
                             {' '}
-                            {data?.slide_images.map(
+                            {data?.slide_images?.map(
                                 (item: SlideImage, index: number) => (
                                     <img
                                         key={index}
