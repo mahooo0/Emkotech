@@ -250,6 +250,7 @@ export default function Products() {
                                         setSelectedCategory(
                                             Number(e.target.value)
                                         );
+                                        setSelectedSubCategory(0);
                                         router.push(
                                             `/${language}/${ROUTES.products[language]}?category=${e.target.value}&search=${debouncedSearchTerm}&sort=${selectedSort}&pagination=1`
                                         );
@@ -445,7 +446,7 @@ export default function Products() {
                         onPageChange={(page) => {
                             // setPage(page);
                             router.push(
-                                `/${language}/${ROUTES.products[language]}?sub_category=${selectedCategory}&category=${selectedCategory} &search=${debouncedSearchTerm}&sort=${selectedSort}&pagination=${page}`
+                                `/${language}/${ROUTES.products[language]}?category=${selectedCategory}&sub_category=${sub_category}&search=${debouncedSearchTerm}&sort=${selectedSort}&pagination=${page}`
                             );
                         }}
                     />
