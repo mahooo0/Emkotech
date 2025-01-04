@@ -446,7 +446,7 @@ export default function Products() {
                         onPageChange={(page) => {
                             // setPage(page);
                             router.push(
-                                `/${language}/${ROUTES.products[language]}?category=${selectedCategory}&sub_category=${sub_category}&search=${debouncedSearchTerm}&sort=${selectedSort}&pagination=${page}`
+                                `/${language}/${ROUTES.products[language]}?category=${category}&sub_category=${sub_category}&search=${debouncedSearchTerm}&sort=${selectedSort}&pagination=${page}`
                             );
                         }}
                     />
