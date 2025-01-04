@@ -457,7 +457,7 @@ const Header = ({ activeindex }: { activeindex: number }) => {
                                                             }?id=${product?.id}`
                                                         );
                                                     }}
-                                                    className="flex flex-row gap-4 items-center bg-white hover:bg-[#a6a6a6] hover:bg-opacity-50 duration-150 px-3 py-1"
+                                                    className="flex flex-row cursor-pointer gap-4 items-center bg-white hover:bg-[#a6a6a6] hover:bg-opacity-50 duration-150 px-3 py-1"
                                                 >
                                                     <img
                                                         src={product.image}
