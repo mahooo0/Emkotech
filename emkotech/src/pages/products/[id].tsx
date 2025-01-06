@@ -10,6 +10,10 @@ import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import { ROUTES } from '@/services/CONSTANTS';
 import { useState } from 'react';
+import axios from 'axios';
+import { Formik } from 'formik';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export type SlideImage = {
     id: number;
@@ -93,6 +97,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
     translationsData,
 }) => {
     const [isContact, setisContact] = useState<boolean>(false);
+    const [IsLoading, setIsLoading] = useState<boolean>(false);
     const router = useRouter();
     const { lang } = router.query;
     const language = lang ? lang?.toString() : 'az';
@@ -193,91 +198,188 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                     <h4 className="text-[36px] font-medium">
                         {translationsData?.data?.SifarisEt}
                     </h4>
-                    <div className="flex flex-row max-sm:flex-col gap-[24px] w-full max-sm:gap-1">
-                        <div className="flex flex-col gap-4 w-full max-sm:gap-2">
-                            <label
-                                htmlFor=""
-                                className="text-[16px] font-medium"
+                    <Formik
+                        initialValues={{
+                            name: '',
+                            surname: '',
+                            email: '',
+                            phone: '',
+                            note: '',
+                        }}
+                        validate={(values) => {
+                            const errors: { phone?: string } = {};
+                            const phoneRegex = /^\d{3} \d{3} \d{2} \d{2}$/;
+                            if (!phoneRegex.test(values.phone)) {
+                                errors.phone =
+                                    'Invalid phone format. Expected format: XXX XXX XX XX';
+                            }
+                            return errors;
+                        }}
+                        onSubmit={async (values) => {
+                            setIsLoading(true);
+                            axios
+                                .post(
+                                    `https://emkotech.epart.az/api/product/${productData.product.id}/order`,
+                                    {
+                                        firstname: values.name,
+                                        email: values.email,
+                                        phone: values.phone,
+                                        info: values.note,
+                                        lastname: values.surname,
+                                    }
+                                )
+                                .then(() => {
+                                    setisContact(false);
+                                    setIsLoading(false);
+                                    values.name = '';
+                                    values.surname = '';
+                                    values.email = '';
+                                    values.phone = '';
+                                    values.note = '';
+                                    toast.success('sifaris edildi');
+                                })
+                                .catch((error) => {
+                                    toast.error('somthing went wrong');
+
+                                    console.log(error);
+                                });
+                            console.log('values', values);
+                        }}
+                    >
+                        {({
+                            handleChange,
+                            handleBlur,
+                            handleSubmit,
+                            values,
+                            errors,
+                            touched,
+                        }) => (
+                            <form
+                                onSubmit={handleSubmit}
+                                className="flex flex-col gap-6"
                             >
-                                {translationsData?.data?.Name}
-                            </label>
-                            <input
-                                placeholder={translationsData?.data?.Name}
-                                className="h-[55px] max-sm:h-[40px] px-[20px] py-[17px] text-[#6F6F6F] focus:outline-none w-full border-[#CBCAD7] border rounded-lg"
-                                type="text"
-                                name=""
-                                id=""
-                            />
-                        </div>
-                        <div className="flex flex-col gap-4 w-full max-sm:gap-2">
-                            <label
-                                htmlFor=""
-                                className="text-[16px] font-medium"
-                            >
-                                {translationsData?.data?.Soyad}
-                            </label>
-                            <input
-                                placeholder={translationsData?.data?.Soyad}
-                                className="h-[55px] max-sm:h-[40px] px-[20px] py-[17px] text-[#6F6F6F] focus:outline-none w-full border-[#CBCAD7] border rounded-lg"
-                                type="text"
-                                name=""
-                                id=""
-                            />
-                        </div>
-                    </div>
-                    <div className="flex flex-row max-sm:flex-col gap-[24px] w-full max-sm:gap-2">
-                        <div className="flex flex-col gap-4 w-full max-sm:gap-2">
-                            <label
-                                htmlFor=""
-                                className="text-[16px] font-medium"
-                            >
-                                Email
-                            </label>
-                            <input
-                                placeholder="example@gmail.com"
-                                className="h-[55px] max-sm:h-[40px] px-[20px] py-[17px] text-[#6F6F6F] focus:outline-none w-full border-[#CBCAD7] border rounded-lg"
-                                type="text"
-                                name=""
-                                id=""
-                            />
-                        </div>
-                        <div className="flex flex-col gap-4 w-full max-sm:gap-2">
-                            <label
-                                htmlFor=""
-                                className="text-[16px] font-medium"
-                            >
-                                {translationsData?.data?.Əlaqə_nömrəsi}
-                            </label>
-                            <div className="h-[55px] max-sm:h-[40px] overflow-hidden  flex flex-row text-[#6F6F6F] focus:outline-none w-full border-[#CBCAD7] border rounded-lg">
-                                <p className="h-[55px] max-sm:h-[40px] px-[20px] py-[17px] max-sm:py-2">
-                                    +994{' '}
-                                </p>
-                                <input
-                                    placeholder="XX XXX XX XX "
-                                    type="text"
-                                    name=""
-                                    id=""
-                                    className="h-[55px] max-sm:h-[40px] pr-[20px] py-[15px] text-[#6F6F6F] focus:outline-none w-full"
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex flex-col gap-4 w-full max-sm:gap-2">
-                        <label htmlFor="" className="text-[16px] font-medium">
-                            {translationsData?.data?.Qeyd}
-                        </label>
-                        <textarea
-                            placeholder={translationsData?.data?.Qeyd}
-                            className="h-[114px] max-sm:h-[90px] px-[20px] overflow-hidden py-[17px] text-[#6F6F6F] focus:outline-none w-full border-[#CBCAD7] border rounded-lg"
-                            name=""
-                            id=""
-                        ></textarea>{' '}
-                    </div>
-                    <button className="bg-[#186FE0] w-full h-[] py-[16px] text-center rounded-[18px] text-white">
-                        {translationsData?.data?.SifarisEt}
-                    </button>
+                                <div className="flex flex-row max-sm:flex-col gap-[24px] w-full max-sm:gap-1">
+                                    <div className="flex flex-col gap-4 w-full max-sm:gap-2">
+                                        <label
+                                            htmlFor="name"
+                                            className="text-[16px] font-medium"
+                                        >
+                                            {translationsData?.data?.Name}
+                                        </label>
+                                        <input
+                                            placeholder={
+                                                translationsData?.data?.Name
+                                            }
+                                            className="h-[55px] max-sm:h-[40px] px-[20px] py-[17px] text-[#6F6F6F] focus:outline-none w-full border-[#CBCAD7] border rounded-lg"
+                                            type="text"
+                                            name="name"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.name}
+                                        />
+                                    </div>
+                                    <div className="flex flex-col gap-4 w-full max-sm:gap-2">
+                                        <label
+                                            htmlFor="surname"
+                                            className="text-[16px] font-medium"
+                                        >
+                                            {translationsData?.data?.Soyad}
+                                        </label>
+                                        <input
+                                            placeholder={
+                                                translationsData?.data?.Soyad
+                                            }
+                                            className="h-[55px] max-sm:h-[40px] px-[20px] py-[17px] text-[#6F6F6F] focus:outline-none w-full border-[#CBCAD7] border rounded-lg"
+                                            type="text"
+                                            name="surname"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.surname}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="flex flex-row max-sm:flex-col gap-[24px] w-full max-sm:gap-2">
+                                    <div className="flex flex-col gap-4 w-full max-sm:gap-2">
+                                        <label
+                                            htmlFor="email"
+                                            className="text-[16px] font-medium"
+                                        >
+                                            Email
+                                        </label>
+                                        <input
+                                            placeholder="example@gmail.com"
+                                            className="h-[55px] max-sm:h-[40px] px-[20px] py-[17px] text-[#6F6F6F] focus:outline-none w-full border-[#CBCAD7] border rounded-lg"
+                                            type="email"
+                                            name="email"
+                                            onChange={handleChange}
+                                            onBlur={handleBlur}
+                                            value={values.email}
+                                        />
+                                    </div>
+                                    <div className="flex flex-col gap-4 w-full max-sm:gap-2">
+                                        <label
+                                            htmlFor="phone"
+                                            className="text-[16px] font-medium"
+                                        >
+                                            {
+                                                translationsData?.data
+                                                    ?.Əlaqə_nömrəsi
+                                            }
+                                        </label>
+                                        <div className="h-[55px] max-sm:h-[40px] overflow-hidden flex flex-row text-[#6F6F6F] focus:outline-none w-full border-[#CBCAD7] border rounded-lg">
+                                            <p className="h-[55px] max-sm:h-[40px] px-[20px] py-[17px] max-sm:py-2">
+                                                +994{' '}
+                                            </p>
+                                            <input
+                                                placeholder="XX XXX XX XX "
+                                                type="text"
+                                                name="phone"
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                value={values.phone}
+                                                className="h-[55px] max-sm:h-[40px] pr-[20px] py-[15px] text-[#6F6F6F] focus:outline-none w-full"
+                                            />
+                                        </div>
+                                        {errors.phone && touched.phone && (
+                                            <div className="text-red-500 text-sm">
+                                                {errors.phone}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="flex flex-col gap-4 w-full max-sm:gap-2">
+                                    <label
+                                        htmlFor="note"
+                                        className="text-[16px] font-medium"
+                                    >
+                                        {translationsData?.data?.Qeyd}
+                                    </label>
+                                    <textarea
+                                        placeholder={
+                                            translationsData?.data?.Qeyd
+                                        }
+                                        className="h-[114px] max-sm:h-[90px] px-[20px] overflow-hidden py-[17px] text-[#6F6F6F] focus:outline-none w-full border-[#CBCAD7] border rounded-lg"
+                                        name="note"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.note}
+                                    ></textarea>
+                                </div>
+                                <button
+                                    type="submit"
+                                    className="bg-[#186FE0] w-full h-[] py-[16px] text-center rounded-[18px] text-white"
+                                    disabled={IsLoading}
+                                >
+                                    {IsLoading
+                                        ? 'Loading...'
+                                        : translationsData?.data?.SifarisEt}
+                                </button>
+                            </form>
+                        )}
+                    </Formik>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 };

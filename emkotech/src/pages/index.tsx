@@ -166,7 +166,7 @@ export default function Home({
                 <div className="flex absolute  top-0 left-0 overflow-hidden z-10 flex-col justify-center items-start px-[100px] py-44 bg-black bg-opacity-20 max-md:px-5 max-md:py-24 w-full h-full">
                     <div className="flex flex-col max-w-full w-[652px]">
                         <h1 className="self-start lg:text-5xl md:text-3xl text-2xl font-medium text-white  max-md:max-w-full ">
-                            {topBannerData.data.title}
+                            {topBannerData?.data?.title}
                         </h1>
                         <div
                             className="mt-3.5 lg:text-lg lg:block md:block hidden md:text-lg text-[12px] text-gray-200 max-md:max-w-full"
