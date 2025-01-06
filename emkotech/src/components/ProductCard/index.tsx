@@ -1,8 +1,9 @@
-import * as React from 'react';
 import { useRouter } from 'next/router';
 import { Product } from '@/pages/products/[id]';
 import Link from 'next/link';
 import { ROUTES } from '@/services/CONSTANTS';
+import ProductContact from '../ProductContactForun';
+import { useState } from 'react';
 
 const ProductCard = ({ data }: { data: Product }) => {
     const router = useRouter();
@@ -10,7 +11,6 @@ const ProductCard = ({ data }: { data: Product }) => {
     const { lang } = router.query;
     const language = lang ? lang?.toString() : 'az';
     console.log('data:', data);
-
     return (
         <div
             className="flex flex-col h-full justify-around grow pb-7 w-full hover:border-[#186FE0] border duration-300 bg-white rounded-2xl shadow-[0px_0px_11px_rgba(167,167,167,0.12)] max-md:mt-6 relative "
@@ -51,15 +51,16 @@ const ProductCard = ({ data }: { data: Product }) => {
                                 : `${data.price}$`}
                         </p>
                     </div>
-                    <Link href={`/${language}/${ROUTES.contact[language]}`}>
-                        <button className="gap-2.5 self-center w-full flex p-2.5 mt-8 text-base text-white rounded-[18px] border border-solid bg-blue-600 bg-opacity-90 hover:bg-[#105ABA] duration-300 border-blue-600 border-opacity-90 max-md:mr-1 justify-center">
+                    {/* <button
+                            className="gap-2.5 self-center w-full flex p-2.5 mt-8 text-base text-white rounded-[18px] border border-solid bg-blue-600 bg-opacity-90 hover:bg-[#105ABA] duration-300 border-blue-600 border-opacity-90 max-md:mr-1 justify-center"
+                            onClick={() => setIsOpen(true)}
+                        >
                             {language === 'az'
                                 ? 'İndi Al'
                                 : language === 'en'
                                 ? 'Buy Now'
                                 : 'Купить сейчас'}
-                        </button>
-                    </Link>
+                        </button> */}
                     <Link
                         href={`/${language}/${
                             ROUTES.products[
