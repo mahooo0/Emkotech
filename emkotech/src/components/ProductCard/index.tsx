@@ -2,8 +2,6 @@ import { useRouter } from 'next/router';
 import { Product } from '@/pages/products/[id]';
 import Link from 'next/link';
 import { ROUTES } from '@/services/CONSTANTS';
-import ProductContact from '../ProductContactForun';
-import { useState } from 'react';
 
 const ProductCard = ({ data }: { data: Product }) => {
     const router = useRouter();
