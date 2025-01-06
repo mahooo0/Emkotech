@@ -44,6 +44,11 @@ interface TranslationsData {
         Məhsullar: string;
         PopulyarMəhsullar: string;
         HamısınaBax: string;
+        SifarisEt: string;
+        Name: string;
+        Soyad: string;
+        Əlaqə_nömrəsi: string;
+        Qeyd: string;
     };
 }
 interface Props {
