@@ -5,11 +5,12 @@ import {
     getNewsById,
     getPopularNews,
     getTopImages,
+    getTopMeta,
 } from '@/services/Request';
 import { ROUTES } from '@/services/CONSTANTS';
 import { getProduct, getProjectById, getProjects } from '@/services/Request';
 import { getTranslations } from '@/services/Request';
-import { Project, SiteAssets } from '@/types';
+import { MetaItem, Project, SiteAssets } from '@/types';
 import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -59,16 +60,106 @@ interface Props {
     relatedProjects: Project[];
     newsProps: NewsIdProps;
     Logo: SiteAssets;
+    Metas: MetaItem[];
 }
 export default function ID(props: Props) {
     const router = useRouter();
-
+    console.log('metas:', props.Metas);
+    const baseUrl =
+        typeof window !== 'undefined'
+            ? window.location.origin
+            : 'https://emkotech.com'; // Fallback for SSR
+    const fullUrl = `${baseUrl}${router.asPath}`;
     const { lang, page } = router.query;
     const currentLang = Array.isArray(lang) ? lang[0] : lang;
     if (page === ROUTES.products[currentLang as string]) {
         return (
             <>
                 <Head>
+                    <title>
+                        {
+                            props.Metas.find(
+                                (item) => item.type === 'ProductDetail'
+                            )?.['meta-title']
+                        }
+                    </title>
+                    <meta
+                        name="description"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'ProductDetail'
+                            )?.['meta-description']
+                        }
+                    />
+                    <meta
+                        name="keywords"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'ProductDetail'
+                            )?.['meta-keys']
+                        }
+                    />
+                    <meta
+                        property="og:title"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'ProductDetail'
+                            )?.['meta-title']
+                        }
+                    />
+                    <meta
+                        property="og:description"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'ProductDetail'
+                            )?.['meta-description']
+                        }
+                    />
+                    <meta
+                        property="og:image"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'ProductDetail'
+                            )?.['meta-image']
+                        }
+                    />
+                    <meta property="og:type" content="website" />
+                    <meta property="og:url" content={fullUrl} />
+                    <meta
+                        property="og:site_name"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'ProductDetail'
+                            )?.['meta-title']
+                        }
+                    />
+                    <meta name="twitter:card" content="summary" />
+                    <meta
+                        name="twitter:description"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'ProductDetail'
+                            )?.['meta-description']
+                        }
+                    />
+                    <meta
+                        name="twitter:title"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'ProductDetail'
+                            )?.['meta-title']
+                        }
+                    />
+                    <meta
+                        name="twitter:image"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'ProductDetail'
+                            )?.['meta-image']
+                        }
+                    />
+                    <meta name="twitter:site" content="@emkotech" />
+                    <meta name="twitter:creator" content="@emkotech" />
                     <link
                         rel="icon"
                         href={props.Logo.favicon}
@@ -87,6 +178,90 @@ export default function ID(props: Props) {
         return (
             <>
                 <Head>
+                    <title>
+                        {
+                            props.Metas.find(
+                                (item) => item.type === 'ProjectDetail'
+                            )?.['meta-title']
+                        }
+                    </title>
+                    <meta
+                        name="description"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'ProjectDetail'
+                            )?.['meta-description']
+                        }
+                    />
+                    <meta
+                        name="keywords"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'ProjectDetail'
+                            )?.['meta-keys']
+                        }
+                    />
+                    <meta
+                        property="og:title"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'ProjectDetail'
+                            )?.['meta-title']
+                        }
+                    />
+                    <meta
+                        property="og:description"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'ProjectDetail'
+                            )?.['meta-description']
+                        }
+                    />
+                    <meta
+                        property="og:image"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'ProjectDetail'
+                            )?.['meta-image']
+                        }
+                    />
+                    <meta property="og:type" content="website" />
+                    <meta property="og:url" content={fullUrl} />
+                    <meta
+                        property="og:site_name"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'ProjectDetail'
+                            )?.['meta-title']
+                        }
+                    />
+                    <meta name="twitter:card" content="summary" />
+                    <meta
+                        name="twitter:description"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'ProjectDetail'
+                            )?.['meta-description']
+                        }
+                    />
+                    <meta
+                        name="twitter:title"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'ProjectDetail'
+                            )?.['meta-title']
+                        }
+                    />
+                    <meta
+                        name="twitter:image"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'ProjectDetail'
+                            )?.['meta-image']
+                        }
+                    />
+                    <meta name="twitter:site" content="@emkotech" />
+                    <meta name="twitter:creator" content="@emkotech" />
                     <link
                         rel="icon"
                         href={props.Logo.favicon}
@@ -106,12 +281,96 @@ export default function ID(props: Props) {
         return (
             <>
                 <Head>
+                    <title>
+                        {
+                            props.Metas.find(
+                                (item) => item.type === 'NewsDetail'
+                            )?.['meta-title']
+                        }
+                    </title>
+                    <meta
+                        name="description"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'NewsDetail'
+                            )?.['meta-description']
+                        }
+                    />
+                    <meta
+                        name="keywords"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'NewsDetail'
+                            )?.['meta-keys']
+                        }
+                    />
+                    <meta
+                        property="og:title"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'NewsDetail'
+                            )?.['meta-title']
+                        }
+                    />
+                    <meta
+                        property="og:description"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'NewsDetail'
+                            )?.['meta-description']
+                        }
+                    />
+                    <meta
+                        property="og:image"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'NewsDetail'
+                            )?.['meta-image']
+                        }
+                    />
+                    <meta property="og:type" content="website" />
+                    <meta property="og:url" content={fullUrl} />
+                    <meta
+                        property="og:site_name"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'NewsDetail'
+                            )?.['meta-title']
+                        }
+                    />
+                    <meta name="twitter:card" content="summary" />
+                    <meta
+                        name="twitter:description"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'NewsDetail'
+                            )?.['meta-description']
+                        }
+                    />
+                    <meta
+                        name="twitter:title"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'NewsDetail'
+                            )?.['meta-title']
+                        }
+                    />
+                    <meta
+                        name="twitter:image"
+                        content={
+                            props?.Metas?.find(
+                                (item) => item.type === 'NewsDetail'
+                            )?.['meta-image']
+                        }
+                    />
+                    <meta name="twitter:site" content="@emkotech" />
+                    <meta name="twitter:creator" content="@emkotech" />
                     <link
                         rel="icon"
-                        href={props.Logo?.favicon}
+                        href={props.Logo.favicon}
                         type="image/webp"
                     />
-                    <link rel="apple-touch-icon" href={props.Logo?.favicon} />
+                    <link rel="apple-touch-icon" href={props.Logo.favicon} />
                 </Head>
                 <NewsId {...props.newsProps} />
             </>
@@ -131,12 +390,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                 getTranslations(lang), // Fetch translations using language
                 getTopImages(lang),
             ]);
+            const Metas = await getTopMeta(lang);
 
             return {
                 props: {
                     productData,
                     translationsData,
                     Logo,
+                    Metas,
                 },
             };
         } catch (error) {
@@ -160,6 +421,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             // Fetch related projects if needed
             const relatedProjectsResponse = await getProjects(lang); // Assuming `getProjects` fetches all projects
             const Logo = await getTopImages(lang);
+            const Metas = await getTopMeta(lang);
 
             const relatedProjects = relatedProjectsResponse.data.filter(
                 (p: Project) => p.id !== Number(id)
@@ -171,6 +433,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                     translations: translationsResponse.data || {},
                     relatedProjects: relatedProjects || [],
                     Logo,
+                    Metas,
                 },
             };
         } catch (error) {
@@ -194,7 +457,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                     getPopularNews(lang),
                     getTranslations(lang),
                 ]);
+
             const Logo = await getTopImages(lang);
+            const Metas = await getTopMeta(lang);
 
             return {
                 props: {
@@ -207,6 +472,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                         nodata: false,
                         error: '',
                         Logo,
+                        Metas,
                     },
                 },
             };
