@@ -278,13 +278,15 @@ export default function ID(props: Props) {
         );
     }
     if (page === ROUTES.news[currentLang as string]) {
+        console.log('AAAAAAAA', props);
+
         return (
             <>
                 <Head>
                     <title>
                         {
                             props.Metas.find(
-                                (item) => item.type === 'NewsDetail'
+                                (item) => item.type === 'ProjectDetail'
                             )?.['meta-title']
                         }
                     </title>
@@ -292,7 +294,7 @@ export default function ID(props: Props) {
                         name="description"
                         content={
                             props?.Metas?.find(
-                                (item) => item.type === 'NewsDetail'
+                                (item) => item.type === 'ProjectDetail'
                             )?.['meta-description']
                         }
                     />
@@ -300,7 +302,7 @@ export default function ID(props: Props) {
                         name="keywords"
                         content={
                             props?.Metas?.find(
-                                (item) => item.type === 'NewsDetail'
+                                (item) => item.type === 'ProjectDetail'
                             )?.['meta-keys']
                         }
                     />
@@ -308,7 +310,7 @@ export default function ID(props: Props) {
                         property="og:title"
                         content={
                             props?.Metas?.find(
-                                (item) => item.type === 'NewsDetail'
+                                (item) => item.type === 'ProjectDetail'
                             )?.['meta-title']
                         }
                     />
@@ -316,7 +318,7 @@ export default function ID(props: Props) {
                         property="og:description"
                         content={
                             props?.Metas?.find(
-                                (item) => item.type === 'NewsDetail'
+                                (item) => item.type === 'ProjectDetail'
                             )?.['meta-description']
                         }
                     />
@@ -324,7 +326,7 @@ export default function ID(props: Props) {
                         property="og:image"
                         content={
                             props?.Metas?.find(
-                                (item) => item.type === 'NewsDetail'
+                                (item) => item.type === 'ProjectDetail'
                             )?.['meta-image']
                         }
                     />
@@ -334,7 +336,7 @@ export default function ID(props: Props) {
                         property="og:site_name"
                         content={
                             props?.Metas?.find(
-                                (item) => item.type === 'NewsDetail'
+                                (item) => item.type === 'ProjectDetail'
                             )?.['meta-title']
                         }
                     />
@@ -343,7 +345,7 @@ export default function ID(props: Props) {
                         name="twitter:description"
                         content={
                             props?.Metas?.find(
-                                (item) => item.type === 'NewsDetail'
+                                (item) => item.type === 'ProjectDetail'
                             )?.['meta-description']
                         }
                     />
@@ -351,7 +353,7 @@ export default function ID(props: Props) {
                         name="twitter:title"
                         content={
                             props?.Metas?.find(
-                                (item) => item.type === 'NewsDetail'
+                                (item) => item.type === 'ProjectDetail'
                             )?.['meta-title']
                         }
                     />
@@ -359,7 +361,7 @@ export default function ID(props: Props) {
                         name="twitter:image"
                         content={
                             props?.Metas?.find(
-                                (item) => item.type === 'NewsDetail'
+                                (item) => item.type === 'ProjectDetail'
                             )?.['meta-image']
                         }
                     />
@@ -379,7 +381,10 @@ export default function ID(props: Props) {
     return <div>ID</div>;
 }
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-    const { page, lang } = context.params as { page: string; lang: string };
+    const { page, lang = 'az' } = context.params as {
+        page: string;
+        lang: string;
+    };
     // const id = context?.query?.id; // Get product ID from URL
     const { id } = context.query; // Get the query parameter ?id=10
 
@@ -460,6 +465,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
             const Logo = await getTopImages(lang);
             const Metas = await getTopMeta(lang);
+            console.log('Logo:', Logo);
 
             return {
                 props: {
@@ -471,9 +477,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                         id,
                         nodata: false,
                         error: '',
-                        Logo,
-                        Metas,
                     },
+                    Logo: Logo,
+                    Metas: Metas,
                 },
             };
         } catch (error) {
@@ -489,7 +495,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                     id,
                     nodata: true,
                     error: `${error}`,
-                    Logo: {},
                 },
             };
         }
