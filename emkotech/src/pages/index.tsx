@@ -155,7 +155,7 @@ export default function Home({
                 <meta name="twitter:site" content="@emkotech" />
                 <meta name="twitter:creator" content="@emkotech" />
             </Head>
-            <section className=" relative max-h-[553px] mt-[70px]">
+            <section className=" relative max-h-[553px] mt-[70px] max-sm:h-[420px]">
                 <video
                     className="  w-full h-[100%] z-0 object-cover max-h-[553px] "
                     loop={true}
@@ -163,13 +163,13 @@ export default function Home({
                     muted={true}
                     src={topBannerData?.data?.video}
                 ></video>
-                <div className="flex absolute  top-0 left-0 overflow-hidden z-10 flex-col justify-center items-start px-[100px] py-44 bg-black bg-opacity-20 max-md:px-5 max-md:py-24 w-full h-full">
+                <div className="flex absolute  top-0 left-0 overflow-hidden z-10 flex-col justify-center items-start px-[100px] py-44 bg-black bg-opacity-20 max-md:px-5 max-md:py-24 w-full h-full max-sm:p-0 max-sm:justify-end max-sm:px-[33px] max-sm:py-[40px]">
                     <div className="flex flex-col max-w-full w-[652px]">
-                        <h1 className="self-start lg:text-5xl md:text-3xl text-2xl font-medium text-white  max-md:max-w-full ">
+                        <h1 className="self-start lg:text-5xl md:text-3xl text-2xl font-medium text-white  max-md:max-w-full max-sm:text-[20px] max-sm:font-medium max-sm:leading-8 ">
                             {topBannerData?.data?.title}
                         </h1>
                         <div
-                            className="mt-3.5 lg:text-lg lg:block md:block hidden md:text-lg text-[12px] text-gray-200 max-md:max-w-full"
+                            className="mt-3.5 lg:text-lg   md:text-lg text-[12px] text-gray-200 max-md:max-w-full max-sm:text-[16px]"
                             dangerouslySetInnerHTML={{
                                 __html: topBannerData.data.description,
                             }}
@@ -178,7 +178,7 @@ export default function Home({
                             href={`/${language}/${ROUTES.products[language]}`}
                         >
                             {' '}
-                            <button className="w-[200px] max-sm:w-[140px] h-[47px] max-sm:h-[36px] relative flex justify-between items-center mt-[20px]">
+                            <button className="w-[200px]  h-[47px]  relative flex justify-between items-center mt-[20px]">
                                 <img
                                     src="/images/homebtn.png"
                                     alt=""
@@ -215,17 +215,17 @@ export default function Home({
                         {translationsData?.data?.statisciksTitle}
                     </h2>
                     <div className="flex overflow-hidden flex-col justify-center items-center px-16 py-14 mt-12 w-full rounded-2xl bg-zinc-100 max-md:px-5 max-md:mt-10 max-md:max-w-full">
-                        <div className="flex flex-wrap w-full gap-10 justify-center items-center text-2xl text-center text-[#EA9B12] border-b border-[#EA9B12] max-md:max-w-full">
+                        <div className="flex flex-nowrap w-full gap-10 max-sm:gap-6 justify-center items-center text-2xl text-center text-[#0B458F] border-b border-[#0B458F] max-md:max-w-full">
                             {statisticsData.data.map(
                                 (item: Statistic, index: number) => (
                                     <div
                                         key={index}
                                         className="flex flex-col grow shrink justify-center self-stretch my-auto whitespace-nowrap  w-[157px]"
                                     >
-                                        <h3 className="gap-2.5 self-stretch lg:p-2.5 p-0 w-full font-medium">
+                                        <h3 className="gap-2.5 self-stretch lg:p-2.5 p-0 w-full font-medium max-sm:text-[14px]">
                                             {item.statistic}
                                         </h3>
-                                        <p className="gap-2.5 self-stretch lg:p-2.5 p-0 mt-2.5 w-full font-semibold">
+                                        <p className="gap-2.5 self-stretch lg:p-2.5 p-0 mt-2.5 w-full font-semibold max-sm:text-[14px]">
                                             {item.value}
                                         </p>
                                     </div>
@@ -233,13 +233,13 @@ export default function Home({
                             )}
                         </div>
                         <div className="flex  lg:flex-row md:flex-row justify-between flex-col lg:gap-[140px] md:gap-[140px] gap-10 mt-12 w-full max-md:mt-10 max-md:max-w-full">
-                            <p className=" text-lg text-wrap text-[#BDBDC1] lg:w-[776px] w-full ">
+                            <p className=" text-lg text-wrap text-[#BDBDC1] lg:w-[776px] w-full max-sm:text-[16px]">
                                 {translationsData?.data?.statisciksdesc}
                             </p>
                             <Link
                                 href={`/${language}/${ROUTES.products[language]}`}
                             >
-                                <button className="gap-2.5  text-nowrap leading-[20px] self-start p-2.5 mt-1.5 px-[20px] py-[10px]  text-base font-medium text-[#EA9B12] border border-[#EA9B12] border-solid rounded-[35px]">
+                                <button className="gap-2.5  text-nowrap leading-[20px] self-start p-2.5 mt-1.5 px-[20px] py-[10px]  text-base font-medium text-[#0B458F] border border-[#0B458F] border-solid rounded-[35px] max-sm:w-full">
                                     {translationsData?.data?.Hamısına_bax}
                                 </button>
                             </Link>
@@ -264,7 +264,7 @@ export default function Home({
                     <h2 className="text-5xl text-black text-wrap  max-md:text-4xl ">
                         {translationsData?.data?.Populyar_Məhsullar}
                     </h2>
-                    <div className=" lg:absolute md:absolute  static lg:right-[100px] md:right-[60px] right-[30px] flex  h-[48px] items-end">
+                    <div className=" lg:absolute md:absolute  static lg:right-[100px] md:right-[60px] right-[30px] flex  h-[48px] items-end max-sm:hidden ">
                         <Link
                             href={`/${language}/${ROUTES.products[language]}`}
                         >
@@ -282,13 +282,27 @@ export default function Home({
                     </div>
                 </div>
                 <ProductSwiper data={productsData.data} />
+                <div className="w-full  justify-center mt-7 max-sm:flex hidden ">
+                    <Link href={`/${language}/${ROUTES.products[language]}`}>
+                        <button className="flex gap-2.5 justify-center items-center self-end text-base font-medium rounded-[35px] text-blue-600 text-opacity-90">
+                            <p className="self-stretch my-auto text-nowrap ">
+                                {translationsData?.data?.Hamısına_bax}
+                            </p>
+                            <img
+                                loading="lazy"
+                                src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/b0bcb315d4534a4ad48392d7c96985a79c21ac585f3284b9a6268cac196f65a9?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
+                                className="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
+                            />
+                        </button>
+                    </Link>
+                </div>
             </section>
             <section className=" lg:mt-[100px] md:mt-[80px] mt-[40px]">
                 <div className="w-full flex  lg:justify-center md:justify-center justify-start lg:flex-row md:flex-row flex-col  lg:px-[100px] md:px-[60px] px-[30px] ">
                     <h2 className="text-5xl text-black text-wrap  max-md:text-4xl ">
                         {translationsData?.data?.Endirimli_məhsullar}
                     </h2>
-                    <div className=" lg:absolute md:absolute  static lg:right-[100px] md:right-[60px] right-[30px] flex  h-[48px] items-end">
+                    <div className=" lg:absolute md:absolute  static lg:right-[100px] md:right-[60px] right-[30px] flex  h-[48px] items-end max-sm:hidden ">
                         <Link
                             href={`/${language}/${ROUTES.products[language]}`}
                         >
@@ -310,13 +324,27 @@ export default function Home({
                         (item: Product) => item.discount
                     )}
                 />
+                <div className="w-full  justify-center mt-7 max-sm:flex hidden ">
+                    <Link href={`/${language}/${ROUTES.products[language]}`}>
+                        <button className="flex gap-2.5 justify-center items-center self-end text-base font-medium rounded-[35px] text-blue-600 text-opacity-90">
+                            <p className="self-stretch my-auto text-nowrap ">
+                                {translationsData?.data?.Hamısına_bax}
+                            </p>
+                            <img
+                                loading="lazy"
+                                src="https://cdn.builder.io/api/v1/image/assets/c6f3c7bb740649e5a32c147b3037a1c2/b0bcb315d4534a4ad48392d7c96985a79c21ac585f3284b9a6268cac196f65a9?apiKey=c6f3c7bb740649e5a32c147b3037a1c2&"
+                                className="object-contain shrink-0 self-stretch my-auto w-6 aspect-square"
+                            />
+                        </button>
+                    </Link>
+                </div>
             </section>{' '}
             <section className="w-full lg:px-[100px] md:px-[60px] px-[30px]">
                 <div className="w-full flex gap-4  lg:mt-[100px] md:mt-[80px] mt-[40px] lg:justify-center md:justify-center justify-between lg:flex-row md:flex-row flex-col  ">
                     <h2 className="text-5xl text-black text-wrap  max-md:text-4xl">
                         {translationsData?.data?.Kateqoriyalar}
                     </h2>
-                    <div className=" lg:absolute md:absolute  static lg:right-[100px] md:right-[60px] right-[30px] flex  h-[48px] items-end">
+                    <div className=" lg:absolute md:absolute  static lg:right-[100px] md:right-[60px] right-[30px] flex  h-[48px] items-end max-sm:hidden ">
                         <Link
                             href={`/${language}/${ROUTES.products[language]}`}
                         >
@@ -369,7 +397,7 @@ export default function Home({
                 <div className="self-center text-5xl text-black text-wrap  max-md:text-4xl mr-2">
                     {translationsData?.data?.Müştərilərimiz}
                 </div>
-                <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 lg:gap-6 gap-3 mt-8 w-full max-md:max-w-full">
+                <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 lg:gap-6 gap-3 mt-8 w-full max-md:max-w-full">
                     {customersData.data.map((item: Customer, index: number) => (
                         <div
                             className="  flex flex-1 gap-3.5  rounded-2xl bg-white bg-opacity-70 shadow-[0px_0px_4px_rgba(0,0,0,0.05)]"
@@ -397,19 +425,19 @@ export default function Home({
                     ))}{' '}
                 </div>
                 <div
-                    className="lg:mt-[120px] mt-[60px] rounded-lg"
+                    className="lg:mt-[120px] mt-[60px] rounded-lg max-sm:h-[204px]"
                     style={{
                         backgroundImage: `url("${bottomBannerData.data.image}")`,
                         backgroundSize: 'cover', // This ensures the image covers the area
                         backgroundPosition: 'center', // This centers the image within the div
                     }}
                 >
-                    <div className="flex overflow-hidden flex-col items-start px-20 py-20 font-medium rounded-2xl bg-black bg-opacity-30 max-md:px-5 ">
-                        <h4 className="text-5xl text-white max-md:text-4xl">
+                    <div className="flex overflow-hidden flex-col items-start px-20 py-20 font-medium rounded-2xl bg-black bg-opacity-30 max-md:px-5 max-sm:h-[204px] max-sm:p-0 max-sm:justify-center max-sm:px-[28px] ">
+                        <h4 className="text-5xl text-white max-md:text-4xl max-sm:text-[20px]">
                             {bottomBannerData.data.title}
                         </h4>
                         <div
-                            className="mt-1 text-lg text-gray-200 w-[604px] max-md:max-w-full"
+                            className="mt-1 text-lg text-gray-200 w-[604px] max-md:max-w-full max-sm:text-[14px]"
                             dangerouslySetInnerHTML={{
                                 __html: bottomBannerData.data.description,
                             }}

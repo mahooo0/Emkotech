@@ -119,11 +119,11 @@ export default function AboutUs({
                             },
                         ]}
                     />
-                    <section className="flex flex-row-reverse max-sm:flex-col rounded-2xl lg:px-[100px] md:px-[60px] px-[30px] gap-6 mt-6">
+                    <section className="flex flex-col-reverse max-sm:flex-col rounded-2xl  gap-6 mt-6">
                         <div className="z-10 mt-0 max-md:-mr-2 max-md:max-w-full">
-                            <div className="flex lg:gap-[0] gap-5 flex-col items-center">
+                            <div className="flex lg:gap-[0] gap-5 flex-col items-center lg:px-[100px] md:px-[60px] px-[30px]">
                                 <div className="flex flex-col w-full max-md:ml-0 max-md:w-full ">
-                                    <h1 className="lg:text-5xl leading-[64px] max-md:leading-10 text-[2rem] text-black lg:mt-10 mt-0 max-md:max-w-full  lg:leading-[56px] ">
+                                    <h1 className="lg:text-5xl leading-[64px] max-md:leading-10 text-[2rem] text-black lg:mt-10 mt-0 max-md:max-w-full  lg:leading-[56px] text-center ">
                                         {aboutData?.data[0].title}
                                     </h1>
                                 </div>
@@ -133,13 +133,13 @@ export default function AboutUs({
                                             __html: aboutData?.data[0]
                                                 .description,
                                         }}
-                                        className="lg:mt-4 mt-0 text-lg text-black  max-md:max-w-full leading-6 leandingforHtml"
+                                        className="lg:mt-4 mt-0 text-lg text-black  max-md:max-w-full leading-6 leandingforHtml text-center"
                                     ></div>
                                 </div>
                             </div>
                         </div>
-                        <div className="lg:mt-5 mt-0 w-full max-md:max-w-full">
-                            <div className="flex gap-5 max-md:flex-col lg:mt-4 mt-0">
+                        <div className=" mt-0 w-full max-md:max-w-full">
+                            <div className="flex gap-5 max-md:flex-col mt-0">
                                 <div className="flex flex-col w-full max-md:ml-0 max-md:w-full">
                                     <Image
                                         loading="lazy"
@@ -147,7 +147,7 @@ export default function AboutUs({
                                         alt="About Image 1"
                                         width={800}
                                         height={600}
-                                        className="object-cover object-center w-full rounded-2xl aspect-square max-md:mt-6 max-md:max-w-full"
+                                        className="object-cover object-center w-full rounded-none aspect-square max-md:mt-6 max-md:max-w-full max-h-[480px]"
                                     />
                                 </div>
                             </div>

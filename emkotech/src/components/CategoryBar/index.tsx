@@ -67,7 +67,7 @@ const CategoryBAr = ({ categories, isopen, isLoading }: CategoryBarProps) => {
                         >
                             <div
                                 data-layername="kate"
-                                className="flex flex-col grow px-5 py-5 font-medium border-r w-[300px] scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 border-gray-200 border-opacity-90 min-h-[292px] overflow-y-auto max-md:mt-6"
+                                className="flex flex-col grow px-5 py-5 font-medium border-r w-[300px]  border-gray-200 border-opacity-90 min-h-[292px]  max-md:mt-6"
                             >
                                 <h2
                                     data-layername="kateqoriyalar"

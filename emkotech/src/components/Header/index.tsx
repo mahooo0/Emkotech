@@ -318,6 +318,8 @@ const Header = ({ activeindex }: { activeindex: number }) => {
 
     const [issearchOpen, setissearchOpen] = useState(true);
     const router = useRouter();
+    console.log(issearchOpen);
+
     const { lang = 'az' } = router.query;
     useEffect(() => {
         const handler = setTimeout(() => {
@@ -401,7 +403,7 @@ const Header = ({ activeindex }: { activeindex: number }) => {
                     <div className=" relative" ref={serchRef}>
                         <div
                             className={`flex justify-between items-center  py-2.5 w-fit text-sm font-medium leading-none rounded-2xl border  border-solid  text-stone-500 duration-300 ${
-                                issearchOpen
+                                false
                                     ? 'gap-0 px-0 bg-transparent border-transparent'
                                     : 'gap-10 px-6 bg-neutral-100 border-gray-200'
                             }`}
@@ -410,7 +412,7 @@ const Header = ({ activeindex }: { activeindex: number }) => {
                                 type="text"
                                 placeholder={`${translationsData?.data?.Axtar}`}
                                 className={`duration-300 ${
-                                    issearchOpen ? 'w-0' : 'w-[150px]'
+                                    false ? 'w-0' : 'w-[150px]'
                                 } border-none outline-none flex-1 bg-transparent text-stone-500`}
                                 value={search}
                                 onChange={(e) => setsearch(e.target.value)}
@@ -418,14 +420,14 @@ const Header = ({ activeindex }: { activeindex: number }) => {
 
                             <img
                                 onClick={() => {
-                                    setissearchOpen((prew) => !prew);
+                                    // setissearchOpen((prew) => !prew);
                                 }}
                                 loading="lazy"
                                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/2e19dc35dd213e656474aa0288d1d6968a56aec699761271179437a1d7f07a00?placeholderIfAbsent=true&apiKey=2d5d82cf417847beb8cd2fbbc5e3c099"
                                 className="object-contain cursor-pointer shrink-0 self-stretch my-auto w-6 aspect-square"
                             />
                         </div>{' '}
-                        {search === '' || issearchOpen || (
+                        {search === '' || false || (
                             <div className="w-full h-fit scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 max-h-[300px] overflow-y-scroll bg-white border border-opacity-40 border-[#575757] z-[999999999] absolute top-[110%] rounded-lg">
                                 {productsData?.data.length > 0 ? (
                                     <>
