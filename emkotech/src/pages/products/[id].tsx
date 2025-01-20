@@ -113,7 +113,18 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                             text: `${translationsData?.data?.Məhsullar}`,
                             path: `/${language}/${ROUTES.products[language]}`,
                         },
-                        { text: productData?.product?.title, path: '' },
+                        {
+                            text: productData?.product.category_name,
+                            path: `/${language}/${ROUTES.products[language]}?category=${productData?.product.category_id}`,
+                        },
+                        {
+                            text: productData?.product?.subcategory_name,
+                            path: `/${language}/${ROUTES.products[language]}?category=${productData?.product.category_id}&sub_category=${productData?.product?.subcategory_id}`,
+                        },
+                        {
+                            text: productData?.product?.title,
+                            path: router.asPath,
+                        },
                     ]}
                 />
             )}
