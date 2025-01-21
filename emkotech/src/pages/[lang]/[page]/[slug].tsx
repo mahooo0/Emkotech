@@ -23,6 +23,10 @@ export type Product = {
     subcategory_name: string;
     category_id: number;
     category_name: string;
+    meta_title: string;
+    meta_keys: string;
+    meta_image: string;
+    meta_description: string;
     title: string;
     description: string; // Contains HTML content
     image: string; // URL
@@ -73,90 +77,57 @@ export default function ID(props: Props) {
     const { lang, page } = router.query;
     const currentLang = Array.isArray(lang) ? lang[0] : lang;
     if (page === ROUTES.products[currentLang as string]) {
+        console.log('AAAAAAAA', props.productData);
+
         return (
             <>
                 <Head>
                     <title>
-                        {
+                        {/* {
                             props.Metas.find(
                                 (item) => item.type === 'ProductDetail'
                             )?.['meta-title']
-                        }
+                        } */}
+                        {props.productData?.product.meta_title}
                     </title>
                     <meta
                         name="description"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProductDetail'
-                            )?.['meta-description']
-                        }
+                        content={props.productData?.product.meta_description}
                     />
                     <meta
                         name="keywords"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProductDetail'
-                            )?.['meta-keys']
-                        }
+                        content={props.productData?.product.meta_keys}
                     />
                     <meta
                         property="og:title"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProductDetail'
-                            )?.['meta-title']
-                        }
+                        content={props.productData?.product.meta_title}
                     />
                     <meta
                         property="og:description"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProductDetail'
-                            )?.['meta-description']
-                        }
+                        content={props.productData?.product.meta_description}
                     />
                     <meta
                         property="og:image"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProductDetail'
-                            )?.['meta-image']
-                        }
+                        content={props.productData?.product.meta_image}
                     />
                     <meta property="og:type" content="website" />
                     <meta property="og:url" content={fullUrl} />
                     <meta
                         property="og:site_name"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProductDetail'
-                            )?.['meta-title']
-                        }
+                        content={props.productData?.product.meta_title}
                     />
                     <meta name="twitter:card" content="summary" />
                     <meta
                         name="twitter:description"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProductDetail'
-                            )?.['meta-description']
-                        }
+                        content={props.productData?.product.meta_description}
                     />
                     <meta
                         name="twitter:title"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProductDetail'
-                            )?.['meta-title']
-                        }
+                        content={props.productData?.product.meta_title}
                     />
                     <meta
                         name="twitter:image"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProductDetail'
-                            )?.['meta-image']
-                        }
+                        content={props.productData?.product.meta_image}
                     />
                     <meta name="twitter:site" content="@emkotech" />
                     <meta name="twitter:creator" content="@emkotech" />

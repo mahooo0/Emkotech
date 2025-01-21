@@ -171,7 +171,7 @@ export default function Home({
                         <div
                             className="mt-3.5 lg:text-lg   md:text-lg text-[12px] text-gray-200 max-md:max-w-full max-sm:text-[16px]"
                             dangerouslySetInnerHTML={{
-                                __html: topBannerData.data.description,
+                                __html: topBannerData?.data?.description,
                             }}
                         ></div>
                         <Link
