@@ -145,7 +145,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
                         muted
                     ></video>
                 ) : (
-                    <div className="mt-[120px] w-full h-[553px] lg:px-[100px] md:px-[60px] px-[30px] bg-gray-200 animate-pulse rounded-lg"></div>
+                    <></>
                 )}
                 <section className="mt-[100px]">
                     <div className="w-full flex lg:justify-center md:justify-center justify-start flex-wrap px-[20px]">
