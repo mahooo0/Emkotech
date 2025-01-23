@@ -160,7 +160,7 @@ const NavContent = ({
                     onMouseLeave={() => setIsProjectsBarOpen(false)}
                     className={`${
                         isProjectsBarOpen ? 'block' : 'hidden'
-                    }  bg-white  h-[200px] absolute top-[80%] w-[200px] rounded-b-lg z-50 overflow-y-auto overflow-x-hidden flex flex-col gap-2  [&::-webkit-scrollbar]:w-[3px] [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-transparent`}
+                    }  bg-white max-h-[200px] h-fit absolute top-[80%] w-[200px] rounded-b-lg z-50 overflow-y-auto overflow-x-hidden flex flex-col gap-2  [&::-webkit-scrollbar]:w-[3px] [&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-track]:bg-transparent`}
                 >
                     {projectsData?.data.map((item: Project) => (
                         <Link
