@@ -1,4 +1,6 @@
 import {
+    GetDiscountedProduct,
+    GetPopulyarProduct,
     getStatistics,
     getTopImages,
     getTopMeta,
@@ -72,6 +74,8 @@ interface HomePageProps {
     translationsData: TranslationsData;
     Meta: MetaItem[];
     Logo: SiteAssets;
+    DiscountedProducts: Product[];
+    PopulyarProduct: Product[];
 }
 export default function HomebyLang(props: HomePageProps) {
     // const router = useRouter();
@@ -94,6 +98,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             translationsData,
             Meta,
             Logo,
+            DiscountedProducts,
+            PopulyarProduct,
         ] = await Promise.all([
             getTopBanner(lang),
             getStatistics(lang),
@@ -105,6 +111,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             getTranslations(lang),
             getTopMeta(lang),
             getTopImages(lang),
+            GetDiscountedProduct(lang),
+            GetPopulyarProduct(lang),
         ]);
 
         return {
@@ -119,6 +127,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                 translationsData,
                 Meta,
                 Logo,
+                DiscountedProducts,
+                PopulyarProduct,
             },
         };
     } catch (error) {

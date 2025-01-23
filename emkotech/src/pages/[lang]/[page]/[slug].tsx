@@ -60,6 +60,7 @@ interface Props {
     productData: ApiResponse | null;
     translationsData: TranslationsData | null;
     project: Project;
+
     translations: Translation;
     relatedProjects: Project[];
     newsProps: NewsIdProps;
@@ -150,86 +151,42 @@ export default function ID(props: Props) {
             <>
                 <Head>
                     <title>
-                        {
+                        {props.project.meta_title}
+                        {/* {
                             props.Metas.find(
                                 (item) => item.type === 'ProjectDetail'
                             )?.['meta-title']
-                        }
+                        } */}
                     </title>
                     <meta
                         name="description"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProjectDetail'
-                            )?.['meta-description']
-                        }
+                        content={props.project.meta_description}
                     />
-                    <meta
-                        name="keywords"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProjectDetail'
-                            )?.['meta-keys']
-                        }
-                    />
-                    <meta
-                        property="og:title"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProjectDetail'
-                            )?.['meta-title']
-                        }
-                    />
+                    <meta name="keywords" content={props.project.meta_keys} />
+                    <meta property="og:title" content={props.project.title} />
                     <meta
                         property="og:description"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProjectDetail'
-                            )?.['meta-description']
-                        }
+                        content={props.project.meta_description}
                     />
                     <meta
                         property="og:image"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProjectDetail'
-                            )?.['meta-image']
-                        }
+                        content={props.project.meta_image}
                     />
                     <meta property="og:type" content="website" />
                     <meta property="og:url" content={fullUrl} />
                     <meta
                         property="og:site_name"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProjectDetail'
-                            )?.['meta-title']
-                        }
+                        content={props.project.title}
                     />
                     <meta name="twitter:card" content="summary" />
                     <meta
                         name="twitter:description"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProjectDetail'
-                            )?.['meta-description']
-                        }
+                        content={props.project.meta_description}
                     />
-                    <meta
-                        name="twitter:title"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProjectDetail'
-                            )?.['meta-title']
-                        }
-                    />
+                    <meta name="twitter:title" content={props.project.title} />
                     <meta
                         name="twitter:image"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProjectDetail'
-                            )?.['meta-image']
-                        }
+                        content={props.project.meta_image}
                     />
                     <meta name="twitter:site" content="@emkotech" />
                     <meta name="twitter:creator" content="@emkotech" />
@@ -254,87 +211,45 @@ export default function ID(props: Props) {
         return (
             <>
                 <Head>
-                    <title>
-                        {
-                            props.Metas.find(
-                                (item) => item.type === 'ProjectDetail'
-                            )?.['meta-title']
-                        }
-                    </title>
+                    <title>{props.newsProps.newsData.meta_title}</title>
                     <meta
                         name="description"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProjectDetail'
-                            )?.['meta-description']
-                        }
+                        content={props.newsProps.newsData.meta_description}
                     />
                     <meta
                         name="keywords"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProjectDetail'
-                            )?.['meta-keys']
-                        }
+                        content={props.newsProps.newsData.meta_keys}
                     />
                     <meta
                         property="og:title"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProjectDetail'
-                            )?.['meta-title']
-                        }
+                        content={props.newsProps.newsData.meta_title}
                     />
                     <meta
                         property="og:description"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProjectDetail'
-                            )?.['meta-description']
-                        }
+                        content={props.newsProps.newsData.meta_description}
                     />
                     <meta
                         property="og:image"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProjectDetail'
-                            )?.['meta-image']
-                        }
+                        content={props.newsProps.newsData.meta_image}
                     />
                     <meta property="og:type" content="website" />
                     <meta property="og:url" content={fullUrl} />
                     <meta
                         property="og:site_name"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProjectDetail'
-                            )?.['meta-title']
-                        }
+                        content={props.newsProps.newsData.meta_title}
                     />
                     <meta name="twitter:card" content="summary" />
                     <meta
                         name="twitter:description"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProjectDetail'
-                            )?.['meta-description']
-                        }
+                        content={props.newsProps.newsData.meta_description}
                     />
                     <meta
                         name="twitter:title"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProjectDetail'
-                            )?.['meta-title']
-                        }
+                        content={props.newsProps.newsData.meta_title}
                     />
                     <meta
                         name="twitter:image"
-                        content={
-                            props?.Metas?.find(
-                                (item) => item.type === 'ProjectDetail'
-                            )?.['meta-image']
-                        }
+                        content={props.newsProps.newsData.meta_image}
                     />
                     <meta name="twitter:site" content="@emkotech" />
                     <meta name="twitter:creator" content="@emkotech" />

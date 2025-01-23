@@ -5,7 +5,9 @@ import { parse } from 'cookie';
 import {
     getBottomBanner,
     getCustomers,
+    GetDiscountedProduct,
     getPartners,
+    GetPopulyarProduct,
     getProductCategoriesHOME,
     getProducts,
     getStatistics,
@@ -88,6 +90,8 @@ interface HomePageProps {
     translationsData: TranslationsData;
     Meta: MetaItem[];
     Logo: SiteAssets;
+    DiscountedProducts: Product[];
+    PopulyarProduct: Product[];
 }
 
 export default function Home({
@@ -101,17 +105,20 @@ export default function Home({
     translationsData,
     Meta,
     Logo,
+    DiscountedProducts,
+    PopulyarProduct,
 }: HomePageProps) {
     const router = useRouter();
     const { lang } = router.query;
     const language = lang ? lang?.toString() : 'az';
     const pagemetas = Meta?.find((item) => item.type === 'Home');
-    console.log('pagemetas', pagemetas);
+    console.log('PopulyarProduct', PopulyarProduct);
     const baseUrl =
         typeof window !== 'undefined'
             ? window.location.origin
             : 'https://emkotech.com'; // Fallback for SSR
     const fullUrl = `${baseUrl}${router.asPath}`;
+
     return (
         <>
             {/* <Header activeindex={0} />{' '} */}
@@ -266,7 +273,7 @@ export default function Home({
                     </h2>
                     <div className=" lg:absolute md:absolute  static lg:right-[100px] md:right-[60px] right-[30px] flex  h-[48px] items-end max-sm:hidden ">
                         <Link
-                            href={`/${language}/${ROUTES.products[language]}`}
+                            href={`/${language}/${ROUTES.products[language]}?search=popular`}
                         >
                             <button className="flex gap-2.5 justify-center items-center self-end text-base font-medium rounded-[35px] text-blue-600 text-opacity-90">
                                 <p className="self-stretch my-auto text-nowrap ">
@@ -281,7 +288,7 @@ export default function Home({
                         </Link>
                     </div>
                 </div>
-                <ProductSwiper data={productsData.data} />
+                <ProductSwiper data={PopulyarProduct} />
                 <div className="w-full  justify-center mt-7 max-sm:flex hidden ">
                     <Link href={`/${language}/${ROUTES.products[language]}`}>
                         <button className="flex gap-2.5 justify-center items-center self-end text-base font-medium rounded-[35px] text-blue-600 text-opacity-90">
@@ -304,7 +311,7 @@ export default function Home({
                     </h2>
                     <div className=" lg:absolute md:absolute  static lg:right-[100px] md:right-[60px] right-[30px] flex  h-[48px] items-end max-sm:hidden ">
                         <Link
-                            href={`/${language}/${ROUTES.products[language]}`}
+                            href={`/${language}/${ROUTES.products[language]}?search=discount`}
                         >
                             <button className="flex gap-2.5 justify-center items-center self-end text-base font-medium rounded-[35px] text-blue-600 text-opacity-90">
                                 <p className="self-stretch my-auto text-nowrap ">
@@ -319,11 +326,7 @@ export default function Home({
                         </Link>
                     </div>
                 </div>
-                <ProductSwiper
-                    data={productsData.data.filter(
-                        (item: Product) => item.discount
-                    )}
-                />
+                <ProductSwiper data={DiscountedProducts} />
                 <div className="w-full  justify-center mt-7 max-sm:flex hidden ">
                     <Link href={`/${language}/${ROUTES.products[language]}`}>
                         <button className="flex gap-2.5 justify-center items-center self-end text-base font-medium rounded-[35px] text-blue-600 text-opacity-90">
@@ -378,6 +381,7 @@ export default function Home({
                                         backgroundImage: `url("${item.image}")`,
                                     }}
                                 >
+                                    {/* <img src={item.image} alt="" /> */}
                                     <div className=" bg-black  text-white bg-opacity-30 w-full h-full">
                                         {' '}
                                         <h6 className="text-xl font-semibold pt-[30px] pl-[30px] max-w-[340px]">
@@ -478,6 +482,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             translationsData,
             Meta,
             Logo,
+            DiscountedProducts,
+            PopulyarProduct,
         ] = await Promise.all([
             getTopBanner(lang),
             getStatistics(lang),
@@ -489,6 +495,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             getTranslations(lang),
             getTopMeta(lang),
             getTopImages(lang),
+            GetDiscountedProduct(lang),
+            GetPopulyarProduct(lang),
         ]);
 
         return {
@@ -503,6 +511,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                 translationsData,
                 Meta,
                 Logo,
+                DiscountedProducts,
+                PopulyarProduct,
             },
         };
     } catch (error) {

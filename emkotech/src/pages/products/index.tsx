@@ -118,7 +118,7 @@ export default function Products() {
         // console.log(event.target.value);
         setSearchTerm(event.target.value);
     };
-    const { category, sub_category, pagination } = router.query;
+    const { category, sub_category, pagination, search } = router.query;
 
     useEffect(() => {
         if (category) {
@@ -128,10 +128,14 @@ export default function Products() {
         if (Number(pagination) > 0) {
             setPage(Number(pagination));
         }
+        search;
         if (sub_category) {
             setSelectedSubCategory(Number(sub_category));
         }
-    }, [category, sub_category, pagination]);
+        if (search) {
+            setSelectedSort(search.toString());
+        }
+    }, [category, sub_category, pagination, search]);
     useEffect(() => {
         if (selectedCategory) {
             console.log(
@@ -368,6 +372,13 @@ export default function Products() {
                                     </option>{' '}
                                     <option key={4} value={'title_desc'}>
                                         z-a{' '}
+                                    </option>
+                                    discount
+                                    <option key={5} value={'popular'}>
+                                        popular
+                                    </option>
+                                    <option key={5} value={'discount'}>
+                                        discount
                                     </option>
                                 </select>
                             </div>

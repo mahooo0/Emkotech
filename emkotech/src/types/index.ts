@@ -45,6 +45,11 @@ export interface Project {
     title: string;
     description: string;
     image: string;
+    meta_title: string;
+    meta_keys: string;
+
+    meta_image: string;
+    meta_description: string;
 }
 interface NewsItem {
     slug: {
