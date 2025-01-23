@@ -128,7 +128,6 @@ export default function Products() {
         if (Number(pagination) > 0) {
             setPage(Number(pagination));
         }
-        search;
         if (sub_category) {
             setSelectedSubCategory(Number(sub_category));
         }

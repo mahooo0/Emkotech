@@ -118,6 +118,7 @@ export default function Home({
             ? window.location.origin
             : 'https://emkotech.com'; // Fallback for SSR
     const fullUrl = `${baseUrl}${router.asPath}`;
+    console.log(productsData);
 
     return (
         <>
