@@ -145,7 +145,7 @@ export default function Nevs({
                                                     {item.title}
                                                 </div>
                                                 <div
-                                                    className="mt-2 text-sm tracking-wide leading-5"
+                                                    className="mt-2 text-sm tracking-wide leading-5 line-clamp-2"
                                                     dangerouslySetInnerHTML={{
                                                         __html: item.short_description,
                                                     }}

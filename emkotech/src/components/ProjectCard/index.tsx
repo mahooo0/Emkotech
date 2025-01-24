@@ -28,9 +28,12 @@ export default function ProjectCard({ data }: { data: Project | undefined }) {
                     <div className="self-start font-medium text-black">
                         {data?.title}
                     </div>
-                    <div className="mt-2.5 text-[#BDBDC1]">
-                        {data?.description?.slice(0, 60)}...
-                    </div>
+                    <div
+                        className="mt-2.5 text-[#BDBDC1] line-clamp-2"
+                        dangerouslySetInnerHTML={{
+                            __html: data?.description || ' ',
+                        }}
+                    />
                 </div>
             </div>
         </Link>

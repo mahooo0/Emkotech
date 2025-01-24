@@ -159,7 +159,7 @@ const CategoryBAr = ({ categories, isopen, isLoading }: CategoryBarProps) => {
                             className="flex flex-col ml-5 w-[90%] max-md:ml-0 max-md:w-full h-full"
                         >
                             <div className="flex flex-col self-stretch h-full  w-full text-base text-black max-md:mt-10 max-md:max-w-full">
-                                <div className="flex flex-row flex-wrap gap-6 w-full max-md:max-w-full h-full overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 lg:!pr-[60px] md:pr-[60px] px-[20px] max-h-[300px]">
+                                <div className="flex flex-row flex-wrap gap-6 gap-y-6 w-full max-md:max-w-full h-full overflow-y-scroll scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 lg:!pr-[60px] md:pr-[60px] px-[20px] max-h-[300px]">
                                     {isLoading ? (
                                         <>
                                             <article className="flex flex-auto gap-6 items-center p-3 rounded-2xl bg-slate-50 lg:w-[45%] md:w-[45%] w-full max-w-1/2 max-h-1/3">
