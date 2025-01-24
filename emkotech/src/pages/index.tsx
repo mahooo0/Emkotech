@@ -8,7 +8,7 @@ import {
     GetDiscountedProduct,
     getPartners,
     GetPopulyarProduct,
-    getProductCategoriesHOME,
+    getProductCategories,
     getProducts,
     getStatistics,
     getTopBanner,
@@ -26,6 +26,7 @@ import { ROUTES } from '@/services/CONSTANTS';
 import Link from 'next/link';
 import { MetaItem, SiteAssets } from '@/types';
 import Head from 'next/head';
+import HomeCategory, { Category } from '@/components/HomeCategory';
 // import VideoBanner from '@/components/Vidio';
 
 interface Statistic {
@@ -55,12 +56,12 @@ interface TopBannerData {
     };
 }
 
-interface ProductCategory {
-    id: number;
-    title: string;
-    description: string;
-    image: string;
-}
+// interface ProductCategory {
+//     id: number;
+//     title: string;
+//     description: string;
+//     image: string;
+// }
 interface ButtonBannerData {
     data: {
         title: string;
@@ -86,7 +87,7 @@ interface HomePageProps {
     customersData: { data: Customer[] };
     bottomBannerData: ButtonBannerData;
     partnersData: PartnerData;
-    productCategoriesData: { data: ProductCategory[] };
+    productCategoriesData: { data: Category[] };
     translationsData: TranslationsData;
     Meta: MetaItem[];
     Logo: SiteAssets;
@@ -118,7 +119,8 @@ export default function Home({
             ? window.location.origin
             : 'https://emkotech.com'; // Fallback for SSR
     const fullUrl = `${baseUrl}${router.asPath}`;
-    console.log(productsData);
+    console.log('productCategoriesData', productCategoriesData);
+    console.log('productsData', productsData);
 
     return (
         <>
@@ -366,37 +368,7 @@ export default function Home({
                         </Link>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full lg:mt-[60px] mt-4">
-                    {productCategoriesData.data.map(
-                        (item: ProductCategory, index: number) => (
-                            <Link
-                                key={index}
-                                href={`/${language}/${ROUTES.products[language]}?category=${item.id}`}
-                            >
-                                <div
-                                    key={index}
-                                    className=" w-full h-[336px] rounded-2xl cursor-pointer overflow-hidden"
-                                    style={{
-                                        backgroundSize: 'cover',
-                                        backgroundPosition: 'center',
-                                        backgroundImage: `url("${item.image}")`,
-                                    }}
-                                >
-                                    {/* <img src={item.image} alt="" /> */}
-                                    <div className=" bg-black  text-white bg-opacity-30 w-full h-full">
-                                        {' '}
-                                        <h6 className="text-xl font-semibold pt-[30px] pl-[30px] max-w-[340px]">
-                                            {item.title}
-                                        </h6>
-                                        <div className="text-base mt-4 ml-[30px]">
-                                            {item.description}
-                                        </div>
-                                    </div>
-                                </div>
-                            </Link>
-                        )
-                    )}
-                </div>
+                <HomeCategory data={productCategoriesData.data} />
             </section>
             <section className="flex flex-col rounded-none lg:px-[100px] md:px-[60px] px-[30px] lg:mt-[120px] mt-[60px]">
                 <div className="self-center text-5xl text-black text-wrap  max-md:text-4xl mr-2">
@@ -492,7 +464,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             getCustomers(lang),
             getBottomBanner(lang),
             getPartners(lang),
-            getProductCategoriesHOME(lang),
+            getProductCategories(lang),
             getTranslations(lang),
             getTopMeta(lang),
             getTopImages(lang),

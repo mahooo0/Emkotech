@@ -1,12 +1,12 @@
 import {
     GetDiscountedProduct,
     GetPopulyarProduct,
+    getProductCategories,
     getStatistics,
     getTopImages,
     getTopMeta,
     getTranslations,
 } from '@/services/Request';
-import { getProductCategoriesHOME } from '@/services/Request';
 import { getPartners } from '@/services/Request';
 import { getBottomBanner } from '@/services/Request';
 import { getCustomers } from '@/services/Request';
@@ -19,6 +19,7 @@ import { TranslationsData } from '../contact';
 
 import Home from '..';
 import { MetaItem, SiteAssets } from '@/types';
+import { Category } from '@/components/HomeCategory';
 interface Statistic {
     statistic: string;
     value: string;
@@ -39,12 +40,12 @@ interface TopBannerData {
     };
 }
 
-interface ProductCategory {
-    id: number;
-    title: string;
-    description: string;
-    image: string;
-}
+// interface ProductCategory {
+//     id: number;
+//     title: string;
+//     description: string;
+//     image: string;
+// }
 interface ButtonBannerData {
     data: {
         title: string;
@@ -70,7 +71,7 @@ interface HomePageProps {
     customersData: { data: Customer[] };
     bottomBannerData: ButtonBannerData;
     partnersData: PartnerData;
-    productCategoriesData: { data: ProductCategory[] };
+    productCategoriesData: { data: Category[] };
     translationsData: TranslationsData;
     Meta: MetaItem[];
     Logo: SiteAssets;
@@ -107,7 +108,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             getCustomers(lang),
             getBottomBanner(lang),
             getPartners(lang),
-            getProductCategoriesHOME(lang),
+            getProductCategories(lang),
             getTranslations(lang),
             getTopMeta(lang),
             getTopImages(lang),
