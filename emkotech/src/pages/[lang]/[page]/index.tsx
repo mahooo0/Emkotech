@@ -60,11 +60,11 @@ const DinamicPagesbylanguages = (props: Props) => {
                 <Head>
                     <link
                         rel="icon"
-                        href={props.Logo.favicon}
+                        href={props?.Logo?.favicon}
                         type="image/webp"
                     />
                     {/* Optional: Add other icons for better compatibility */}
-                    <link rel="apple-touch-icon" href={props.Logo.favicon} />
+                    <link rel="apple-touch-icon" href={props?.Logo?.favicon} />
                 </Head>
                 <AboutUs
                     meta={props.meta}
@@ -315,11 +315,20 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     if (page === ROUTES.about[lang]) {
         try {
+            console.log(`Fetching data for language: ${lang}`);
+
+            // Fetching critical data first
             const aboutData = await getAbout(lang);
+            console.log('Fetched aboutData');
+
             const aboutBannerData = await getAboutBanner(lang);
+            console.log('Fetched aboutBannerData');
+
             const translationsData = await getTranslations(lang);
+            console.log('Fetched translationsData');
+
             const meta = await getTopMeta(lang);
-            const Logo = await getTopImages(lang);
+            console.log('Fetched meta');
 
             return {
                 props: {
@@ -327,18 +336,17 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                     aboutBannerData: aboutBannerData || null,
                     translationsData: translationsData || null,
                     meta: meta || [],
-                    Logo: Logo || {},
                 },
             };
         } catch (error) {
-            console.error('Error fetching about page data:', error);
+            console.error('Error fetching data:', error);
+
             return {
                 props: {
                     aboutData: null,
                     aboutBannerData: null,
                     translationsData: null,
                     meta: [],
-                    Logo: {},
                 },
             };
         }
