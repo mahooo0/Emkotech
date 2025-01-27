@@ -1,11 +1,8 @@
 import axios from 'axios';
-const axiosInstance = axios.create({
-    timeout: 10000, // Set timeout to 10 seconds
-});
 
 export const getTopBanner = async (language) => {
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             'https://emkotech.epart.az/api/home/top-banner',
             { headers: { 'Accept-Language': language } }
         );
@@ -17,7 +14,7 @@ export const getTopBanner = async (language) => {
 };
 export const getTopMeta = async (language) => {
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             'https://emkotech.epart.az/api/metas',
             { headers: { 'Accept-Language': language } }
         );
@@ -29,7 +26,7 @@ export const getTopMeta = async (language) => {
 };
 export const GetDiscountedProduct = async (language) => {
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             'https://emkotech.epart.az/api/products/discount',
             { headers: { 'Accept-Language': language } }
         );
@@ -41,7 +38,7 @@ export const GetDiscountedProduct = async (language) => {
 };
 export const GetPopulyarProduct = async (language) => {
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             'https://emkotech.epart.az/api/products/popular',
             { headers: { 'Accept-Language': language } }
         );
@@ -53,7 +50,7 @@ export const GetPopulyarProduct = async (language) => {
 };
 export const getTopImages = async (language) => {
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             'https://emkotech.epart.az/api/logos',
             { headers: { 'Accept-Language': language } }
         );
@@ -65,7 +62,7 @@ export const getTopImages = async (language) => {
 };
 export const getStatistics = async (language) => {
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             'https://emkotech.epart.az/api/home/statistics',
             { headers: { 'Accept-Language': language } }
         );
@@ -77,7 +74,7 @@ export const getStatistics = async (language) => {
 };
 export const getProducts = async (language) => {
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             `https://emkotech.epart.az/api/products`,
             { headers: { 'Accept-Language': language } }
         );
@@ -89,7 +86,7 @@ export const getProducts = async (language) => {
 };
 export const getCustomers = async (language) => {
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             'https://emkotech.epart.az/api/customers',
             { headers: { 'Accept-Language': language } }
         );
@@ -101,7 +98,7 @@ export const getCustomers = async (language) => {
 };
 export const getBottomBanner = async (language) => {
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             'https://emkotech.epart.az/api/home/bottom-banner',
             { headers: { 'Accept-Language': language } }
         );
@@ -113,7 +110,7 @@ export const getBottomBanner = async (language) => {
 };
 export const getPartners = async (language) => {
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             'https://emkotech.epart.az/api/partners',
             { headers: { 'Accept-Language': language } }
         );
@@ -125,7 +122,7 @@ export const getPartners = async (language) => {
 };
 export const getProductCategories = async (language) => {
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             'https://emkotech.epart.az/api/product-categories',
             { headers: { 'Accept-Language': language } }
         );
@@ -137,7 +134,7 @@ export const getProductCategories = async (language) => {
 };
 export const getProductCategoriesHOME = async (language) => {
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             'https://emkotech.epart.az/api/home/product-categories',
             { headers: { 'Accept-Language': language } }
         );
@@ -149,7 +146,7 @@ export const getProductCategoriesHOME = async (language) => {
 };
 export const getAbout = async (language) => {
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             'https://emkotech.epart.az/api/about',
             { headers: { 'Accept-Language': language } }
         );
@@ -161,7 +158,7 @@ export const getAbout = async (language) => {
 };
 export const getAboutBanner = async (language) => {
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             'https://emkotech.epart.az/api/about-banner',
             { headers: { 'Accept-Language': language } }
         );
@@ -177,7 +174,7 @@ export const getProduct = async (language, id) => {
         if (!id) {
             return;
         }
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             `https://emkotech.epart.az/api/product/${id}`,
             { headers: { 'Accept-Language': language } }
         );
@@ -190,12 +187,13 @@ export const getProduct = async (language, id) => {
 export const getNews = async (language, page) => {
     console.log(language);
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             `https://emkotech.epart.az/api/news?page=${page}`,
             {
                 headers: {
                     'Accept-Language': language,
                 },
+                timeout: 5000,
             }
         );
         return response.data;
@@ -220,7 +218,7 @@ export const getNewsById = async (language, id) => {
         return;
     }
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             `https://emkotech.epart.az/api/news/${id}`,
             { headers: { 'Accept-Language': language } }
         );
@@ -232,12 +230,13 @@ export const getNewsById = async (language, id) => {
 };
 export const getProjects = async (language) => {
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             `https://emkotech.epart.az/api/projects`,
             {
                 headers: {
                     'Accept-Language': language,
                 },
+                timeout: 5000,
             }
         );
         return response.data;
@@ -261,7 +260,7 @@ export const getProjectById = async (language, id) => {
         return;
     }
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             `https://emkotech.epart.az/api/projects/${id}`,
             { headers: { 'Accept-Language': language } }
         );
@@ -273,12 +272,13 @@ export const getProjectById = async (language, id) => {
 };
 export const getContacts = async (language) => {
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             `https://emkotech.epart.az/api/contacts`,
             {
                 headers: {
                     'Accept-Language': language,
                 },
+                timeout: 5000,
             }
         );
         return response.data;
@@ -297,12 +297,13 @@ export const getContacts = async (language) => {
 };
 export const getFooter = async (language) => {
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             `https://emkotech.epart.az/api/footer`,
             {
                 headers: {
                     'Accept-Language': language,
                 },
+                timeout: 5000,
             }
         );
         return response.data;
@@ -321,12 +322,13 @@ export const getFooter = async (language) => {
 };
 export const getPopularNews = async (language) => {
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             `https://emkotech.epart.az/api/news?type=popular`,
             {
                 headers: {
                     'Accept-Language': language,
                 },
+                timeout: 5000,
             }
         );
         return response.data;
@@ -345,10 +347,11 @@ export const getPopularNews = async (language) => {
 };
 export const postUserRequest = async (data) => {
     try {
-        const response = await axiosInstance.post(
+        const response = await axios.post(
             `https://emkotech.epart.az/api/user-request`,
             data,
             {
+                timeout: 5000,
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -370,12 +373,13 @@ export const postUserRequest = async (data) => {
 };
 export const getTranslations = async (language) => {
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             'https://emkotech.epart.az/api/translations',
             {
                 headers: {
                     'Accept-Language': language,
                 },
+                timeout: 5000,
             }
         );
         return response.data;
@@ -401,7 +405,7 @@ export const getProductsByParams = async (
     subCategory
 ) => {
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             `https://emkotech.epart.az/api/products${
                 page ? `?page=${page}` : ''
             }${category ? `&category=${category}` : ''}${
@@ -413,6 +417,7 @@ export const getProductsByParams = async (
                 headers: {
                     'Accept-Language': language,
                 },
+                timeout: 5000,
             }
         );
         return response.data;
@@ -431,12 +436,13 @@ export const getProductsByParams = async (
 };
 export const getProductSubCategories = async (language) => {
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             'https://emkotech.epart.az/api/product-subcategories',
             {
                 headers: {
                     'Accept-Language': language,
                 },
+                timeout: 5000,
             }
         );
         return response.data;
@@ -455,12 +461,13 @@ export const getProductSubCategories = async (language) => {
 };
 export const getPages = async (language) => {
     try {
-        const response = await axiosInstance.get(
+        const response = await axios.get(
             'https://emkotech.epart.az/api/pages',
             {
                 headers: {
                     'Accept-Language': language,
                 },
+                timeout: 5000,
             }
         );
         return response.data;
