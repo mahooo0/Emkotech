@@ -164,31 +164,174 @@ const DinamicPagesbylanguages = (props: Props) => {
 
 export default DinamicPagesbylanguages;
 
+// export async function getServerSideProps(context: GetServerSidePropsContext) {
+//     const { page, lang } = context.params as { page: string; lang: string };
+
+//     if (page === ROUTES.about[lang]) {
+//         try {
+//             const [aboutData, aboutBannerData, translationsData, meta, Logo] =
+//                 await Promise.all([
+//                     getAbout(lang),
+//                     getAboutBanner(lang),
+//                     getTranslations(lang),
+//                     getTopMeta(lang),
+//                     getTopImages(lang),
+//                 ]);
+
+//             return {
+//                 props: {
+//                     aboutData,
+//                     aboutBannerData,
+//                     translationsData,
+//                     meta,
+//                     Logo,
+//                 },
+//             };
+//         } catch (error) {
+//             console.error('Error fetching data:', error);
+//             return {
+//                 props: {
+//                     aboutData: null,
+//                     aboutBannerData: null,
+//                     translationsData: null,
+//                     meta: [],
+//                     Logo: {},
+//                 },
+//             };
+//         }
+//     }
+//     if (page === ROUTES.products[lang]) {
+//         const Logo = await getTopImages(lang);
+
+//         return {
+//             props: { Logo },
+//         };
+//     }
+//     if (page === ROUTES.project[lang]) {
+//         try {
+//             const projects = await getProjects(lang);
+//             const translations = await getTranslations(lang);
+//             const meta = await getTopMeta(lang);
+//             const Logo = await getTopImages(lang);
+
+//             return {
+//                 props: {
+//                     projects: projects.data || [],
+//                     translations: translations.data || {},
+//                     meta,
+//                     Logo,
+//                 },
+//             };
+//         } catch (error) {
+//             console.error('Error fetching data:', error);
+//             return {
+//                 props: {
+//                     projects: [],
+//                     translations: {},
+//                     meta: [],
+//                 },
+//             };
+//         }
+//     }
+//     if (page === ROUTES.news[lang]) {
+//         const { query } = context;
+
+//         const currentPage = parseInt(
+//             Array.isArray(query.pagination)
+//                 ? query.pagination[0]
+//                 : query.pagination || '1',
+//             10
+//         );
+//         try {
+//             const [news, translations, meta] = await Promise.all([
+//                 getNews(lang, currentPage),
+//                 getTranslations(lang),
+//                 getTopMeta(lang),
+//             ]);
+//             const Logo = await getTopImages(lang);
+
+//             return {
+//                 props: {
+//                     news,
+//                     translations: translations?.data || {},
+//                     currentPage,
+//                     meta,
+//                     Logo,
+//                 },
+//             };
+//         } catch (error) {
+//             console.error('Error fetching data:', error);
+//             return {
+//                 props: {
+//                     news: { data: [], total_pages: 1 },
+//                     translations: { Xəbərlər: 'Xəbərlər' },
+//                     currentPage,
+//                 },
+//             };
+//         }
+//     }
+//     if (page === ROUTES.contact[lang]) {
+//         try {
+//             const contactsData = await getContacts(lang);
+//             const translationsData = await getTranslations(lang);
+//             const meta = await getTopMeta(lang);
+//             const Logo = await getTopImages(lang);
+
+//             console.log(contactsData);
+
+//             // Ensure that contactsData and translationsData are valid
+//             if (!contactsData || !translationsData || !meta) {
+//                 throw new Error('Missing data');
+//             }
+
+//             return {
+//                 props: {
+//                     lang,
+//                     contactsData,
+//                     translationsData,
+//                     meta,
+//                     Logo,
+//                 },
+//             };
+//         } catch (error) {
+//             console.error('Error fetching data:', error);
+//             return {
+//                 props: {
+//                     contactsData: null,
+//                     translationsData: null,
+//                     meta: [],
+//                 },
+//             };
+//         }
+//     }
+//     // If the page does not match the expected route
+//     return {
+//         notFound: true,
+//     };
+// }
+
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     const { page, lang } = context.params as { page: string; lang: string };
 
     if (page === ROUTES.about[lang]) {
         try {
-            const [aboutData, aboutBannerData, translationsData, meta, Logo] =
-                await Promise.all([
-                    getAbout(lang),
-                    getAboutBanner(lang),
-                    getTranslations(lang),
-                    getTopMeta(lang),
-                    getTopImages(lang),
-                ]);
+            const aboutData = await getAbout(lang);
+            const aboutBannerData = await getAboutBanner(lang);
+            const translationsData = await getTranslations(lang);
+            const meta = await getTopMeta(lang);
+            const Logo = await getTopImages(lang);
 
             return {
                 props: {
-                    aboutData,
-                    aboutBannerData,
-                    translationsData,
-                    meta,
-                    Logo,
+                    aboutData: aboutData || null,
+                    aboutBannerData: aboutBannerData || null,
+                    translationsData: translationsData || null,
+                    meta: meta || [],
+                    Logo: Logo || {},
                 },
             };
         } catch (error) {
-            console.error('Error fetching data:', error);
+            console.error('Error fetching about page data:', error);
             return {
                 props: {
                     aboutData: null,
@@ -200,13 +343,21 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             };
         }
     }
-    if (page === ROUTES.products[lang]) {
-        const Logo = await getTopImages(lang);
 
-        return {
-            props: { Logo },
-        };
+    if (page === ROUTES.products[lang]) {
+        try {
+            const Logo = await getTopImages(lang);
+            return {
+                props: { Logo: Logo || {} },
+            };
+        } catch (error) {
+            console.error('Error fetching product page data:', error);
+            return {
+                props: { Logo: {} },
+            };
+        }
     }
+
     if (page === ROUTES.project[lang]) {
         try {
             const projects = await getProjects(lang);
@@ -216,60 +367,65 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
             return {
                 props: {
-                    projects: projects.data || [],
-                    translations: translations.data || {},
-                    meta,
-                    Logo,
+                    projects: projects?.data || [],
+                    translations: translations?.data || {},
+                    meta: meta || [],
+                    Logo: Logo || {},
                 },
             };
         } catch (error) {
-            console.error('Error fetching data:', error);
+            console.error('Error fetching project page data:', error);
             return {
                 props: {
                     projects: [],
                     translations: {},
                     meta: [],
+                    Logo: {},
                 },
             };
         }
     }
+
     if (page === ROUTES.news[lang]) {
         const { query } = context;
-
         const currentPage = parseInt(
             Array.isArray(query.pagination)
                 ? query.pagination[0]
                 : query.pagination || '1',
             10
         );
+
         try {
-            const [news, translations, meta] = await Promise.all([
-                getNews(lang, currentPage),
-                getTranslations(lang),
-                getTopMeta(lang),
-            ]);
+            const news = await getNews(lang, currentPage);
+            const translations = await getTranslations(lang);
+            const meta = await getTopMeta(lang);
             const Logo = await getTopImages(lang);
 
             return {
                 props: {
-                    news,
-                    translations: translations?.data || {},
+                    news: news || { data: [], total_pages: 1 },
+                    translations: translations?.data || {
+                        Xəbərlər: 'Xəbərlər',
+                    },
                     currentPage,
-                    meta,
-                    Logo,
+                    meta: meta || [],
+                    Logo: Logo || {},
                 },
             };
         } catch (error) {
-            console.error('Error fetching data:', error);
+            console.error('Error fetching news page data:', error);
             return {
                 props: {
                     news: { data: [], total_pages: 1 },
                     translations: { Xəbərlər: 'Xəbərlər' },
                     currentPage,
+                    meta: [],
+                    Logo: {},
                 },
             };
         }
     }
+
     if (page === ROUTES.contact[lang]) {
         try {
             const contactsData = await getContacts(lang);
@@ -277,9 +433,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             const meta = await getTopMeta(lang);
             const Logo = await getTopImages(lang);
 
-            console.log(contactsData);
-
-            // Ensure that contactsData and translationsData are valid
             if (!contactsData || !translationsData || !meta) {
                 throw new Error('Missing data');
             }
@@ -287,24 +440,26 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             return {
                 props: {
                     lang,
-                    contactsData,
-                    translationsData,
-                    meta,
-                    Logo,
+                    contactsData: contactsData || null,
+                    translationsData: translationsData || null,
+                    meta: meta || [],
+                    Logo: Logo || {},
                 },
             };
         } catch (error) {
-            console.error('Error fetching data:', error);
+            console.error('Error fetching contact page data:', error);
             return {
                 props: {
                     contactsData: null,
                     translationsData: null,
                     meta: [],
+                    Logo: {},
                 },
             };
         }
     }
-    // If the page does not match the expected route
+
+    // If the page does not match the expected route, return 404
     return {
         notFound: true,
     };
