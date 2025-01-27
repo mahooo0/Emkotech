@@ -505,40 +505,48 @@ export default function Home({
 //             },
 //         };
 //     }
-// }
+// }\
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     const cookies = parse(context.req.headers.cookie || '');
     const lang = cookies['accept-language'] || 'az';
     console.log(lang);
 
     try {
-        const [
-            topBannerData,
-            statisticsData,
-            productsData,
-            customersData,
-            bottomBannerData,
-            partnersData,
-            productCategoriesData,
-            translationsData,
-            Meta,
-            Logo,
-            DiscountedProducts,
-            PopulyarProduct,
-        ] = await Promise.all([
-            getTopBanner(lang),
-            getStatistics(lang),
-            getProducts(lang),
-            getCustomers(lang),
-            getBottomBanner(lang),
-            getPartners(lang),
-            getProductCategories(lang),
-            getTranslations(lang),
-            getTopMeta(lang),
-            getTopImages(lang),
-            GetDiscountedProduct(lang),
-            GetPopulyarProduct(lang),
-        ]);
+        const topBannerData = await getTopBanner(lang);
+        console.log('Fetched topBannerData');
+
+        const statisticsData = await getStatistics(lang);
+        console.log('Fetched statisticsData');
+
+        const productsData = await getProducts(lang);
+        console.log('Fetched productsData');
+
+        const customersData = await getCustomers(lang);
+        console.log('Fetched customersData');
+
+        const bottomBannerData = await getBottomBanner(lang);
+        console.log('Fetched bottomBannerData');
+
+        const partnersData = await getPartners(lang);
+        console.log('Fetched partnersData');
+
+        const productCategoriesData = await getProductCategories(lang);
+        console.log('Fetched productCategoriesData');
+
+        const translationsData = await getTranslations(lang);
+        console.log('Fetched translationsData');
+
+        const Meta = await getTopMeta(lang);
+        console.log('Fetched Meta');
+
+        const Logo = await getTopImages(lang);
+        console.log('Fetched Logo');
+
+        const DiscountedProducts = await GetDiscountedProduct(lang);
+        console.log('Fetched DiscountedProducts');
+
+        const PopulyarProduct = await GetPopulyarProduct(lang);
+        console.log('Fetched PopulyarProduct');
 
         return {
             props: {
@@ -558,6 +566,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
         };
     } catch (error) {
         console.error('Error fetching data:', error);
+
         return {
             props: {
                 topBannerData: null,
@@ -570,6 +579,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                 translationsData: null,
                 Meta: [],
                 Logo: {},
+                DiscountedProducts: [],
+                PopulyarProduct: [],
             },
         };
     }
