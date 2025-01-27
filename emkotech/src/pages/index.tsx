@@ -26,7 +26,7 @@ import { ROUTES } from '@/services/CONSTANTS';
 import Link from 'next/link';
 import { MetaItem, SiteAssets } from '@/types';
 import Head from 'next/head';
-import { Category } from '@/components/HomeCategory';
+import HomeCategory, { Category } from '@/components/HomeCategory';
 // import VideoBanner from '@/components/Vidio';
 
 interface Statistic {
@@ -368,7 +368,7 @@ export default function Home({
                         </Link>
                     </div>
                 </div>
-                {/* <HomeCategory data={productCategoriesData.data} /> */}
+                <HomeCategory data={productCategoriesData.data} />
             </section>
             <section className="flex flex-col rounded-none lg:px-[100px] md:px-[60px] px-[30px] lg:mt-[120px] mt-[60px]">
                 <div className="self-center text-5xl text-black text-wrap  max-md:text-4xl mr-2">
@@ -438,6 +438,74 @@ export default function Home({
         </>
     );
 }
+// export async function getServerSideProps(context: GetServerSidePropsContext) {
+//     const cookies = parse(context.req.headers.cookie || '');
+//     const lang = cookies['accept-language'] || 'az';
+//     console.log(lang);
+
+//     try {
+//         const [
+//             topBannerData,
+//             statisticsData,
+//             productsData,
+//             customersData,
+//             bottomBannerData,
+//             partnersData,
+//             productCategoriesData,
+//             translationsData,
+//             Meta,
+//             Logo,
+//             DiscountedProducts,
+//             PopulyarProduct,
+//         ] = await Promise.all([
+//             getTopBanner(lang),
+//             getStatistics(lang),
+//             getProducts(lang),
+//             getCustomers(lang),
+//             getBottomBanner(lang),
+//             getPartners(lang),
+//             getProductCategories(lang),
+//             getTranslations(lang),
+//             getTopMeta(lang),
+//             getTopImages(lang),
+//             GetDiscountedProduct(lang),
+//             GetPopulyarProduct(lang),
+//         ]);
+
+//         return {
+//             props: {
+//                 topBannerData,
+//                 statisticsData,
+//                 productsData,
+//                 customersData,
+//                 bottomBannerData,
+//                 partnersData,
+//                 productCategoriesData,
+//                 translationsData,
+//                 Meta,
+//                 Logo,
+//                 DiscountedProducts,
+//                 PopulyarProduct,
+//             },
+//         };
+//     } catch (error) {
+//         console.error('Error fetching data:', error);
+//         return {
+//             props: {
+//                 topBannerData: null,
+//                 statisticsData: [],
+//                 productsData: [],
+//                 customersData: [],
+//                 bottomBannerData: null,
+//                 partnersData: null,
+//                 productCategoriesData: [],
+//                 translationsData: null,
+//                 Meta: [],
+//                 Logo: {},
+//             },
+//         };
+//     }
+// }
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     const cookies = parse(context.req.headers.cookie || '');
     const lang = cookies['accept-language'] || 'az';
