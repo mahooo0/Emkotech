@@ -152,7 +152,7 @@ export default function HomebyLang(props: HomePageProps) {
 // }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-    const lang = context?.params?.lang || 'az';
+    const { page, lang } = context.params as { page: string; lang: string };
 
     try {
         console.log(`Fetching data for language: ${lang}`);
@@ -221,6 +221,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                 Logo: Logo || {},
                 DiscountedProducts: DiscountedProducts || [],
                 PopulyarProduct: PopulyarProduct || [],
+            },
+            headers: {
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
             },
         };
     } catch (error) {
