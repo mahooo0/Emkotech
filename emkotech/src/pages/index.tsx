@@ -26,7 +26,7 @@ import { ROUTES } from '@/services/CONSTANTS';
 import Link from 'next/link';
 import { MetaItem, SiteAssets } from '@/types';
 import Head from 'next/head';
-import HomeCategory, { Category } from '@/components/HomeCategory';
+import { Category } from '@/components/HomeCategory';
 // import VideoBanner from '@/components/Vidio';
 
 interface Statistic {
