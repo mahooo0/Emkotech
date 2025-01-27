@@ -1,4 +1,4 @@
-import AboutUs from '@/pages/aboutus';
+import AboutUs from '../../aboutus';
 import Contact from '@/pages/contact';
 import Nevs from '@/pages/news';
 import Products from '@/pages/products';
