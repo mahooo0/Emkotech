@@ -312,6 +312,10 @@ export default DinamicPagesbylanguages;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     const { page, lang } = context.params as { page: string; lang: string };
+    if (!lang || !Object.keys(ROUTES).includes(lang)) {
+        console.error(`Invalid or missing lang parameter: ${lang}`);
+        return { notFound: true };
+    }
 
     if (page === ROUTES.about[lang]) {
         try {
@@ -342,12 +346,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             console.error('Error fetching data:', error);
 
             return {
-                props: {
-                    aboutData: null,
-                    aboutBannerData: null,
-                    translationsData: null,
-                    meta: [],
-                },
+                props: {},
             };
         }
     }
