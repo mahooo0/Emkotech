@@ -203,29 +203,71 @@ export default function AboutUs({
     );
 }
 
+// export async function getServerSideProps(context: GetServerSidePropsContext) {
+//     const cookies = parse(context.req.headers.cookie || '');
+//     const lang = cookies['accept-language'] || 'az';
+
+//     try {
+//         const [aboutData, aboutBannerData, translationsData, meta] =
+//             await Promise.all([
+//                 getAbout(lang),
+//                 getAboutBanner(lang),
+//                 getTranslations(lang),
+//                 getTopMeta(lang),
+//             ]);
+
+//         return {
+//             props: {
+//                 aboutData,
+//                 aboutBannerData,
+//                 translationsData,
+//                 meta,
+//             },
+//         };
+//     } catch (error) {
+//         console.error('Error fetching data:', error);
+//         return {
+//             props: {
+//                 aboutData: null,
+//                 aboutBannerData: null,
+//                 translationsData: null,
+//                 meta: [],
+//             },
+//         };
+//     }
+// }
+
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     const cookies = parse(context.req.headers.cookie || '');
     const lang = cookies['accept-language'] || 'az';
 
     try {
-        const [aboutData, aboutBannerData, translationsData, meta] =
-            await Promise.all([
-                getAbout(lang),
-                getAboutBanner(lang),
-                getTranslations(lang),
-                getTopMeta(lang),
-            ]);
+        console.log(`Fetching data for language: ${lang}`);
+
+        // Fetching critical data first
+        const aboutData = await getAbout(lang);
+        console.log('Fetched aboutData');
+
+        const aboutBannerData = await getAboutBanner(lang);
+        console.log('Fetched aboutBannerData');
+
+        const translationsData = await getTranslations(lang);
+        console.log('Fetched translationsData');
+
+        const meta = await getTopMeta(lang);
+        console.log('Fetched meta');
 
         return {
             props: {
-                aboutData,
-                aboutBannerData,
-                translationsData,
-                meta,
+                aboutData: aboutData || null,
+                aboutBannerData: aboutBannerData || null,
+                translationsData: translationsData || null,
+                meta: meta || [],
             },
         };
     } catch (error) {
         console.error('Error fetching data:', error);
+
         return {
             props: {
                 aboutData: null,

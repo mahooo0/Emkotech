@@ -163,6 +163,7 @@ const DinamicPagesbylanguages = (props: Props) => {
 };
 
 export default DinamicPagesbylanguages;
+
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     const { page, lang } = context.params as { page: string; lang: string };
 
