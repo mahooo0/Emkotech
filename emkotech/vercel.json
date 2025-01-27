@@ -1,6 +1,9 @@
 {
     "functions": {
-        "pages/api/**/*": {
+        "pages/index.tsx": {
+            "maxDuration": 30
+        },
+        "pages/[lang]/[page].tsx": {
             "maxDuration": 30
         }
     }
