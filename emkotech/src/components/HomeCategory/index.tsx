@@ -52,7 +52,7 @@ export default function HomeCategory({ data }: { data: Category[] }) {
                                         : '#FFFFFF',
                                 fill:
                                     currentCAtegory === item.id
-                                        ? '#000000'
+                                        ? '#000'
                                         : '#FFFFFF',
                             }}
                             className=" flex flex-row gap-3 py-[11px] px-[28px] rounded-[57px]  duration-300  "
