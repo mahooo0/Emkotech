@@ -85,7 +85,7 @@ export default function HomebyLang(props: HomePageProps) {
     return <Home {...props} />;
 }
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-    const lang = context?.params?.lang;
+    const lang = context?.params?.lang || 'az';
 
     try {
         const [

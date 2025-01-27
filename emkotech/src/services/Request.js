@@ -193,7 +193,6 @@ export const getNews = async (language, page) => {
                 headers: {
                     'Accept-Language': language,
                 },
-                timeout: 5000,
             }
         );
         return response.data;
@@ -236,7 +235,6 @@ export const getProjects = async (language) => {
                 headers: {
                     'Accept-Language': language,
                 },
-                timeout: 5000,
             }
         );
         return response.data;
@@ -278,7 +276,6 @@ export const getContacts = async (language) => {
                 headers: {
                     'Accept-Language': language,
                 },
-                timeout: 5000,
             }
         );
         return response.data;
@@ -303,7 +300,6 @@ export const getFooter = async (language) => {
                 headers: {
                     'Accept-Language': language,
                 },
-                timeout: 5000,
             }
         );
         return response.data;
@@ -328,7 +324,6 @@ export const getPopularNews = async (language) => {
                 headers: {
                     'Accept-Language': language,
                 },
-                timeout: 5000,
             }
         );
         return response.data;
@@ -351,7 +346,6 @@ export const postUserRequest = async (data) => {
             `https://emkotech.epart.az/api/user-request`,
             data,
             {
-                timeout: 5000,
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -379,7 +373,6 @@ export const getTranslations = async (language) => {
                 headers: {
                     'Accept-Language': language,
                 },
-                timeout: 5000,
             }
         );
         return response.data;
@@ -417,7 +410,6 @@ export const getProductsByParams = async (
                 headers: {
                     'Accept-Language': language,
                 },
-                timeout: 5000,
             }
         );
         return response.data;
@@ -442,7 +434,6 @@ export const getProductSubCategories = async (language) => {
                 headers: {
                     'Accept-Language': language,
                 },
-                timeout: 5000,
             }
         );
         return response.data;
@@ -467,7 +458,6 @@ export const getPages = async (language) => {
                 headers: {
                     'Accept-Language': language,
                 },
-                timeout: 5000,
             }
         );
         return response.data;

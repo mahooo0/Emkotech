@@ -45,7 +45,7 @@ interface Props {
 
 const DinamicPagesbylanguages = (props: Props) => {
     const router = useRouter();
-    const { lang, page } = router.query;
+    const { lang = 'az', page } = router.query;
 
     console.log('page', page);
     console.log('prps', props.translations);
